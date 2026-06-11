@@ -26,6 +26,9 @@
         .logo-text{font-size:1.3rem;font-weight:900;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
         .back-link{color:var(--text-secondary);text-decoration:none;font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;border:1px solid var(--border-color);transition:all .3s}
         .back-link:hover{color:var(--accent-1);border-color:var(--accent-1)}
+        .top-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+        .top-nav a { color: var(--text-secondary); text-decoration: none; padding: 6px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; transition: all 0.2s; border: 1px solid transparent; }
+        .top-nav a:hover { color: var(--accent-1); background: rgba(0,245,212,0.08); border-color: rgba(0,245,212,0.2); }
         .breadcrumb{padding:4px 0 16px;font-size:.8rem;color:var(--text-secondary)}
         .breadcrumb a{color:var(--accent-1);text-decoration:none}
         .breadcrumb span{margin:0 8px;opacity:.5}
@@ -67,7 +70,7 @@
         .mobile-nav a.active{color:var(--accent-1)}
         .mobile-nav .nav-icon{font-size:1.3rem}
         @media(max-width:768px){
-            .mobile-nav{display:block}
+            .mobile-nav{display:block}.top-nav{display:none}
             .back-link{display:none}
             .settings{grid-template-columns:1fr 1fr;gap:12px}
             .generate-btn{width:100%;justify-content:center}
@@ -80,7 +83,7 @@
     <div class="container">
         <header>
             <a href="/" class="logo"><div class="logo-icon">&#127922;</div><div class="logo-text">Losownik</div></a>
-            <a href="/" class="back-link">&#8592; Wszystkie narzędzia</a>
+            <nav class="top-nav"><a href="/kostka">Kostka</a><a href="/mecz">Mecz</a><a href="/imie">Imię</a><a href="/lotto">Lotto</a><a href="/kolo-fortuny">Koło</a><a href="/kolor">Kolor</a><a href="/moneta">Moneta</a></nav>
         </header>
         <nav class="breadcrumb"><a href="/">Strona główna</a><span>›</span>Losowa liczba</nav>
 

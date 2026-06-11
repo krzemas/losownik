@@ -76,12 +76,19 @@
         }
         
         header {
-            padding: 24px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 16px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 16px;
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            margin: 0 -20px;
         }
         
         .logo {
