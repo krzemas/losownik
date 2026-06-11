@@ -64,15 +64,24 @@
         .page-title span { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
         .page-desc { color: var(--text-secondary); font-size: 1rem; margin-bottom: 32px; line-height: 1.6; }
         
-        .dice-selector { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 40px; }
-        .dice-btn { padding: 12px 20px; border: 2px solid var(--border-color); border-radius: 12px; background: var(--bg-card); color: var(--text-secondary); font-size: 1rem; font-weight: 700; font-family: inherit; cursor: pointer; transition: all 0.3s; }
+        /* Main dice (k6) - large and prominent */
+        .main-dice-section { text-align: center; margin-bottom: 40px; }
+        .main-dice-label { font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 12px; }
+        
+        /* Additional dice selector */
+        .dice-extras { margin-bottom: 32px; }
+        .dice-extras-label { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; margin-bottom: 12px; opacity: 0.7; }
+        .dice-selector { display: flex; flex-wrap: wrap; gap: 8px; }
+        .dice-btn { padding: 10px 16px; border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--bg-card); color: var(--text-secondary); font-size: 0.9rem; font-weight: 700; font-family: inherit; cursor: pointer; transition: all 0.3s; }
         .dice-btn:hover { border-color: var(--accent-1); color: var(--accent-1); background: rgba(0, 245, 212, 0.05); }
         .dice-btn.active { border-color: var(--accent-1); background: rgba(0, 245, 212, 0.1); color: var(--accent-1); box-shadow: 0 0 20px rgba(0, 245, 212, 0.2); }
-        .dice-btn .dice-label { display: block; font-size: 0.7rem; opacity: 0.7; margin-top: 2px; }
+        .dice-btn .dice-label { display: block; font-size: 0.65rem; opacity: 0.7; margin-top: 2px; }
+        .dice-btn.main-btn { padding: 16px 32px; font-size: 1.2rem; border-width: 2px; border-radius: 14px; }
+        .dice-btn.main-btn .dice-label { font-size: 0.75rem; }
         
         .dice-area { display: flex; flex-direction: column; align-items: center; margin: 40px 0; }
         
-        .dice-scene { width: 200px; height: 200px; perspective: 600px; margin-bottom: 32px; }
+        .dice-scene { width: 240px; height: 240px; perspective: 700px; margin-bottom: 32px; }
         .dice-cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transform: rotateX(-25deg) rotateY(25deg); transition: transform 0.1s; }
         .dice-cube.rolling { animation: roll 1.2s cubic-bezier(0.2, 0.8, 0.3, 1); }
         @keyframes roll {
@@ -85,20 +94,20 @@
         }
         
         .dice-face {
-            position: absolute; width: 200px; height: 200px; border-radius: 20px;
+            position: absolute; width: 240px; height: 240px; border-radius: 24px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 3.5rem; font-weight: 900;
+            font-size: 4.5rem; font-weight: 900;
             background: linear-gradient(135deg, #1e1e4a, #2a2a5e);
             border: 2px solid var(--border-color);
             color: var(--accent-1); text-shadow: 0 0 20px var(--accent-glow);
             backface-visibility: visible;
         }
-        .dice-face:nth-child(1) { transform: rotateY(0deg) translateZ(100px); }
-        .dice-face:nth-child(2) { transform: rotateY(180deg) translateZ(100px); }
-        .dice-face:nth-child(3) { transform: rotateY(90deg) translateZ(100px); }
-        .dice-face:nth-child(4) { transform: rotateY(-90deg) translateZ(100px); }
-        .dice-face:nth-child(5) { transform: rotateX(90deg) translateZ(100px); }
-        .dice-face:nth-child(6) { transform: rotateX(-90deg) translateZ(100px); }
+        .dice-face:nth-child(1) { transform: rotateY(0deg) translateZ(120px); }
+        .dice-face:nth-child(2) { transform: rotateY(180deg) translateZ(120px); }
+        .dice-face:nth-child(3) { transform: rotateY(90deg) translateZ(120px); }
+        .dice-face:nth-child(4) { transform: rotateY(-90deg) translateZ(120px); }
+        .dice-face:nth-child(5) { transform: rotateX(90deg) translateZ(120px); }
+        .dice-face:nth-child(6) { transform: rotateX(-90deg) translateZ(120px); }
         
         .result-area { text-align: center; min-height: 80px; }
         .result-number { font-size: 4rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; opacity: 0; transform: scale(0.5); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -139,16 +148,17 @@
         @media (max-width: 768px) {
             .mobile-nav { display: block; }
             .back-link { display: none; }
-            .dice-scene { width: 150px; height: 150px; }
-            .dice-face { width: 150px; height: 150px; font-size: 2.8rem; border-radius: 16px; }
-            .dice-face:nth-child(1) { transform: rotateY(0deg) translateZ(75px); }
-            .dice-face:nth-child(2) { transform: rotateY(180deg) translateZ(75px); }
-            .dice-face:nth-child(3) { transform: rotateY(90deg) translateZ(75px); }
-            .dice-face:nth-child(4) { transform: rotateY(-90deg) translateZ(75px); }
-            .dice-face:nth-child(5) { transform: rotateX(90deg) translateZ(75px); }
-            .dice-face:nth-child(6) { transform: rotateX(-90deg) translateZ(75px); }
+            .dice-scene { width: 180px; height: 180px; }
+            .dice-face { width: 180px; height: 180px; font-size: 3.2rem; border-radius: 18px; }
+            .dice-face:nth-child(1) { transform: rotateY(0deg) translateZ(90px); }
+            .dice-face:nth-child(2) { transform: rotateY(180deg) translateZ(90px); }
+            .dice-face:nth-child(3) { transform: rotateY(90deg) translateZ(90px); }
+            .dice-face:nth-child(4) { transform: rotateY(-90deg) translateZ(90px); }
+            .dice-face:nth-child(5) { transform: rotateX(90deg) translateZ(90px); }
+            .dice-face:nth-child(6) { transform: rotateX(-90deg) translateZ(90px); }
             .result-number { font-size: 3rem; }
             .dice-selector { justify-content: center; }
+            .main-dice-section { margin-bottom: 24px; }
             footer { padding-bottom: 80px; }
         }
     </style>
@@ -175,14 +185,23 @@
         <h1 class="page-title">Rzut <span>kostką</span> online</h1>
         <p class="page-desc">Wybierz rodzaj kostki i kliknij „Rzuć!", aby wylosować wynik. Kostki wykorzystuje się w grach planszowych, fabularnych (RPG), bitewnych i wielu innych.</p>
         
-        <div class="dice-selector" role="group" aria-label="Wybór kostki">
-            <button class="dice-btn" data-sides="4">k4<span class="dice-label">czworościan</span></button>
-            <button class="dice-btn active" data-sides="6">k6<span class="dice-label">sześcian</span></button>
-            <button class="dice-btn" data-sides="8">k8<span class="dice-label">ośmiościan</span></button>
-            <button class="dice-btn" data-sides="10">k10<span class="dice-label">dziesięciościan</span></button>
-            <button class="dice-btn" data-sides="12">k12<span class="dice-label">dwunastościan</span></button>
-            <button class="dice-btn" data-sides="20">k20<span class="dice-label">dwudziestościan</span></button>
-            <button class="dice-btn" data-sides="100">k100<span class="dice-label">procentowa</span></button>
+        <!-- Main dice button - standard k6 -->
+        <div class="main-dice-section">
+            <div class="main-dice-label">Standardowa kostka</div>
+            <button class="dice-btn main-btn active" data-sides="6">k6<span class="dice-label">sześcian – klasyczna kostka do gry</span></button>
+        </div>
+        
+        <!-- Additional dice options -->
+        <div class="dice-extras">
+            <div class="dice-extras-label">Inne kostki (RPG i więcej)</div>
+            <div class="dice-selector" role="group" aria-label="Wybór kostki">
+                <button class="dice-btn" data-sides="4">k4<span class="dice-label">czworościan</span></button>
+                <button class="dice-btn" data-sides="8">k8<span class="dice-label">ośmiościan</span></button>
+                <button class="dice-btn" data-sides="10">k10<span class="dice-label">dziesięciościan</span></button>
+                <button class="dice-btn" data-sides="12">k12<span class="dice-label">dwunastościan</span></button>
+                <button class="dice-btn" data-sides="20">k20<span class="dice-label">dwudziestościan</span></button>
+                <button class="dice-btn" data-sides="100">k100<span class="dice-label">procentowa</span></button>
+            </div>
         </div>
         
         <div class="dice-area">
@@ -293,6 +312,8 @@
                 btn.classList.add('active');
                 currentSides = parseInt(btn.dataset.sides);
                 updateDiceFaces();
+                // Auto-roll when selecting a new dice type
+                rollDice();
             });
         });
         
