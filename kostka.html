@@ -295,8 +295,9 @@
         
         /* Mobile Bottom Nav */
         .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10, 10, 26, 0.96); border-top: 1px solid var(--border-color); padding: 8px 0 calc(8px + env(safe-area-inset-bottom)); z-index: 1000; backdrop-filter: blur(12px); }
-        .mobile-nav ul { display: flex; justify-content: space-around; list-style: none; }
-        .mobile-nav a { display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; color: var(--text-secondary); font-size: 0.65rem; font-weight: 600; padding: 4px 8px; }
+        .mobile-nav ul { display: flex; list-style: none; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 2px; padding: 0 12px; }
+        .mobile-nav ul::-webkit-scrollbar { display: none; }
+        .mobile-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: var(--text-secondary); font-size: 0.6rem; font-weight: 600; padding: 6px 10px; white-space: nowrap; min-width: 52px; }
         .mobile-nav a.active { color: var(--accent-1); }
         .mobile-nav .nav-icon { font-size: 1.3rem; }
         
@@ -466,15 +467,7 @@
     </div>
     
     <!-- Mobile Bottom Navigation -->
-    <nav class="mobile-nav">
-        <ul>
-            <li><a href="/"><span class="nav-icon">&#127968;</span>Start</a></li>
-            <li><a href="/kostka" class="active"><span class="nav-icon">&#127922;</span>Kostka</a></li>
-            <li><a href="/kolo-fortuny"><span class="nav-icon">&#127905;</span>Koło</a></li>
-            <li><a href="/lotto"><span class="nav-icon">&#127920;</span>Lotto</a></li>
-            <li><a href="/imie"><span class="nav-icon">&#128100;</span>Imię</a></li>
-        </ul>
-    </nav>
+    <nav class="mobile-nav"><ul><li><a href="/"><span class="nav-icon">&#127968;</span>Start</a></li><li><a href="/kostka" class="active"><span class="nav-icon">&#127922;</span>Kostka</a></li><li><a href="/mecz"><span class="nav-icon">&#9917;</span>Mecz</a></li><li><a href="/imie"><span class="nav-icon">&#128100;</span>Imię</a></li><li><a href="/lotto"><span class="nav-icon">&#127920;</span>Lotto</a></li><li><a href="/kolo-fortuny"><span class="nav-icon">&#127905;</span>Koło</a></li><li><a href="/moneta"><span class="nav-icon">&#129689;</span>Moneta</a></li><li><a href="/kolor"><span class="nav-icon">&#127912;</span>Kolor</a></li><li><a href="/karty"><span class="nav-icon">&#127183;</span>Karty</a></li><li><a href="/druzyny"><span class="nav-icon">&#129351;</span>Drużyny</a></li><li><a href="/kolejnosc"><span class="nav-icon">&#128260;</span>Kolejność</a></li><li><a href="/postac"><span class="nav-icon">&#9876;</span>RPG</a></li><li><a href="/wyliczanka"><span class="nav-icon">&#128101;</span>Wylicz.</a></li><li><a href="/liczba"><span class="nav-icon">&#128290;</span>Liczba</a></li></ul></nav>
     
     <div class="confetti-container" id="confettiContainer"></div>
 

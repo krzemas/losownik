@@ -307,12 +307,14 @@
             backdrop-filter: blur(10px);
         }
         
-        .mobile-nav ul { display: flex; justify-content: space-around; list-style: none; }
+        .mobile-nav ul { display: flex; list-style: none; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 2px; padding: 0 12px; }
+        .mobile-nav ul::-webkit-scrollbar { display: none; }
         
         .mobile-nav a {
-            display: flex; flex-direction: column; align-items: center; gap: 4px;
+            display: flex; flex-direction: column; align-items: center; gap: 2px;
             text-decoration: none; color: var(--text-secondary);
-            font-size: 0.7rem; font-weight: 600; padding: 4px 12px;
+            font-size: 0.6rem; font-weight: 600; padding: 6px 10px;
+            white-space: nowrap; min-width: 52px;
             border-radius: 8px; transition: color 0.3s;
         }
         
@@ -461,15 +463,7 @@
         </footer>
     </div>
     
-    <nav class="mobile-nav">
-        <ul>
-            <li><a href="/" class="active"><span class="nav-icon">&#127968;</span>Start</a></li>
-            <li><a href="/kostka"><span class="nav-icon">&#127922;</span>Kostka</a></li>
-            <li><a href="/kolo-fortuny"><span class="nav-icon">&#127905;</span>Koło</a></li>
-            <li><a href="/lotto"><span class="nav-icon">&#127920;</span>Lotto</a></li>
-            <li><a href="/imie"><span class="nav-icon">&#128100;</span>Imię</a></li>
-        </ul>
-    </nav>
+    <nav class="mobile-nav"><ul><li><a href="/" class="active"><span class="nav-icon">&#127968;</span>Start</a></li><li><a href="/kostka"><span class="nav-icon">&#127922;</span>Kostka</a></li><li><a href="/mecz"><span class="nav-icon">&#9917;</span>Mecz</a></li><li><a href="/imie"><span class="nav-icon">&#128100;</span>Imię</a></li><li><a href="/lotto"><span class="nav-icon">&#127920;</span>Lotto</a></li><li><a href="/kolo-fortuny"><span class="nav-icon">&#127905;</span>Koło</a></li><li><a href="/moneta"><span class="nav-icon">&#129689;</span>Moneta</a></li><li><a href="/kolor"><span class="nav-icon">&#127912;</span>Kolor</a></li><li><a href="/karty"><span class="nav-icon">&#127183;</span>Karty</a></li><li><a href="/druzyny"><span class="nav-icon">&#129351;</span>Drużyny</a></li><li><a href="/kolejnosc"><span class="nav-icon">&#128260;</span>Kolejność</a></li><li><a href="/postac"><span class="nav-icon">&#9876;</span>RPG</a></li><li><a href="/wyliczanka"><span class="nav-icon">&#128101;</span>Wylicz.</a></li><li><a href="/liczba"><span class="nav-icon">&#128290;</span>Liczba</a></li></ul></nav>
 
     <!-- i18n -->
     <script src="/js/i18n.js"></script>
