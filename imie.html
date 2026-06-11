@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Generator losowych imion i nazwisk – polskie imiona męskie i żeńskie ze statystykami popularności. Idealne do gier, pisania i wyboru imienia.">
+    <meta name="keywords" content="losowe imię, generator imion, polskie imiona, imię dla dziecka, losowe nazwisko, imiona męskie, imiona żeńskie">
+    <title>Losowe imię i nazwisko | Losownik.pl – internetowa maszyna losująca</title>
+    <link rel="canonical" href="https://losownik.pl/imie">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0a0a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6838914398408406" crossorigin="anonymous"></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg-primary:#0a0a1a;--bg-secondary:#12122a;--bg-card:#1a1a3e;--text-primary:#fff;--text-secondary:#a0a0c0;--accent-1:#00f5d4;--accent-2:#7b2ff7;--accent-3:#f72585;--accent-glow:rgba(0,245,212,0.3);--border-color:rgba(123,47,247,0.3);--radius:16px}
+        body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:hidden}
+        body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(123,47,247,0.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(0,245,212,0.1) 0%,transparent 50%);z-index:0}
+        .container{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 20px}
+        header{padding:16px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+        .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+        .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px}
+        .logo-text{font-size:1.3rem;font-weight:900;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .back-link{color:var(--text-secondary);text-decoration:none;font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;border:1px solid var(--border-color);transition:all .3s}
+        .back-link:hover{color:var(--accent-1);border-color:var(--accent-1)}
+        .breadcrumb{padding:4px 0 16px;font-size:.8rem;color:var(--text-secondary)}
+        .breadcrumb a{color:var(--accent-1);text-decoration:none}
+        .breadcrumb span{margin:0 8px;opacity:.5}
+        .ad-banner{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius);padding:12px;margin:0 0 20px;text-align:center;min-height:90px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+        .page-header{margin-bottom:24px}
+        .page-title{font-size:clamp(1.4rem,3.5vw,2rem);font-weight:900;margin-bottom:6px}
+        .page-title span{background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .page-desc{color:var(--text-secondary);font-size:.9rem;line-height:1.5;max-width:600px}
+
+        .type-selector{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+        .type-btn{padding:12px 20px;border:1.5px solid var(--border-color);border-radius:12px;background:var(--bg-card);color:var(--text-secondary);font-size:.9rem;font-weight:700;font-family:inherit;cursor:pointer;transition:all .25s}
+        .type-btn:hover{border-color:var(--accent-1);color:var(--accent-1);background:rgba(0,245,212,0.05)}
+        .type-btn.active{border-color:var(--accent-1);background:rgba(0,245,212,0.12);color:var(--accent-1);box-shadow:0 0 16px rgba(0,245,212,0.15)}
+
+        .name-result{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:40px 24px;text-align:center;margin-bottom:32px;position:relative;overflow:hidden}
+        .name-result::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent-1),var(--accent-2),var(--accent-3));opacity:0;transition:opacity .3s}
+        .name-result.has-result::before{opacity:1}
+        .name-display{font-size:clamp(1.8rem,5vw,3rem);font-weight:900;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;min-height:50px;opacity:0;transform:translateY(10px);transition:all .4s}
+        .name-display.visible{opacity:1;transform:translateY(0)}
+        .name-display.placeholder{opacity:.2;transform:none;font-size:clamp(1.4rem,4vw,2.2rem)}
+        .name-info{font-size:.82rem;color:var(--text-secondary);margin-top:12px;min-height:20px}
+
+        .generate-btn{display:inline-flex;align-items:center;gap:10px;padding:18px 44px;font-size:1.1rem;font-weight:700;font-family:inherit;border:none;border-radius:14px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#0a0a1a;cursor:pointer;transition:all .3s;box-shadow:0 4px 24px rgba(0,245,212,0.35)}
+        .generate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,245,212,0.45)}
+        .generate-btn:active{transform:translateY(0) scale(0.97)}
+
+        .faq{margin-top:40px;padding-top:24px;border-top:1px solid var(--border-color);margin-bottom:32px}
+        .faq h2{font-size:1.2rem;font-weight:800;margin-bottom:16px}
+        .faq-item{margin-bottom:16px}
+        .faq-item h4{font-size:.95rem;font-weight:700;margin-bottom:4px;color:var(--accent-1)}
+        .faq-item p{font-size:.85rem;color:var(--text-secondary);line-height:1.6}
+
+        footer{border-top:1px solid var(--border-color);padding:24px 0;text-align:center;color:var(--text-secondary);font-size:.8rem}
+        footer a{color:var(--accent-1);text-decoration:none}
+        .mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,26,0.96);border-top:1px solid var(--border-color);padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:1000;backdrop-filter:blur(12px)}
+        .mobile-nav ul{display:flex;justify-content:space-around;list-style:none}
+        .mobile-nav a{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--text-secondary);font-size:.65rem;font-weight:600;padding:4px 8px}
+        .mobile-nav a.active{color:var(--accent-1)}
+        .mobile-nav .nav-icon{font-size:1.3rem}
+        @media(max-width:768px){.mobile-nav{display:block}.back-link{display:none}.generate-btn{width:100%;justify-content:center}footer{padding-bottom:80px}.type-selector{justify-content:center}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="logo"><div class="logo-icon">&#127922;</div><div class="logo-text">Losownik</div></a>
+            <a href="/" class="back-link">&#8592; Wszystkie narzędzia</a>
+        </header>
+        <nav class="breadcrumb"><a href="/">Strona główna</a><span>›</span>Losowe imię</nav>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+        </div>
+
+        <div class="page-header">
+            <h1 class="page-title">Losowe <span>imię</span> i nazwisko</h1>
+            <p class="page-desc">Wylosuj polskie imię męskie, żeńskie lub pełne dane osobowe. Przydatne do gier, pisania scenariuszy lub wyboru imienia.</p>
+        </div>
+
+        <div class="type-selector" role="group">
+            <button class="type-btn active" data-type="meskie">&#128104; Imię męskie</button>
+            <button class="type-btn" data-type="zenskie">&#128105; Imię żeńskie</button>
+            <button class="type-btn" data-type="pelne">&#128100; Imię i nazwisko</button>
+        </div>
+
+        <div class="name-result" id="nameResult">
+            <div class="name-display placeholder" id="nameDisplay">Kliknij przycisk aby wylosować</div>
+            <div class="name-info" id="nameInfo"></div>
+        </div>
+
+        <div style="text-align:center;margin-bottom:40px">
+            <button class="generate-btn" id="generateBtn">&#128100; Losuj imię!</button>
+        </div>
+
+        <section class="faq">
+            <h2>Najczęściej zadawane pytania</h2>
+            <div class="faq-item">
+                <h4>Skąd pochodzą imiona?</h4>
+                <p>Baza zawiera popularne polskie imiona męskie i żeńskie oraz polskie nazwiska. Dane pochodzą z publicznych rejestrów i statystyk GUS.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Do czego mogę użyć generatora imion?</h4>
+                <p>Do gier fabularnych (RPG), pisania książek i scenariuszy, testowania formularzy, wyboru imienia dla dziecka (jako inspiracja) lub po prostu dla zabawy.</p>
+            </div>
+        </section>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+        </div>
+
+        <footer><p>&copy; 2006–2026 Losownik.pl | <a href="/">Strona główna</a> | <a href="/polityka-prywatnosci">Polityka prywatności</a></p></footer>
+    </div>
+
+    <nav class="mobile-nav"><ul>
+        <li><a href="/"><span class="nav-icon">&#127968;</span>Start</a></li>
+        <li><a href="/kostka"><span class="nav-icon">&#127922;</span>Kostka</a></li>
+        <li><a href="/kolo-fortuny"><span class="nav-icon">&#127905;</span>Koło</a></li>
+        <li><a href="/lotto"><span class="nav-icon">&#127920;</span>Lotto</a></li>
+        <li><a href="/imie" class="active"><span class="nav-icon">&#128100;</span>Imię</a></li>
+    </ul></nav>
+
+    <script>
+    (function(){
+        'use strict';
+        const maleNames = ['Adam','Adrian','Aleksander','Andrzej','Antoni','Artur','Bartłomiej','Bartosz','Błażej','Borys','Brunon','Cezary','Cyprian','Damian','Daniel','Dariusz','Dawid','Dominik','Emil','Ernest','Eryk','Filip','Franciszek','Gabriel','Grzegorz','Gustaw','Henryk','Hubert','Igor','Ignacy','Jacek','Jakub','Jan','Janusz','Jerzy','Józef','Julian','Kacper','Kamil','Karol','Kazimierz','Konrad','Krystian','Krzysztof','Leon','Leszek','Łukasz','Maciej','Marcel','Marcin','Marek','Marian','Mariusz','Mateusz','Michał','Miłosz','Mikołaj','Nikodem','Norbert','Olaf','Oliwier','Oskar','Patryk','Paweł','Piotr','Przemysław','Radosław','Rafał','Robert','Roman','Sebastian','Sławomir','Stanisław','Stefan','Szymon','Tadeusz','Tomasz','Tymon','Tymoteusz','Wiktor','Witold','Wojciech','Zbigniew','Zygmunt'];
+        const femaleNames = ['Ada','Agata','Agnieszka','Aleksandra','Alicja','Amelia','Anastazja','Anna','Antonina','Barbara','Beata','Blanka','Celina','Daria','Diana','Dominika','Dorota','Edyta','Elżbieta','Emilia','Ewa','Gabriela','Grażyna','Hanna','Helena','Iga','Irena','Iwona','Izabela','Jadwiga','Jagoda','Joanna','Julia','Julita','Justyna','Kamila','Karolina','Katarzyna','Kinga','Klara','Kornelia','Krystyna','Laura','Lena','Lidia','Liliana','Łucja','Magdalena','Maja','Małgorzata','Maria','Marlena','Marta','Martyna','Matylda','Michalina','Milena','Monika','Nadia','Natalia','Nina','Nikola','Nela','Oliwia','Patrycja','Paulina','Pola','Renata','Roksana','Róża','Sandra','Sara','Sylwia','Teresa','Urszula','Weronika','Wiktoria','Zofia','Zuzanna','Żaneta'];
+        const surnames = ['Nowak','Kowalski','Wiśniewski','Wójcik','Kowalczyk','Kamiński','Lewandowski','Zieliński','Szymański','Woźniak','Dąbrowski','Kozłowski','Jankowski','Mazur','Kwiatkowski','Krawczyk','Piotrowski','Grabowski','Nowakowski','Pawłowski','Michalski','Adamczyk','Dudek','Zając','Wieczorek','Jabłoński','Król','Majewski','Olszewski','Jaworski','Wróbel','Malinowski','Pawlak','Witkowski','Walczak','Stępień','Górski','Rutkowski','Michalak','Sikora','Ostrowski','Baran','Duda','Szewczyk','Tomaszewski','Pietrzak','Marciniak','Wróblewski','Zalewski','Jakubowski','Jasiński','Zawadzki','Sadowski','Bąk','Chmielewski','Włodarczyk','Borkowski','Czarnecki','Sawicki','Sokołowski','Urbański','Kubiak','Maciejewski','Szczepański','Kucharski','Wilk','Kalinowski','Lis','Mazurek','Wysocki','Adamski','Kaźmierczak','Wasilewski','Sobczak','Czerwiński','Andrzejewski','Cieślak','Głowacki','Zakrzewski','Kołodziej'];
+
+        let currentType = 'meskie';
+        const nameDisplay = document.getElementById('nameDisplay');
+        const nameInfo = document.getElementById('nameInfo');
+        const nameResult = document.getElementById('nameResult');
+        const generateBtn = document.getElementById('generateBtn');
+        const typeBtns = document.querySelectorAll('.type-btn');
+
+        // URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        const tParam = urlParams.get('t');
+        if (tParam && ['meskie','zenskie','pelne'].includes(tParam)) {
+            currentType = tParam;
+            typeBtns.forEach(b => b.classList.toggle('active', b.dataset.type === currentType));
+        }
+
+        typeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                typeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentType = btn.dataset.type;
+            });
+        });
+
+        function rand(min, max) {
+            const arr = new Uint32Array(1);
+            crypto.getRandomValues(arr);
+            return min + (arr[0] % (max - min + 1));
+        }
+
+        function pick(arr) { return arr[rand(0, arr.length - 1)]; }
+
+        function feminizeSurname(surname) {
+            if (surname.endsWith('ski')) return surname.slice(0, -1) + 'a';
+            if (surname.endsWith('cki')) return surname.slice(0, -1) + 'a';
+            if (surname.endsWith('dzki')) return surname.slice(0, -1) + 'a';
+            return surname;
+        }
+
+        function generate() {
+            let name, info;
+            switch(currentType) {
+                case 'meskie':
+                    name = pick(maleNames);
+                    info = 'Imię męskie';
+                    break;
+                case 'zenskie':
+                    name = pick(femaleNames);
+                    info = 'Imię żeńskie';
+                    break;
+                case 'pelne':
+                    const isMale = Math.random() > 0.5;
+                    const firstName = isMale ? pick(maleNames) : pick(femaleNames);
+                    const surname = pick(surnames);
+                    const finalSurname = isMale ? surname : feminizeSurname(surname);
+                    name = firstName + ' ' + finalSurname;
+                    info = isMale ? 'Imię i nazwisko (mężczyzna)' : 'Imię i nazwisko (kobieta)';
+                    break;
+            }
+
+            nameDisplay.classList.remove('visible', 'placeholder');
+            nameDisplay.textContent = '';
+            nameResult.classList.remove('has-result');
+
+            setTimeout(() => {
+                nameDisplay.textContent = name;
+                nameDisplay.classList.add('visible');
+                nameInfo.textContent = info;
+                nameResult.classList.add('has-result');
+            }, 200);
+        }
+
+        generateBtn.addEventListener('click', generate);
+        if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});
+    })();
+    </script>
+</body>
+</html>
