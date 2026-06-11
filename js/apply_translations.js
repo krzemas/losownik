@@ -98,5 +98,21 @@
         if(dl&&d.label) dl.textContent=d.label;
     }
 
+    // Breadcrumb translation
+    var breadcrumb=document.querySelector(".breadcrumb");
+    if(breadcrumb){
+        var homeNames={en:"Home",de:"Startseite",es:"Inicio",fr:"Accueil",it:"Home",pt:"Início",ru:"Главная",cs:"Domů",uk:"Головна"};
+        var homeName=homeNames[lang]||"Home";
+        // Replace "Strona główna" with translated version
+        var links=breadcrumb.querySelectorAll("a");
+        if(links.length>0&&links[0].textContent.trim()==="Strona główna") links[0].textContent=homeName;
+        // Replace page name in breadcrumb (last text node)
+        var lastText=breadcrumb.lastChild;
+        if(lastText&&lastText.nodeType===3&&d.h1){
+            var cleanH1=d.h1.replace(/<[^>]*>/g,"");
+            lastText.textContent=cleanH1;
+        }
+    }
+
     document.documentElement.lang=lang;
 })();

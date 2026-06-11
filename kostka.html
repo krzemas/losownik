@@ -623,6 +623,11 @@
  * Losownik.pl - Complete translations for all pages
  * EN, DE, ES, FR = full translations | IT, PT, RU, CS, UK = essential UI
  */
+<script>
+/**
+ * Losownik.pl - Complete translations for all pages
+ * EN, DE, ES, FR = full translations | IT, PT, RU, CS, UK = essential UI
+ */
 window.LOSOWNIK_T={
 "/":{
 en:{hero:"Your <span>random generator</span> online",heroDesc:"Roll dice, generate names, predict match scores or test your luck in Lotto. All free, no registration!",cards:{kostka:"Roll dice",kostkaSub:"Dice k4, k6, k8, k12, k20, k100 with 3D animation. Perfect for RPG and board games.",mecz:"Match score",meczSub:"Random score for football, volleyball, basketball or handball.",imie:"Random name",imieSub:"Generate a male, female name or full identity. Popularity statistics.",lotto:"LOTTO",lottoSub:"Generate numbers for Lotto, Mini Lotto, Multi Multi and Joker.",wyliczanka:"Person picker",wyliczankaSub:"Enter names – the tool will randomly pick one person for you.",liczba:"Random number",liczbaSub:"Random number generator from any range. One or many at once.",kolo:"Spin the wheel",koloSub:"Enter options, spin the wheel and let fate decide!",kolor:"Random color",kolorSub:"Generate a color in HEX, RGB or from a palette.",druzyny:"Team generator",druzynySub:"Divide players into equal teams – perfect for team games.",kolejnosc:"Random order",kolejnoscSub:"Shuffle a list and set random order – who goes first?",postac:"RPG Character",postacSub:"Random stats, race, class and name – ready character for tabletop RPGs.",moneta:"Flip a coin",monetaSub:"Heads or tails? Classic coin flip with animation.",karty:"Draw a card",kartySub:"Draw a random card from a 52-card deck. With shuffle sound!"}},
@@ -742,6 +747,22 @@ fr:{hero:"Votre <span>générateur aléatoire</span> en ligne",heroDesc:"Lancez 
     if(d.label){
         var dl=document.getElementById("currentDiceLabel");
         if(dl&&d.label) dl.textContent=d.label;
+    }
+
+    // Breadcrumb translation
+    var breadcrumb=document.querySelector(".breadcrumb");
+    if(breadcrumb){
+        var homeNames={en:"Home",de:"Startseite",es:"Inicio",fr:"Accueil",it:"Home",pt:"Início",ru:"Главная",cs:"Domů",uk:"Головна"};
+        var homeName=homeNames[lang]||"Home";
+        // Replace "Strona główna" with translated version
+        var links=breadcrumb.querySelectorAll("a");
+        if(links.length>0&&links[0].textContent.trim()==="Strona główna") links[0].textContent=homeName;
+        // Replace page name in breadcrumb (last text node)
+        var lastText=breadcrumb.lastChild;
+        if(lastText&&lastText.nodeType===3&&d.h1){
+            var cleanH1=d.h1.replace(/<[^>]*>/g,"");
+            lastText.textContent=cleanH1;
+        }
     }
 
     document.documentElement.lang=lang;
