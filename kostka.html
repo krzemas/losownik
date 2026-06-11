@@ -597,13 +597,6 @@
             historyList.innerHTML = history.map(h => '<span class="history-item">k' + h.sides + ': ' + h.value + '</span>').join('');
         }
         
-                        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-                        osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.04);
-                    }, i * 70);
-                }
-            } catch(e) {}
-        }
-        
         function spawnConfetti() {
             const colors = ['#00f5d4', '#7b2ff7', '#f72585', '#ffd700', '#ff6b6b', '#4cc9f0'];
             for (let i = 0; i < 25; i++) {
