@@ -1,0 +1,62 @@
+RewriteEngine On
+
+# Force HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# --- 301 Redirects for old Drupal URLs ---
+
+# Kostka old URLs
+RewriteRule ^kostka/losuj/4$ /kostka?k=4 [R=301,L]
+RewriteRule ^kostka/losuj/6$ /kostka?k=6 [R=301,L]
+RewriteRule ^kostka/losuj/8$ /kostka?k=8 [R=301,L]
+RewriteRule ^kostka/losuj/12$ /kostka?k=12 [R=301,L]
+RewriteRule ^kostka/losuj/20$ /kostka?k=20 [R=301,L]
+RewriteRule ^kostka/losuj/100$ /kostka?k=100 [R=301,L]
+
+# Mecz old URLs
+RewriteRule ^mecz/losuj/futbol$ /mecz?d=futbol [R=301,L]
+RewriteRule ^mecz/losuj/siatkowka$ /mecz?d=siatkowka [R=301,L]
+RewriteRule ^mecz/losuj/reczna$ /mecz?d=reczna [R=301,L]
+RewriteRule ^mecz/losuj/koszykowka$ /mecz?d=koszykowka [R=301,L]
+
+# LOTTO old URLs
+RewriteRule ^lotto/losuj/lotto$ /lotto?g=lotto [R=301,L]
+RewriteRule ^lotto/losuj/joker$ /lotto?g=joker [R=301,L]
+RewriteRule ^lotto/losuj/multi$ /lotto?g=multi [R=301,L]
+RewriteRule ^lotto/losuj/minilotto$ /lotto?g=minilotto [R=301,L]
+
+# Imie old URLs
+RewriteRule ^imie/losuj/m-name$ /imie?t=meskie [R=301,L]
+RewriteRule ^imie/losuj/f-name$ /imie?t=zenskie [R=301,L]
+RewriteRule ^imie/losuj/name-surname$ /imie?t=pelne [R=301,L]
+
+# --- Clean URLs (no .html extension) ---
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# --- Cache Control ---
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType application/json "access plus 1 week"
+</IfModule>
+
+# --- Compression ---
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
+</IfModule>
+
+# --- Security Headers ---
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
