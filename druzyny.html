@@ -19,7 +19,7 @@
         :root{--bg-primary:#0a0a1a;--bg-secondary:#12122a;--bg-card:#1a1a3e;--text-primary:#fff;--text-secondary:#a0a0c0;--accent-1:#00f5d4;--accent-2:#7b2ff7;--accent-3:#f72585;--accent-glow:rgba(0,245,212,0.3);--border-color:rgba(123,47,247,0.3);--radius:16px}
         body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:hidden}
         body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(123,47,247,0.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(0,245,212,0.1) 0%,transparent 50%);z-index:0}
-        .container{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:0 20px}
+        .container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 20px}
         header{padding:16px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
         .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
         .logo-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 0 20px var(--accent-glow)}
@@ -74,6 +74,7 @@
         <header>
             <a href="/" class="logo"><div class="logo-icon">&#127922;</div><div><div class="logo-text">Losownik</div><div class="logo-subtitle">Internetowa maszyna losująca</div></div></a>
             <nav class="top-nav"><a href="/kostka">Kostka</a><a href="/mecz">Mecz</a><a href="/imie">Imię</a><a href="/lotto">Lotto</a><a href="/kolo-fortuny">Koło</a><a href="/kolor">Kolor</a><a href="/moneta">Moneta</a></nav>
+            <div class="lang-switcher" id="langSwitcher"></div>
         </header>
         <nav class="breadcrumb"><a href="/">Strona główna</a><span>›</span>Losowanie drużyn</nav>
         <div class="ad-banner"><ins class="adsbygoogle" style="display:inline-block;min-width:300px;min-height:250px" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
@@ -130,5 +131,6 @@
     })();
     </script>
 <script>setTimeout(function(){document.querySelectorAll(".ad-banner").forEach(function(b){var ins=b.querySelector("ins.adsbygoogle");if(ins&&(ins.offsetHeight<10||ins.innerHTML.trim()===""))b.style.display="none"})},3500);</script>
+<script src="/js/i18n.js"></script>
 </body>
 </html>
