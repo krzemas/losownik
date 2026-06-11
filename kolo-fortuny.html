@@ -176,7 +176,7 @@ Sałatka</textarea>
                 const eased=1-Math.pow(1-progress,3);
                 currentAngle=startAngle+(targetAngle-startAngle)*eased;
                 drawWheel();
-                if(progress<1){requestAnimationFrame(animate)}
+                if(progress<1){if(Math.random()<(0.3-progress*0.25)&&window.losownikSounds)window.losownikSounds.wheelTick();requestAnimationFrame(animate)}
                 else{
                     isSpinning=false;spinBtn.classList.remove('disabled');
                     // Determine winner

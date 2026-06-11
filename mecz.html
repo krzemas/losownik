@@ -288,7 +288,7 @@
                 scoreAway.classList.add('visible');
                 scoreDetail.textContent = detail;
                 setsDisplay.innerHTML = sets;
-                scoreboard.classList.add('has-result');
+                scoreboard.classList.add('has-result');if(window.losownikSounds)window.losownikSounds.crowdCheer();
             }, 300);
         }
 
