@@ -7,6 +7,10 @@
     <meta name="keywords" content="rzut kostką, kostka online, d6, d20, kostka RPG, rzut kostką online, kostka do gry, k20 online">
     <title>Rzut kostką online | Losownik.pl – internetowa maszyna losująca</title>
     <link rel="canonical" href="https://losownik.pl/kostka">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0a0a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -44,110 +48,272 @@
                 radial-gradient(ellipse at 80% 20%, rgba(0, 245, 212, 0.1) 0%, transparent 50%);
             z-index: 0;
         }
-        .container { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; padding: 0 20px; }
+        .container { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; padding: 0 20px; }
         
-        header { padding: 20px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .logo-icon { width: 42px; height: 42px; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .logo-text { font-size: 1.4rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .back-link { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 600; display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border-color); transition: all 0.3s; }
+        /* Header */
+        header { padding: 16px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .logo-text { font-size: 1.3rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .back-link { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border-color); transition: all 0.3s; }
         .back-link:hover { color: var(--accent-1); border-color: var(--accent-1); }
         
-        .breadcrumb { padding: 8px 0 24px; font-size: 0.85rem; color: var(--text-secondary); }
+        /* Breadcrumb */
+        .breadcrumb { padding: 4px 0 16px; font-size: 0.8rem; color: var(--text-secondary); }
         .breadcrumb a { color: var(--accent-1); text-decoration: none; }
         .breadcrumb a:hover { text-decoration: underline; }
         .breadcrumb span { margin: 0 8px; opacity: 0.5; }
         
-        .ad-banner { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 16px; margin: 0 0 32px; text-align: center; min-height: 100px; display: flex; align-items: center; justify-content: center; }
+        /* Ad Banner - hidden when empty to avoid visual glitch */
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 12px;
+            margin: 0 0 20px;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .ad-banner:empty { display: none; }
+        .ad-banner .adsbygoogle:empty::after { content: none; }
         
-        .page-title { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 900; margin-bottom: 8px; }
+        /* Page Header */
+        .page-header { margin-bottom: 24px; }
+        .page-title { font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 900; margin-bottom: 6px; }
         .page-title span { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .page-desc { color: var(--text-secondary); font-size: 1rem; margin-bottom: 32px; line-height: 1.6; }
+        .page-desc { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; max-width: 600px; }
         
-        /* Main dice (k6) - large and prominent */
-        .main-dice-section { text-align: center; margin-bottom: 40px; }
-        .main-dice-label { font-size: 0.85rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 2px; font-weight: 600; margin-bottom: 12px; }
+        /* ===== MAIN DICE AREA - Key viewport optimization ===== */
+        .dice-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: center;
+            margin-bottom: 32px;
+            min-height: 300px;
+        }
         
-        /* Additional dice selector */
-        .dice-extras { margin-bottom: 32px; }
-        .dice-extras-label { font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; margin-bottom: 12px; opacity: 0.7; }
-        .dice-selector { display: flex; flex-wrap: wrap; gap: 8px; }
-        .dice-btn { padding: 10px 16px; border: 1.5px solid var(--border-color); border-radius: 10px; background: var(--bg-card); color: var(--text-secondary); font-size: 0.9rem; font-weight: 700; font-family: inherit; cursor: pointer; transition: all 0.3s; }
-        .dice-btn:hover { border-color: var(--accent-1); color: var(--accent-1); background: rgba(0, 245, 212, 0.05); }
-        .dice-btn.active { border-color: var(--accent-1); background: rgba(0, 245, 212, 0.1); color: var(--accent-1); box-shadow: 0 0 20px rgba(0, 245, 212, 0.2); }
-        .dice-btn .dice-label { display: block; font-size: 0.65rem; opacity: 0.7; margin-top: 2px; }
-        .dice-btn.main-btn { padding: 16px 32px; font-size: 1.2rem; border-width: 2px; border-radius: 14px; }
-        .dice-btn.main-btn .dice-label { font-size: 0.75rem; }
+        /* Left: Dice */
+        .dice-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
         
-        .dice-area { display: flex; flex-direction: column; align-items: center; margin: 40px 0; }
+        .dice-scene {
+            width: 220px;
+            height: 220px;
+            perspective: 650px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .dice-scene:hover { transform: scale(1.03); }
+        .dice-scene:active { transform: scale(0.97); }
         
-        .dice-scene { width: 240px; height: 240px; perspective: 700px; margin-bottom: 32px; }
-        .dice-cube { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; transform: rotateX(-25deg) rotateY(25deg); transition: transform 0.1s; }
-        .dice-cube.rolling { animation: roll 1.2s cubic-bezier(0.2, 0.8, 0.3, 1); }
+        .dice-cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-25deg) rotateY(25deg);
+            transition: transform 0.1s;
+        }
+        .dice-cube.rolling {
+            animation: roll 1s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
         @keyframes roll {
             0% { transform: rotateX(0) rotateY(0) rotateZ(0); }
-            20% { transform: rotateX(320deg) rotateY(200deg) rotateZ(100deg); }
-            40% { transform: rotateX(600deg) rotateY(400deg) rotateZ(220deg); }
-            60% { transform: rotateX(900deg) rotateY(520deg) rotateZ(310deg); }
-            80% { transform: rotateX(1100deg) rotateY(680deg) rotateZ(400deg); }
+            25% { transform: rotateX(400deg) rotateY(250deg) rotateZ(120deg); }
+            50% { transform: rotateX(700deg) rotateY(450deg) rotateZ(250deg); }
+            75% { transform: rotateX(1000deg) rotateY(600deg) rotateZ(340deg); }
             100% { transform: rotateX(1260deg) rotateY(720deg) rotateZ(360deg); }
         }
         
         .dice-face {
-            position: absolute; width: 240px; height: 240px; border-radius: 24px;
+            position: absolute; width: 220px; height: 220px; border-radius: 22px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 4.5rem; font-weight: 900;
-            background: linear-gradient(135deg, #1e1e4a, #2a2a5e);
+            font-size: 4rem; font-weight: 900;
+            background: linear-gradient(135deg, #1a1a4a, #2a2a60);
             border: 2px solid var(--border-color);
             color: var(--accent-1); text-shadow: 0 0 20px var(--accent-glow);
             backface-visibility: visible;
+            user-select: none;
         }
-        .dice-face:nth-child(1) { transform: rotateY(0deg) translateZ(120px); }
-        .dice-face:nth-child(2) { transform: rotateY(180deg) translateZ(120px); }
-        .dice-face:nth-child(3) { transform: rotateY(90deg) translateZ(120px); }
-        .dice-face:nth-child(4) { transform: rotateY(-90deg) translateZ(120px); }
-        .dice-face:nth-child(5) { transform: rotateX(90deg) translateZ(120px); }
-        .dice-face:nth-child(6) { transform: rotateX(-90deg) translateZ(120px); }
+        .dice-face:nth-child(1) { transform: rotateY(0deg) translateZ(110px); }
+        .dice-face:nth-child(2) { transform: rotateY(180deg) translateZ(110px); }
+        .dice-face:nth-child(3) { transform: rotateY(90deg) translateZ(110px); }
+        .dice-face:nth-child(4) { transform: rotateY(-90deg) translateZ(110px); }
+        .dice-face:nth-child(5) { transform: rotateX(90deg) translateZ(110px); }
+        .dice-face:nth-child(6) { transform: rotateX(-90deg) translateZ(110px); }
         
-        .result-area { text-align: center; min-height: 80px; }
-        .result-number { font-size: 4rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; opacity: 0; transform: scale(0.5); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .dice-tap-hint {
+            margin-top: 12px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            opacity: 0.6;
+            text-align: center;
+        }
+        
+        /* Right: Result + Button */
+        .dice-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .current-dice-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+        
+        .result-number {
+            font-size: clamp(4rem, 10vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         .result-number.visible { opacity: 1; transform: scale(1); }
-        .result-label { font-size: 0.9rem; color: var(--text-secondary); margin-top: 4px; }
         
-        .roll-btn { display: inline-flex; align-items: center; gap: 10px; padding: 16px 40px; font-size: 1.1rem; font-weight: 700; font-family: inherit; border: none; border-radius: 14px; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); color: #0a0a1a; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 20px rgba(0, 245, 212, 0.3); margin-top: 24px; }
-        .roll-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 245, 212, 0.4); }
-        .roll-btn:active { transform: translateY(0) scale(0.98); }
+        .result-number.placeholder {
+            opacity: 0.2;
+            transform: scale(1);
+            font-size: clamp(3rem, 8vw, 4.5rem);
+        }
+        
+        .result-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .roll-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 44px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            font-family: inherit;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: #0a0a1a;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 24px rgba(0, 245, 212, 0.35);
+        }
+        .roll-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0, 245, 212, 0.45); }
+        .roll-btn:active { transform: translateY(0) scale(0.97); }
         .roll-btn.disabled { opacity: 0.6; pointer-events: none; }
         
-        .history { margin-top: 48px; padding: 24px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius); }
-        .history h3 { font-size: 1rem; font-weight: 700; margin-bottom: 16px; color: var(--text-secondary); }
-        .history-list { display: flex; flex-wrap: wrap; gap: 8px; }
-        .history-item { background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 8px 14px; border-radius: 8px; font-size: 0.9rem; font-weight: 700; color: var(--accent-1); animation: fadeIn 0.3s ease; }
+        /* ===== DICE TYPE SELECTOR - Below main area ===== */
+        .dice-options {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 32px;
+        }
+        
+        .dice-options-label {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+        
+        .dice-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .dice-btn {
+            padding: 12px 18px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-align: center;
+        }
+        .dice-btn:hover { border-color: var(--accent-1); color: var(--accent-1); background: rgba(0, 245, 212, 0.05); }
+        .dice-btn.active { border-color: var(--accent-1); background: rgba(0, 245, 212, 0.12); color: var(--accent-1); box-shadow: 0 0 16px rgba(0, 245, 212, 0.15); }
+        .dice-btn .dice-label { display: block; font-size: 0.65rem; opacity: 0.7; margin-top: 3px; font-weight: 500; }
+        
+        /* History */
+        .history { margin-bottom: 32px; padding: 20px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius); }
+        .history h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+        .history-list { display: flex; flex-wrap: wrap; gap: 6px; }
+        .history-item { background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; color: var(--accent-1); animation: fadeIn 0.3s ease; }
+        .history-empty { color: var(--text-secondary); font-size: 0.82rem; font-style: italic; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
         
-        .faq { margin-top: 48px; padding-top: 32px; border-top: 1px solid var(--border-color); }
-        .faq h2 { font-size: 1.3rem; font-weight: 800; margin-bottom: 20px; }
-        .faq-item { margin-bottom: 20px; }
-        .faq-item h4 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; color: var(--accent-1); }
-        .faq-item p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; }
+        /* FAQ */
+        .faq { margin-bottom: 32px; padding-top: 24px; border-top: 1px solid var(--border-color); }
+        .faq h2 { font-size: 1.2rem; font-weight: 800; margin-bottom: 16px; }
+        .faq-item { margin-bottom: 16px; }
+        .faq-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; color: var(--accent-1); }
+        .faq-item p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
         
-        footer { border-top: 1px solid var(--border-color); padding: 32px 0; margin-top: 48px; text-align: center; color: var(--text-secondary); font-size: 0.85rem; }
+        /* Footer */
+        footer { border-top: 1px solid var(--border-color); padding: 24px 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; }
         footer a { color: var(--accent-1); text-decoration: none; }
         footer a:hover { text-decoration: underline; }
         
-        .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-secondary); border-top: 1px solid var(--border-color); padding: 8px 0 calc(8px + env(safe-area-inset-bottom)); z-index: 1000; backdrop-filter: blur(10px); }
+        /* Mobile Bottom Nav */
+        .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10, 10, 26, 0.96); border-top: 1px solid var(--border-color); padding: 8px 0 calc(8px + env(safe-area-inset-bottom)); z-index: 1000; backdrop-filter: blur(12px); }
         .mobile-nav ul { display: flex; justify-content: space-around; list-style: none; }
-        .mobile-nav a { display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; color: var(--text-secondary); font-size: 0.68rem; font-weight: 600; padding: 4px 10px; }
+        .mobile-nav a { display: flex; flex-direction: column; align-items: center; gap: 3px; text-decoration: none; color: var(--text-secondary); font-size: 0.65rem; font-weight: 600; padding: 4px 8px; }
         .mobile-nav a.active { color: var(--accent-1); }
         .mobile-nav .nav-icon { font-size: 1.3rem; }
         
+        /* Confetti */
         .confetti-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; overflow: hidden; }
         .confetti { position: absolute; width: 10px; height: 10px; opacity: 0; }
         @keyframes confettiFall { 0% { opacity: 1; transform: translateY(-20px) rotate(0deg); } 100% { opacity: 0; transform: translateY(100vh) rotate(720deg); } }
         
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .mobile-nav { display: block; }
             .back-link { display: none; }
+            
+            .dice-main {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                min-height: auto;
+            }
+            
+            .dice-visual { order: 1; }
+            .dice-controls { order: 2; }
+            
             .dice-scene { width: 180px; height: 180px; }
             .dice-face { width: 180px; height: 180px; font-size: 3.2rem; border-radius: 18px; }
             .dice-face:nth-child(1) { transform: rotateY(0deg) translateZ(90px); }
@@ -156,15 +322,31 @@
             .dice-face:nth-child(4) { transform: rotateY(-90deg) translateZ(90px); }
             .dice-face:nth-child(5) { transform: rotateX(90deg) translateZ(90px); }
             .dice-face:nth-child(6) { transform: rotateX(-90deg) translateZ(90px); }
-            .result-number { font-size: 3rem; }
+            
+            .result-number { font-size: 3.5rem; min-height: 60px; }
+            .roll-btn { padding: 16px 36px; font-size: 1.05rem; width: 100%; justify-content: center; }
             .dice-selector { justify-content: center; }
-            .main-dice-section { margin-bottom: 24px; }
+            
             footer { padding-bottom: 80px; }
+            .page-desc { font-size: 0.82rem; }
+            .ad-banner { min-height: 60px; margin-bottom: 12px; }
+        }
+        
+        @media (max-width: 400px) {
+            .dice-scene { width: 150px; height: 150px; }
+            .dice-face { width: 150px; height: 150px; font-size: 2.6rem; border-radius: 14px; }
+            .dice-face:nth-child(1) { transform: rotateY(0deg) translateZ(75px); }
+            .dice-face:nth-child(2) { transform: rotateY(180deg) translateZ(75px); }
+            .dice-face:nth-child(3) { transform: rotateY(90deg) translateZ(75px); }
+            .dice-face:nth-child(4) { transform: rotateY(-90deg) translateZ(75px); }
+            .dice-face:nth-child(5) { transform: rotateX(90deg) translateZ(75px); }
+            .dice-face:nth-child(6) { transform: rotateX(-90deg) translateZ(75px); }
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Header -->
         <header>
             <a href="/" class="logo">
                 <div class="logo-icon">&#127922;</div>
@@ -173,62 +355,77 @@
             <a href="/" class="back-link">&#8592; Wszystkie narzędzia</a>
         </header>
         
+        <!-- Breadcrumb -->
         <nav class="breadcrumb" aria-label="Breadcrumb">
             <a href="/">Strona główna</a><span>›</span>Rzut kostką
         </nav>
         
+        <!-- Ad Banner -->
         <div class="ad-banner">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6838914398408406"
+                 data-ad-slot="1732651309"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
         
-        <h1 class="page-title">Rzut <span>kostką</span> online</h1>
-        <p class="page-desc">Wybierz rodzaj kostki i kliknij „Rzuć!", aby wylosować wynik. Kostki wykorzystuje się w grach planszowych, fabularnych (RPG), bitewnych i wielu innych.</p>
-        
-        <!-- Main dice button - standard k6 -->
-        <div class="main-dice-section">
-            <div class="main-dice-label">Standardowa kostka</div>
-            <button class="dice-btn main-btn active" data-sides="6">k6<span class="dice-label">sześcian – klasyczna kostka do gry</span></button>
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Rzut <span>kostką</span> online</h1>
+            <p class="page-desc">Kliknij kostkę lub przycisk aby rzucić. Wybierz rodzaj kostki poniżej.</p>
         </div>
         
-        <!-- Additional dice options -->
-        <div class="dice-extras">
-            <div class="dice-extras-label">Inne kostki (RPG i więcej)</div>
+        <!-- ===== MAIN DICE AREA: Dice left, Result+Button right ===== -->
+        <div class="dice-main">
+            <!-- Left: 3D Dice (clickable!) -->
+            <div class="dice-visual">
+                <div class="dice-scene" id="diceScene" role="button" aria-label="Kliknij aby rzucić kostką" tabindex="0">
+                    <div class="dice-cube" id="diceCube">
+                        <div class="dice-face">1</div>
+                        <div class="dice-face">6</div>
+                        <div class="dice-face">3</div>
+                        <div class="dice-face">4</div>
+                        <div class="dice-face">2</div>
+                        <div class="dice-face">5</div>
+                    </div>
+                </div>
+                <div class="dice-tap-hint">Kliknij kostkę aby rzucić</div>
+            </div>
+            
+            <!-- Right: Result + Roll button -->
+            <div class="dice-controls">
+                <div class="current-dice-label" id="currentDiceLabel">Standardowa kostka (k6)</div>
+                <div class="result-number placeholder" id="resultNumber">?</div>
+                <div class="result-label" id="resultLabel">Kliknij aby rzucić</div>
+                <button class="roll-btn" id="rollBtn">&#127922; Rzuć kostką!</button>
+            </div>
+        </div>
+        
+        <!-- ===== DICE TYPE SELECTOR - Below main area ===== -->
+        <div class="dice-options">
+            <div class="dice-options-label">Wybierz rodzaj kostki</div>
             <div class="dice-selector" role="group" aria-label="Wybór kostki">
+                <button class="dice-btn active" data-sides="6">k6<span class="dice-label">standardowa</span></button>
                 <button class="dice-btn" data-sides="4">k4<span class="dice-label">czworościan</span></button>
                 <button class="dice-btn" data-sides="8">k8<span class="dice-label">ośmiościan</span></button>
                 <button class="dice-btn" data-sides="10">k10<span class="dice-label">dziesięciościan</span></button>
                 <button class="dice-btn" data-sides="12">k12<span class="dice-label">dwunastościan</span></button>
-                <button class="dice-btn" data-sides="20">k20<span class="dice-label">dwudziestościan</span></button>
+                <button class="dice-btn" data-sides="20">k20<span class="dice-label">d20 / RPG</span></button>
                 <button class="dice-btn" data-sides="100">k100<span class="dice-label">procentowa</span></button>
             </div>
         </div>
         
-        <div class="dice-area">
-            <div class="dice-scene">
-                <div class="dice-cube" id="diceCube">
-                    <div class="dice-face">1</div>
-                    <div class="dice-face">6</div>
-                    <div class="dice-face">3</div>
-                    <div class="dice-face">4</div>
-                    <div class="dice-face">2</div>
-                    <div class="dice-face">5</div>
-                </div>
-            </div>
-            <div class="result-area">
-                <div class="result-number" id="resultNumber"></div>
-                <div class="result-label" id="resultLabel"></div>
-            </div>
-            <button class="roll-btn" id="rollBtn">&#127922; Rzuć kostką!</button>
-        </div>
-        
+        <!-- History -->
         <div class="history">
-            <h3>&#128203; Historia rzutów</h3>
+            <h3>Historia rzutów</h3>
             <div class="history-list" id="historyList">
-                <span style="color: var(--text-secondary); font-size: 0.85rem; font-style: italic;">Brak rzutów – kliknij „Rzuć kostką!" aby rozpocząć</span>
+                <span class="history-empty">Brak rzutów – kliknij kostkę lub przycisk aby rozpocząć</span>
             </div>
         </div>
         
+        <!-- FAQ for SEO -->
         <section class="faq">
             <h2>Najczęściej zadawane pytania</h2>
             <div class="faq-item">
@@ -241,24 +438,32 @@
             </div>
             <div class="faq-item">
                 <h4>Do jakich gier przydaje się kostka online?</h4>
-                <p>Wirtualna kostka sprawdzi się w grach RPG (Dungeons & Dragons, Warhammer, Pathfinder), grach planszowych (Monopoly, Osadnicy z Catanu), grach towarzyskich i wszędzie tam, gdzie potrzebny jest losowy wynik.</p>
+                <p>Wirtualna kostka sprawdzi się w grach RPG (Dungeons &amp; Dragons, Warhammer, Pathfinder), grach planszowych (Monopoly, Osadnicy z Catanu), grach towarzyskich i wszędzie tam, gdzie potrzebny jest losowy wynik.</p>
             </div>
             <div class="faq-item">
                 <h4>Czy mogę używać tego narzędzia na telefonie?</h4>
-                <p>Oczywiście! Strona jest w pełni responsywna i działa na każdym urządzeniu – smartfonie, tablecie i komputerze. Możesz też zainstalować ją jako aplikację.</p>
+                <p>Oczywiście! Strona jest w pełni responsywna i działa na każdym urządzeniu. Możesz też zainstalować ją jako aplikację (PWA) – kliknij „Dodaj do ekranu głównego" w przeglądarce.</p>
             </div>
         </section>
         
-        <div class="ad-banner" style="margin-top: 32px;">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+        <!-- Ad Banner Bottom -->
+        <div class="ad-banner">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6838914398408406"
+                 data-ad-slot="1732651309"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
         
+        <!-- Footer -->
         <footer>
             <p>&copy; 2006–2026 Losownik.pl | <a href="/">Strona główna</a> | <a href="/polityka-prywatnosci">Polityka prywatności</a></p>
         </footer>
     </div>
     
+    <!-- Mobile Bottom Navigation -->
     <nav class="mobile-nav">
         <ul>
             <li><a href="/"><span class="nav-icon">&#127968;</span>Start</a></li>
@@ -271,6 +476,7 @@
     
     <div class="confetti-container" id="confettiContainer"></div>
 
+    <!-- Structured Data -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -278,7 +484,8 @@
         "mainEntity": [
             { "@type": "Question", "name": "Jakie kostki mogę wybrać?", "acceptedAnswer": { "@type": "Answer", "text": "Dostępne są kostki: k4, k6, k8, k10, k12, k20 oraz k100." } },
             { "@type": "Question", "name": "Czy wyniki są naprawdę losowe?", "acceptedAnswer": { "@type": "Answer", "text": "Tak! Używamy kryptograficznie bezpiecznego generatora liczb losowych." } },
-            { "@type": "Question", "name": "Do jakich gier przydaje się kostka online?", "acceptedAnswer": { "@type": "Answer", "text": "Wirtualna kostka sprawdzi się w grach RPG, planszowych, towarzyskich i wszędzie tam, gdzie potrzebny jest losowy wynik." } }
+            { "@type": "Question", "name": "Do jakich gier przydaje się kostka online?", "acceptedAnswer": { "@type": "Answer", "text": "Wirtualna kostka sprawdzi się w grach RPG, planszowych, towarzyskich i wszędzie tam, gdzie potrzebny jest losowy wynik." } },
+            { "@type": "Question", "name": "Czy mogę używać tego narzędzia na telefonie?", "acceptedAnswer": { "@type": "Answer", "text": "Tak! Strona jest responsywna i można ją zainstalować jako aplikację PWA." } }
         ]
     }
     </script>
@@ -291,12 +498,25 @@
         let history = [];
         
         const diceCube = document.getElementById('diceCube');
+        const diceScene = document.getElementById('diceScene');
         const rollBtn = document.getElementById('rollBtn');
         const resultNumber = document.getElementById('resultNumber');
         const resultLabel = document.getElementById('resultLabel');
+        const currentDiceLabel = document.getElementById('currentDiceLabel');
         const historyList = document.getElementById('historyList');
         const diceButtons = document.querySelectorAll('.dice-btn');
         const confettiContainer = document.getElementById('confettiContainer');
+        
+        // Dice names for display
+        const diceNames = {
+            4: 'Czworościan (k4)',
+            6: 'Standardowa kostka (k6)',
+            8: 'Ośmiościan (k8)',
+            10: 'Dziesięciościan (k10)',
+            12: 'Dwunastościan (k12)',
+            20: 'Dwudziestościan (k20)',
+            100: 'Procentowa (k100)'
+        };
         
         // URL parameter handling (for redirects from old URLs)
         const urlParams = new URLSearchParams(window.location.search);
@@ -304,15 +524,32 @@
         if (kParam && [4, 6, 8, 10, 12, 20, 100].includes(parseInt(kParam))) {
             currentSides = parseInt(kParam);
             diceButtons.forEach(btn => btn.classList.toggle('active', parseInt(btn.dataset.sides) === currentSides));
+            currentDiceLabel.textContent = diceNames[currentSides];
         }
         
+        // Dice type selection (NO auto-roll)
         diceButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 diceButtons.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 currentSides = parseInt(btn.dataset.sides);
+                currentDiceLabel.textContent = diceNames[currentSides];
                 updateDiceFaces();
             });
+        });
+        
+        // Roll triggers
+        rollBtn.addEventListener('click', rollDice);
+        diceScene.addEventListener('click', rollDice);  // Click dice = roll!
+        diceScene.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); rollDice(); }
+        });
+        
+        // Keyboard shortcut
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && document.activeElement === document.body) {
+                e.preventDefault(); rollDice();
+            }
         });
         
         function updateDiceFaces() {
@@ -326,18 +563,13 @@
             return min + (array[0] % (max - min + 1));
         }
         
-        rollBtn.addEventListener('click', rollDice);
-        document.addEventListener('keydown', (e) => {
-            if ((e.code === 'Space' || e.code === 'Enter') && (document.activeElement === rollBtn || document.activeElement === document.body)) {
-                e.preventDefault(); rollDice();
-            }
-        });
-        
         function rollDice() {
             if (isRolling) return;
             isRolling = true;
             rollBtn.classList.add('disabled');
-            resultNumber.classList.remove('visible');
+            resultNumber.classList.remove('visible', 'placeholder');
+            resultNumber.textContent = '';
+            
             updateDiceFaces();
             diceCube.classList.remove('rolling');
             void diceCube.offsetWidth;
@@ -355,7 +587,7 @@
                 isRolling = false;
                 rollBtn.classList.remove('disabled');
                 diceCube.classList.remove('rolling');
-            }, 1300);
+            }, 1100);
         }
         
         function addToHistory(result) {
@@ -367,30 +599,30 @@
         function playRollSound() {
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                for (let i = 0; i < 5; i++) {
+                for (let i = 0; i < 4; i++) {
                     setTimeout(() => {
                         const osc = audioCtx.createOscillator();
                         const gain = audioCtx.createGain();
                         osc.connect(gain); gain.connect(audioCtx.destination);
-                        osc.frequency.value = 200 + Math.random() * 400;
-                        osc.type = 'square'; gain.gain.value = 0.03;
-                        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
-                        osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.05);
-                    }, i * 80);
+                        osc.frequency.value = 180 + Math.random() * 350;
+                        osc.type = 'square'; gain.gain.value = 0.025;
+                        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+                        osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.04);
+                    }, i * 70);
                 }
             } catch(e) {}
         }
         
         function spawnConfetti() {
             const colors = ['#00f5d4', '#7b2ff7', '#f72585', '#ffd700', '#ff6b6b', '#4cc9f0'];
-            for (let i = 0; i < 30; i++) {
+            for (let i = 0; i < 25; i++) {
                 const c = document.createElement('div');
                 c.className = 'confetti';
                 c.style.left = Math.random() * 100 + '%';
                 c.style.top = '-10px';
                 c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                c.style.width = (Math.random() * 8 + 5) + 'px';
-                c.style.height = (Math.random() * 8 + 5) + 'px';
+                c.style.width = (Math.random() * 8 + 4) + 'px';
+                c.style.height = (Math.random() * 8 + 4) + 'px';
                 c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
                 c.style.animation = 'confettiFall ' + (1.5 + Math.random() * 2) + 's linear ' + (Math.random() * 0.5) + 's forwards';
                 confettiContainer.appendChild(c);
@@ -399,6 +631,11 @@
         }
         
         updateDiceFaces();
+        
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
+        }
     })();
     </script>
 </body>
