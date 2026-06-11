@@ -222,7 +222,134 @@
     </script>
 <script>setTimeout(function(){document.querySelectorAll(".ad-banner").forEach(function(b){var ins=b.querySelector("ins.adsbygoogle");if(ins&&(ins.offsetHeight<10||ins.innerHTML.trim()===""))b.style.display="none"})},3500);</script>
 <script>!function(){var L=["pl","en","de","es","fr","it","pt","ru","cs","uk"],N={pl:"Polski",en:"English",de:"Deutsch",es:"Español",fr:"Français",it:"Italiano",pt:"Português",ru:"Русский",cs:"Čeština",uk:"Українська"},K="losownik_lang",T={en:{Start:"Home",Kostka:"Dice",Mecz:"Match","Imię":"Name",Lotto:"Lotto","Koło":"Wheel",Moneta:"Coin",Kolor:"Color",Karty:"Cards","Drużyny":"Teams","Kolejność":"Order",RPG:"RPG","Wylicz.":"Picker",Liczba:"Number"},de:{Start:"Start",Kostka:"Würfel",Mecz:"Spiel","Imię":"Name",Lotto:"Lotto","Koło":"Rad",Moneta:"Münze",Kolor:"Farbe",Karty:"Karten","Drużyny":"Teams","Kolejność":"Reihenf.",RPG:"RPG","Wylicz.":"Auswahl",Liczba:"Zahl"},es:{Start:"Inicio",Kostka:"Dado",Mecz:"Partido","Imię":"Nombre",Lotto:"Loto","Koło":"Ruleta",Moneta:"Moneda",Kolor:"Color",Karty:"Cartas","Drużyny":"Equipos","Kolejność":"Orden",RPG:"RPG","Wylicz.":"Elegir",Liczba:"Número"},fr:{Start:"Accueil",Kostka:"Dé",Mecz:"Match","Imię":"Prénom",Lotto:"Loto","Koło":"Roue",Moneta:"Pièce",Kolor:"Couleur",Karty:"Cartes","Drużyny":"Équipes","Kolejność":"Ordre",RPG:"RPG","Wylicz.":"Tirage",Liczba:"Nombre"},it:{Start:"Home",Kostka:"Dado",Mecz:"Partita","Imię":"Nome",Lotto:"Lotto","Koło":"Ruota",Moneta:"Moneta",Kolor:"Colore",Karty:"Carte","Drużyny":"Squadre","Kolejność":"Ordine",RPG:"RPG","Wylicz.":"Scelta",Liczba:"Numero"},pt:{Start:"Início",Kostka:"Dado",Mecz:"Jogo","Imię":"Nome",Lotto:"Loto","Koło":"Roleta",Moneta:"Moeda",Kolor:"Cor",Karty:"Cartas","Drużyny":"Equipes","Kolejność":"Ordem",RPG:"RPG","Wylicz.":"Sortear",Liczba:"Número"},ru:{Start:"Главная",Kostka:"Кубик",Mecz:"Матч","Imię":"Имя",Lotto:"Лото","Koło":"Колесо",Moneta:"Монета",Kolor:"Цвет",Karty:"Карты","Drużyny":"Команды","Kolejność":"Порядок",RPG:"RPG","Wylicz.":"Выбор",Liczba:"Число"},cs:{Start:"Domů",Kostka:"Kostka",Mecz:"Zápas","Imię":"Jméno",Lotto:"Loto","Koło":"Kolo",Moneta:"Mince",Kolor:"Barva",Karty:"Karty","Drużyny":"Týmy","Kolejność":"Pořadí",RPG:"RPG","Wylicz.":"Výběr",Liczba:"Číslo"},uk:{Start:"Головна",Kostka:"Кубик",Mecz:"Матч","Imię":"Імʼя",Lotto:"Лото","Koło":"Колесо",Moneta:"Монета",Kolor:"Колір",Karty:"Карти","Drużyny":"Команди","Kolejність":"Порядок",RPG:"RPG","Wylicz.":"Вибір",Liczba:"Число"}};var p=new URLSearchParams(location.search).get("lang");if(p&&L.includes(p))localStorage.setItem(K,p);var lang=localStorage.getItem(K)||"pl";function init(){var h=document.querySelector("header");if(!h)return;var w=document.createElement("div");w.style.cssText="display:flex;align-items:center;margin-left:8px";var s=document.createElement("select");s.style.cssText="background:#1a1a3e;border:1px solid rgba(123,47,247,0.3);color:#a0a0c0;padding:6px 10px;border-radius:8px;font-size:.78rem;font-family:inherit;font-weight:600;cursor:pointer";L.forEach(function(l){var o=document.createElement("option");o.value=l;o.textContent=N[l];if(l===lang)o.selected=true;s.appendChild(o)});s.onchange=function(){localStorage.setItem(K,s.value);location.reload()};w.appendChild(s);h.appendChild(w);if(lang==="pl"||!T[lang])return;var d=T[lang];document.querySelectorAll(".mobile-nav a,.top-nav a,header nav a").forEach(function(a){var nodes=a.childNodes;for(var i=nodes.length-1;i>=0;i--){if(nodes[i].nodeType===3){var t=nodes[i].textContent.trim();if(d[t])nodes[i].textContent=d[t];break}}});document.documentElement.lang=lang}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init()}();</script>
-<script src="/js/translations.js"></script>
-<script src="/js/apply_translations.js"></script>
+<script>
+/**
+ * Losownik.pl - Complete translations for all pages
+ * EN, DE, ES, FR = full translations | IT, PT, RU, CS, UK = essential UI
+ */
+window.LOSOWNIK_T={
+"/":{
+en:{hero:"Your <span>random generator</span> online",heroDesc:"Roll dice, generate names, predict match scores or test your luck in Lotto. All free, no registration!",cards:{kostka:"Roll dice",kostkaSub:"Dice k4, k6, k8, k12, k20, k100 with 3D animation. Perfect for RPG and board games.",mecz:"Match score",meczSub:"Random score for football, volleyball, basketball or handball.",imie:"Random name",imieSub:"Generate a male, female name or full identity. Popularity statistics.",lotto:"LOTTO",lottoSub:"Generate numbers for Lotto, Mini Lotto, Multi Multi and Joker.",wyliczanka:"Person picker",wyliczankaSub:"Enter names – the tool will randomly pick one person for you.",liczba:"Random number",liczbaSub:"Random number generator from any range. One or many at once.",kolo:"Spin the wheel",koloSub:"Enter options, spin the wheel and let fate decide!",kolor:"Random color",kolorSub:"Generate a color in HEX, RGB or from a palette.",druzyny:"Team generator",druzynySub:"Divide players into equal teams – perfect for team games.",kolejnosc:"Random order",kolejnoscSub:"Shuffle a list and set random order – who goes first?",postac:"RPG Character",postacSub:"Random stats, race, class and name – ready character for tabletop RPGs.",moneta:"Flip a coin",monetaSub:"Heads or tails? Classic coin flip with animation.",karty:"Draw a card",kartySub:"Draw a random card from a 52-card deck. With shuffle sound!"}},
+de:{hero:"Dein <span>Zufallsgenerator</span> online",heroDesc:"Würfle, generiere Namen, tippe Spielergebnisse oder teste dein Glück im Lotto. Kostenlos, ohne Registrierung!",cards:{kostka:"Würfeln",kostkaSub:"Würfel k4, k6, k8, k12, k20, k100 mit 3D-Animation.",mecz:"Spielergebnis",meczSub:"Zufälliges Ergebnis für Fußball, Volleyball, Basketball oder Handball.",imie:"Zufälliger Name",imieSub:"Generiere männliche, weibliche Namen oder volle Identität.",lotto:"LOTTO",lottoSub:"Generiere Zahlen für Lotto, Mini Lotto, Multi Multi und Joker.",wyliczanka:"Personenauswahl",wyliczankaSub:"Namen eingeben – das Tool wählt zufällig eine Person.",liczba:"Zufallszahl",liczbaSub:"Zufallszahlengenerator aus jedem Bereich.",kolo:"Glücksrad",koloSub:"Optionen eingeben, Rad drehen und das Schicksal entscheiden lassen!",kolor:"Zufällige Farbe",kolorSub:"Generiere eine Farbe in HEX, RGB oder aus einer Palette.",druzyny:"Team-Generator",druzynySub:"Teile Spieler in gleiche Teams auf.",kolejnosc:"Zufällige Reihenfolge",kolejnoscSub:"Liste mischen – wer fängt an?",postac:"RPG-Charakter",postacSub:"Zufällige Werte, Rasse, Klasse und Name.",moneta:"Münze werfen",monetaSub:"Kopf oder Zahl? Klassischer Münzwurf mit Animation.",karty:"Karte ziehen",kartySub:"Ziehe eine zufällige Karte aus dem 52er-Deck."}},
+es:{hero:"Tu <span>generador aleatorio</span> online",heroDesc:"Tira dados, genera nombres, predice resultados o prueba suerte en Loto. ¡Gratis, sin registro!",cards:{kostka:"Tirar dados",kostkaSub:"Dados k4, k6, k8, k12, k20, k100 con animación 3D.",mecz:"Resultado",meczSub:"Resultado aleatorio de fútbol, voleibol, baloncesto o balonmano.",imie:"Nombre aleatorio",imieSub:"Genera nombre masculino, femenino o identidad completa.",lotto:"LOTO",lottoSub:"Genera números para Loto, Mini Loto, Multi Multi y Joker.",wyliczanka:"Selector",wyliczankaSub:"Introduce nombres – la herramienta elegirá uno al azar.",liczba:"Número aleatorio",liczbaSub:"Generador de números de cualquier rango.",kolo:"Ruleta",koloSub:"Introduce opciones, gira la ruleta y ¡deja que decida!",kolor:"Color aleatorio",kolorSub:"Genera un color en HEX, RGB o de una paleta.",druzyny:"Equipos",druzynySub:"Divide jugadores en equipos iguales.",kolejnosc:"Orden aleatorio",kolejnoscSub:"Mezcla la lista – ¿quién empieza?",postac:"Personaje RPG",postacSub:"Estadísticas, raza, clase y nombre aleatorios.",moneta:"Lanzar moneda",monetaSub:"¿Cara o cruz? Lanzamiento clásico con animación.",karty:"Sacar carta",kartySub:"Saca una carta aleatoria de la baraja de 52."}},
+fr:{hero:"Votre <span>générateur aléatoire</span> en ligne",heroDesc:"Lancez les dés, générez des prénoms, prédisez des scores ou tentez votre chance au Loto. Gratuit, sans inscription !",cards:{kostka:"Lancer les dés",kostkaSub:"Dés k4, k6, k8, k12, k20, k100 avec animation 3D.",mecz:"Score",meczSub:"Score aléatoire de football, volley, basket ou handball.",imie:"Prénom aléatoire",imieSub:"Générez un prénom masculin, féminin ou une identité complète.",lotto:"LOTO",lottoSub:"Générez des numéros pour Loto, Mini Loto, Multi Multi et Joker.",wyliczanka:"Sélecteur",wyliczankaSub:"Entrez des prénoms – l'outil en choisira un au hasard.",liczba:"Nombre aléatoire",liczbaSub:"Générateur de nombres dans n'importe quelle plage.",kolo:"Roue de la fortune",koloSub:"Entrez des options, tournez la roue et laissez le destin décider !",kolor:"Couleur aléatoire",kolorSub:"Générez une couleur en HEX, RGB ou depuis une palette.",druzyny:"Équipes",druzynySub:"Divisez les joueurs en équipes égales.",kolejnosc:"Ordre aléatoire",kolejnoscSub:"Mélangez la liste – qui commence ?",postac:"Personnage RPG",postacSub:"Stats, race, classe et nom aléatoires.",moneta:"Pile ou face",monetaSub:"Pile ou face ? Lancer classique avec animation.",karty:"Tirer une carte",kartySub:"Tirez une carte aléatoire du jeu de 52."}}
+},
+"/kostka":{en:{h1:"Roll <span>dice</span> online",desc:"Click the dice or button to roll. Choose dice type below.",btn:"Roll dice!",label:"Standard dice (k6)",hint:"Click the dice to roll",opts:"Choose dice type"},de:{h1:"Online <span>Würfeln</span>",desc:"Klicke auf den Würfel oder Button. Wähle den Würfeltyp unten.",btn:"Würfeln!",label:"Standardwürfel (k6)",hint:"Klicke den Würfel",opts:"Würfeltyp wählen"},es:{h1:"Tirar <span>dados</span> online",desc:"Haz clic en el dado o botón. Elige el tipo abajo.",btn:"¡Tirar!",label:"Dado estándar (k6)",hint:"Clic en el dado para tirar",opts:"Elige tipo de dado"},fr:{h1:"Lancer les <span>dés</span> en ligne",desc:"Cliquez sur le dé ou le bouton. Choisissez le type ci-dessous.",btn:"Lancer !",label:"Dé standard (k6)",hint:"Cliquez sur le dé",opts:"Choisir le type"},it:{h1:"Lancia i <span>dadi</span>",btn:"Lancia!"},pt:{h1:"Jogar <span>dados</span>",btn:"Jogar!"},ru:{h1:"Бросить <span>кубик</span>",btn:"Бросить!"},cs:{h1:"Hodit <span>kostkou</span>",btn:"Hodit!"},uk:{h1:"Кинути <span>кубик</span>",btn:"Кинути!"}},
+"/mecz":{en:{h1:"Random <span>match</span> score",desc:"Choose a sport and generate a random realistic match score.",btn:"Generate score!",sports:{"Piłka nożna":"Football","Siatkówka":"Volleyball","Piłka ręczna":"Handball","Koszykówka":"Basketball"}},de:{h1:"Zufälliges <span>Spielergebnis</span>",desc:"Wähle eine Sportart und generiere ein realistisches Ergebnis.",btn:"Generieren!",sports:{"Piłka nożna":"Fußball","Siatkówka":"Volleyball","Piłka ręczna":"Handball","Koszykówka":"Basketball"}},es:{h1:"<span>Resultado</span> aleatorio",desc:"Elige un deporte y genera un resultado realista.",btn:"¡Generar!",sports:{"Piłka nożna":"Fútbol","Siatkówka":"Voleibol","Piłka ręczna":"Balonmano","Koszykówka":"Baloncesto"}},fr:{h1:"<span>Score</span> aléatoire",desc:"Choisissez un sport et générez un score réaliste.",btn:"Générer !",sports:{"Piłka nożna":"Football","Siatkówka":"Volley-ball","Piłka ręczna":"Handball","Koszykówka":"Basketball"}},it:{h1:"<span>Risultato</span> casuale",btn:"Genera!"},pt:{h1:"<span>Resultado</span> aleatório",btn:"Gerar!"},ru:{h1:"Случайный <span>счёт</span>",btn:"Генерировать!"},cs:{h1:"Náhodný <span>výsledek</span>",btn:"Generovat!"},uk:{h1:"Випадковий <span>рахунок</span>",btn:"Генерувати!"}},
+"/imie":{en:{h1:"Random <span>name</span> generator",desc:"Generate a random Polish first name, female name or full identity.",btn:"Generate name!",types:{"Imię męskie":"Male name","Imię żeńskie":"Female name","Imię i nazwisko":"Full name"}},de:{h1:"<span>Namens</span>generator",desc:"Generiere einen zufälligen polnischen Vor- oder Nachnamen.",btn:"Generieren!",types:{"Imię męskie":"Männlich","Imię żeńskie":"Weiblich","Imię i nazwisko":"Vollständig"}},es:{h1:"Generador de <span>nombres</span>",desc:"Genera un nombre masculino, femenino o identidad completa.",btn:"¡Generar!",types:{"Imię męskie":"Masculino","Imię żeńskie":"Femenino","Imię i nazwisko":"Completo"}},fr:{h1:"Générateur de <span>prénoms</span>",desc:"Générez un prénom masculin, féminin ou une identité complète.",btn:"Générer !",types:{"Imię męskie":"Prénom masculin","Imię żeńskie":"Prénom féminin","Imię i nazwisko":"Nom complet"}},it:{h1:"Generatore di <span>nomi</span>",btn:"Genera!"},pt:{h1:"Gerador de <span>nomes</span>",btn:"Gerar!"},ru:{h1:"Генератор <span>имён</span>",btn:"Генерировать!"},cs:{h1:"Generátor <span>jmen</span>",btn:"Generovat!"},uk:{h1:"Генератор <span>імен</span>",btn:"Генерувати!"}},
+"/lotto":{en:{h1:"<span>LOTTO</span> number generator",desc:"Generate lucky numbers for lottery games. Choose a game and click!",btn:"Generate numbers!"},de:{h1:"<span>LOTTO</span> Zahlengenerator",desc:"Generiere Glückszahlen. Wähle ein Spiel!",btn:"Generieren!"},es:{h1:"Generador <span>LOTO</span>",desc:"Genera números de la suerte.",btn:"¡Generar!"},fr:{h1:"Générateur <span>LOTO</span>",desc:"Générez des numéros chanceux.",btn:"Générer !"},it:{h1:"Generatore <span>LOTTO</span>",btn:"Genera!"},pt:{h1:"Gerador <span>LOTO</span>",btn:"Gerar!"},ru:{h1:"Генератор <span>ЛОТО</span>",btn:"Генерировать!"},cs:{h1:"Generátor <span>LOTO</span>",btn:"Generovat!"},uk:{h1:"Генератор <span>ЛОТО</span>",btn:"Генерувати!"}},
+"/wyliczanka":{en:{h1:"<span>Random</span> person picker",desc:"Enter names (one per line) and the tool will randomly pick one person.",btn:"Pick a person!",label:"Enter names (one per line):"},de:{h1:"<span>Zufällige</span> Personenauswahl",desc:"Namen eingeben (einer pro Zeile).",btn:"Person wählen!",label:"Namen eingeben (einer pro Zeile):"},es:{h1:"<span>Selector</span> aleatorio",desc:"Introduce nombres (uno por línea).",btn:"¡Elegir!",label:"Introduce nombres (uno por línea):"},fr:{h1:"<span>Sélecteur</span> aléatoire",desc:"Entrez des prénoms (un par ligne).",btn:"Choisir !",label:"Noms (un par ligne) :"},it:{h1:"<span>Selettore</span> casuale",btn:"Scegli!"},pt:{h1:"<span>Seletor</span> aleatório",btn:"Escolher!"},ru:{h1:"<span>Случайный</span> выбор",btn:"Выбрать!"},cs:{h1:"<span>Náhodný</span> výběr",btn:"Vybrat!"},uk:{h1:"<span>Випадковий</span> вибір",btn:"Обрати!"}},
+"/liczba":{en:{h1:"Random <span>number</span> generator",desc:"Generate random numbers from any range. Set min, max and quantity.",btn:"Generate!"},de:{h1:"<span>Zufallszahlen</span>generator",desc:"Generiere Zahlen aus jedem Bereich.",btn:"Generieren!"},es:{h1:"Generador de <span>números</span>",desc:"Genera números de cualquier rango.",btn:"¡Generar!"},fr:{h1:"Générateur de <span>nombres</span>",desc:"Générez des nombres dans n'importe quelle plage.",btn:"Générer !"},it:{h1:"Generatore di <span>numeri</span>",btn:"Genera!"},pt:{h1:"Gerador de <span>números</span>",btn:"Gerar!"},ru:{h1:"Генератор <span>чисел</span>",btn:"Генерировать!"},cs:{h1:"Generátor <span>čísel</span>",btn:"Generovat!"},uk:{h1:"Генератор <span>чисел</span>",btn:"Генерувати!"}},
+"/kolo-fortuny":{en:{h1:"<span>Spin the Wheel</span> online",desc:"Enter options (one per line), spin the wheel and let fate decide!",btn:"Spin!",label:"Options (one per line):"},de:{h1:"<span>Glücksrad</span> online",desc:"Optionen eingeben, Rad drehen!",btn:"Drehen!",label:"Optionen (eine pro Zeile):"},es:{h1:"<span>Ruleta</span> online",desc:"Introduce opciones, gira la ruleta.",btn:"¡Girar!",label:"Opciones (una por línea):"},fr:{h1:"<span>Roue de la fortune</span>",desc:"Entrez des options, tournez la roue !",btn:"Tourner !",label:"Options (une par ligne) :"},it:{h1:"<span>Ruota della fortuna</span>",btn:"Gira!"},pt:{h1:"<span>Roda da fortuna</span>",btn:"Girar!"},ru:{h1:"<span>Колесо фортуны</span>",btn:"Крутить!"},cs:{h1:"<span>Kolo štěstí</span>",btn:"Točit!"},uk:{h1:"<span>Колесо фортуни</span>",btn:"Крутити!"}},
+"/moneta":{en:{h1:"<span>Flip a coin</span> online",desc:"Heads or tails? Click the coin or button to flip!",btn:"Flip coin!"},de:{h1:"<span>Münze werfen</span>",desc:"Kopf oder Zahl? Klicke die Münze!",btn:"Werfen!"},es:{h1:"<span>Lanzar moneda</span>",desc:"¿Cara o cruz? Haz clic.",btn:"¡Lanzar!"},fr:{h1:"<span>Pile ou face</span>",desc:"Pile ou face ? Cliquez !",btn:"Lancer !"},it:{h1:"<span>Lancia moneta</span>",btn:"Lancia!"},pt:{h1:"<span>Jogar moeda</span>",btn:"Jogar!"},ru:{h1:"<span>Подбросить монету</span>",btn:"Подбросить!"},cs:{h1:"<span>Hodit mincí</span>",btn:"Hodit!"},uk:{h1:"<span>Підкинути монету</span>",btn:"Підкинути!"}},
+"/kolor":{en:{h1:"Random <span>color</span>",desc:"Generate a random color. Click a code to copy to clipboard.",btn:"Generate color!"},de:{h1:"Zufällige <span>Farbe</span>",desc:"Generiere eine Farbe. Klicke zum Kopieren.",btn:"Generieren!"},es:{h1:"<span>Color</span> aleatorio",desc:"Genera un color. Clic para copiar.",btn:"¡Generar!"},fr:{h1:"<span>Couleur</span> aléatoire",desc:"Générez une couleur. Cliquez pour copier.",btn:"Générer !"},it:{h1:"<span>Colore</span> casuale",btn:"Genera!"},pt:{h1:"<span>Cor</span> aleatória",btn:"Gerar!"},ru:{h1:"Случайный <span>цвет</span>",btn:"Генерировать!"},cs:{h1:"Náhodná <span>barva</span>",btn:"Generovat!"},uk:{h1:"Випадковий <span>колір</span>",btn:"Генерувати!"}},
+"/karty":{en:{h1:"<span>Draw</span> a card",desc:"Draw a random card from a 52-card deck. Cards don't repeat until shuffle.",btn:"Draw card!"},de:{h1:"<span>Karte</span> ziehen",desc:"Ziehe eine Karte aus dem 52er-Deck.",btn:"Ziehen!"},es:{h1:"<span>Sacar</span> carta",desc:"Saca una carta de la baraja de 52.",btn:"¡Sacar!"},fr:{h1:"<span>Tirer</span> une carte",desc:"Tirez une carte du jeu de 52.",btn:"Tirer !"},it:{h1:"<span>Pesca</span> carta",btn:"Pesca!"},pt:{h1:"<span>Tirar</span> carta",btn:"Tirar!"},ru:{h1:"<span>Вытянуть</span> карту",btn:"Вытянуть!"},cs:{h1:"<span>Vytáhnout</span> kartu",btn:"Vytáhnout!"},uk:{h1:"<span>Витягнути</span> карту",btn:"Витягнути!"}},
+"/druzyny":{en:{h1:"<span>Team</span> generator",desc:"Enter player names and choose number of teams.",btn:"Divide!"},de:{h1:"<span>Team</span>-Generator",desc:"Spielernamen eingeben und Teams wählen.",btn:"Aufteilen!"},es:{h1:"Generador de <span>equipos</span>",desc:"Introduce nombres y elige número de equipos.",btn:"¡Dividir!"},fr:{h1:"Générateur d'<span>équipes</span>",desc:"Entrez les noms et le nombre d'équipes.",btn:"Diviser !"},it:{h1:"Generatore <span>squadre</span>",btn:"Dividi!"},pt:{h1:"Gerador de <span>equipes</span>",btn:"Dividir!"},ru:{h1:"Генератор <span>команд</span>",btn:"Разделить!"},cs:{h1:"Generátor <span>týmů</span>",btn:"Rozdělit!"},uk:{h1:"Генератор <span>команд</span>",btn:"Поділити!"}},
+"/kolejnosc":{en:{h1:"Random <span>order</span>",desc:"Enter items and shuffle randomly. Who goes first?",btn:"Shuffle!"},de:{h1:"Zufällige <span>Reihenfolge</span>",desc:"Elemente eingeben und mischen.",btn:"Mischen!"},es:{h1:"<span>Orden</span> aleatorio",desc:"Introduce elementos y mézclalos.",btn:"¡Mezclar!"},fr:{h1:"<span>Ordre</span> aléatoire",desc:"Entrez des éléments et mélangez.",btn:"Mélanger !"},it:{h1:"<span>Ordine</span> casuale",btn:"Mescola!"},pt:{h1:"<span>Ordem</span> aleatória",btn:"Embaralhar!"},ru:{h1:"Случайный <span>порядок</span>",btn:"Перемешать!"},cs:{h1:"Náhodné <span>pořadí</span>",btn:"Zamíchat!"},uk:{h1:"Випадковий <span>порядок</span>",btn:"Перемішати!"}},
+"/postac":{en:{h1:"<span>RPG</span> Character Generator",desc:"Generate a complete character – stats, race, class and name. Ready for D&D!",btn:"Generate!"},de:{h1:"<span>RPG</span>-Charakter-Generator",desc:"Generiere einen kompletten Charakter.",btn:"Generieren!"},es:{h1:"Generador de personajes <span>RPG</span>",desc:"Genera un personaje completo.",btn:"¡Generar!"},fr:{h1:"Générateur <span>RPG</span>",desc:"Générez un personnage complet.",btn:"Générer !"},it:{h1:"Generatore <span>RPG</span>",btn:"Genera!"},pt:{h1:"Gerador <span>RPG</span>",btn:"Gerar!"},ru:{h1:"Генератор персонажей <span>RPG</span>",btn:"Генерировать!"},cs:{h1:"Generátor postav <span>RPG</span>",btn:"Generovat!"},uk:{h1:"Генератор персонажів <span>RPG</span>",btn:"Генерувати!"}}
+};
+// Apply full page translations
+(function(){
+    var K="losownik_lang",lang=localStorage.getItem(K)||"pl";
+    if(lang==="pl"||!window.LOSOWNIK_T) return;
+    var path=location.pathname.replace(/\.html$/,"").replace(/\/$/,"")||"/";
+    if(path==="/index") path="/";
+    var page=window.LOSOWNIK_T[path];
+    if(!page||!page[lang]) return;
+    var d=page[lang];
+
+    // H1
+    if(d.h1){
+        var h1=document.querySelector(".page-title");
+        if(h1) h1.innerHTML=d.h1;
+        var heroH=document.querySelector(".hero h2");
+        if(heroH) heroH.innerHTML=d.h1;
+    }
+    // Description
+    if(d.desc){
+        var desc=document.querySelector(".page-desc");
+        if(desc) desc.textContent=d.desc;
+        var heroP=document.querySelector(".hero p");
+        if(heroP) heroP.textContent=d.desc;
+    }
+    // Button
+    if(d.btn){
+        document.querySelectorAll(".generate-btn,.roll-btn,.flip-btn,.spin-btn").forEach(function(b){
+            var t=b.textContent.trim();
+            var emoji=t.substring(0,2);
+            b.textContent=emoji+" "+d.btn;
+        });
+    }
+    // Hero section for homepage
+    if(d.hero){
+        var heroH2=document.querySelector(".hero h2");
+        if(heroH2) heroH2.innerHTML=d.hero;
+    }
+    if(d.heroDesc){
+        var heroP2=document.querySelector(".hero p");
+        if(heroP2) heroP2.textContent=d.heroDesc;
+    }
+    // Tool cards on homepage
+    if(d.cards){
+        var cards=document.querySelectorAll(".tool-card");
+        var cardKeys=["kostka","mecz","imie","lotto","wyliczanka","liczba","kolo","kolor","druzyny","kolejnosc","postac","moneta","karty"];
+        cards.forEach(function(card,i){
+            var key=cardKeys[i];
+            if(key&&d.cards[key]){
+                var h3=card.querySelector("h3");
+                if(h3) h3.textContent=d.cards[key];
+                var p=card.querySelector("p");
+                if(p&&d.cards[key+"Sub"]) p.textContent=d.cards[key+"Sub"];
+            }
+        });
+    }
+    // Sport buttons (mecz page)
+    if(d.sports){
+        document.querySelectorAll(".sport-btn").forEach(function(btn){
+            var nodes=btn.childNodes;
+            for(var i=nodes.length-1;i>=0;i--){
+                if(nodes[i].nodeType===3){
+                    var txt=nodes[i].textContent.trim();
+                    if(d.sports[txt]) nodes[i].textContent=d.sports[txt];
+                    break;
+                }
+            }
+        });
+    }
+    // Type buttons (imie page)
+    if(d.types){
+        document.querySelectorAll(".type-btn").forEach(function(btn){
+            var nodes=btn.childNodes;
+            for(var i=nodes.length-1;i>=0;i--){
+                if(nodes[i].nodeType===3){
+                    var txt=nodes[i].textContent.trim();
+                    if(d.types[txt]) nodes[i].textContent=" "+d.types[txt];
+                    break;
+                }
+            }
+        });
+    }
+    // Labels
+    if(d.label){
+        var lbl=document.querySelector(".input-label,label[for],.dice-options-label,.wheel-settings label");
+        if(lbl) lbl.textContent=d.label;
+    }
+    if(d.hint){
+        var hint=document.querySelector(".dice-tap-hint,.card-hint,.coin-tap-hint");
+        if(hint) hint.textContent=d.hint;
+    }
+    if(d.opts){
+        var opts=document.querySelector(".dice-options-label");
+        if(opts) opts.textContent=d.opts;
+    }
+    // Current dice label
+    if(d.label){
+        var dl=document.getElementById("currentDiceLabel");
+        if(dl&&d.label) dl.textContent=d.label;
+    }
+
+    document.documentElement.lang=lang;
+})();
+</script>
 </body>
 </html>
