@@ -13,4 +13,5 @@
   <url><loc>https://losownik.pl/druzyny</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://losownik.pl/kolejnosc</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://losownik.pl/postac</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://losownik.pl/karty</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

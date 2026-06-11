@@ -210,8 +210,10 @@
             lottoInfo.textContent = 'Wylosowane ' + new Date().toLocaleTimeString('pl-PL');
 
             // Trigger animation
+            if(window.losownikSounds)window.losownikSounds.lottoBalls();
             requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
+                if(window.losownikSounds)window.losownikSounds.lottoBalls();
+            requestAnimationFrame(() => {
                     ballsContainer.querySelectorAll('.ball').forEach(b => b.classList.add('visible'));
                 });
             });
@@ -222,5 +224,6 @@
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});
     })();
     </script>
+<script src="/js/sounds.js"></script>
 </body>
 </html>

@@ -572,8 +572,8 @@
             updateDiceFaces();
             diceCube.classList.remove('rolling');
             void diceCube.offsetWidth;
-            diceCube.classList.add('rolling');
-            playRollSound();
+            diceCube.classList.add('rolling');if(window.losownikSounds)window.losownikSounds.dice();
+            
             
             setTimeout(() => {
                 const result = getRandomInt(1, currentSides);
@@ -595,16 +595,6 @@
             historyList.innerHTML = history.map(h => '<span class="history-item">k' + h.sides + ': ' + h.value + '</span>').join('');
         }
         
-        function playRollSound() {
-            try {
-                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                for (let i = 0; i < 4; i++) {
-                    setTimeout(() => {
-                        const osc = audioCtx.createOscillator();
-                        const gain = audioCtx.createGain();
-                        osc.connect(gain); gain.connect(audioCtx.destination);
-                        osc.frequency.value = 180 + Math.random() * 350;
-                        osc.type = 'square'; gain.gain.value = 0.025;
                         gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
                         osc.start(audioCtx.currentTime); osc.stop(audioCtx.currentTime + 0.04);
                     }, i * 70);
@@ -637,5 +627,6 @@
         }
     })();
     </script>
+<script src="/js/sounds.js"></script>
 </body>
 </html>

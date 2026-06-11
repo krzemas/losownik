@@ -185,7 +185,7 @@ Sałatka</textarea>
                     // Pointer is at top (270deg = 3PI/2), adjust
                     const pointerAngle=(normalizedAngle+Math.PI*1.5)%(2*Math.PI);
                     const winnerIdx=Math.floor(pointerAngle/arc)%n;
-                    wheelResult.textContent=options[winnerIdx];
+                    wheelResult.textContent=options[winnerIdx];if(window.losownikSounds)window.losownikSounds.applause();
                     wheelResult.classList.add('visible');
                 }
             }
@@ -199,5 +199,6 @@ Sałatka</textarea>
         if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
     })();
     </script>
+<script src="/js/sounds.js"></script>
 </body>
 </html>

@@ -138,7 +138,7 @@
         function flip(){
             if(isFlipping)return;isFlipping=true;
             flipBtn.classList.add('disabled');resultText.classList.remove('visible');resultText.textContent='';
-            coin.classList.remove('flipping');void coin.offsetWidth;coin.classList.add('flipping');
+            coin.classList.remove('flipping');void coin.offsetWidth;coin.classList.add('flipping');if(window.losownikSounds)window.losownikSounds.coin();
             setTimeout(()=>{
                 const arr=new Uint32Array(1);crypto.getRandomValues(arr);
                 const isHeads=arr[0]%2===0;
@@ -156,5 +156,6 @@
         if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
     })();
     </script>
+<script src="/js/sounds.js"></script>
 </body>
 </html>
