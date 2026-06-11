@@ -142,6 +142,23 @@
             border-color: rgba(0, 245, 212, 0.3);
         }
         
+        /* Language switcher */
+        .lang-switcher { display: flex; align-items: center; }
+        .lang-select {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .lang-select:hover { border-color: var(--accent-1); color: var(--accent-1); }
+        .lang-select:focus { outline: none; border-color: var(--accent-1); }
+        
         .hero {
             text-align: center;
             padding: 60px 0 40px;
@@ -330,6 +347,7 @@
                 <a href="/kolo-fortuny">Koło fortuny</a>
                 <a href="/kolor">Kolor</a>
             </nav>
+            <div class="lang-switcher" id="langSwitcher"></div>
         </header>
         
         <div class="ad-banner">
@@ -437,6 +455,12 @@
         </ul>
     </nav>
 
+    <!-- i18n -->
+    <script src="/js/i18n.js"></script>
+    
+    <!-- PWA Service Worker -->
+    <script>if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});</script>
+    
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
