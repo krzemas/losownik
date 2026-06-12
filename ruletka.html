@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ruletka europejska online – jedno zero, pełny stół, żetony, wszystkie rodzaje zakładów. Graj za darmo!">
+    <meta name="keywords" content="ruletka online, ruletka europejska, roulette, gra w ruletkę, ruletka za darmo, kasyno online">
+    <title>Ruletka europejska | Losownik.pl – internetowa maszyna losująca</title>
+    <link rel="canonical" href="https://losownik.pl/ruletka">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0a0a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6838914398408406" crossorigin="anonymous"></script>
+    <script src="/js/sounds.js" defer></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg-primary:#0a0a1a;--bg-secondary:#12122a;--bg-card:#1a1a3e;--text-primary:#fff;--text-secondary:#a0a0c0;--accent-1:#00f5d4;--accent-2:#7b2ff7;--accent-3:#f72585;--accent-glow:rgba(0,245,212,0.3);--border-color:rgba(123,47,247,0.3);--radius:16px;--red:#e63946;--black:#1d1d1d;--green:#2d6a4f}
+        body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:hidden}
+        body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(123,47,247,0.1) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(0,245,212,0.07) 0%,transparent 50%);z-index:0}
+        .container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 16px}
+
+        /* Header */
+        header{position:sticky;top:0;z-index:100;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;background:rgba(10,10,26,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-color);margin:0 -16px}
+        .logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+        .logo-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 0 20px var(--accent-glow)}
+        .logo-text{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .logo-subtitle{font-size:.75rem;color:var(--text-secondary);letter-spacing:2px;text-transform:uppercase}
+        .top-nav{display:flex;gap:4px;flex-wrap:wrap}
+        .top-nav a{color:var(--text-secondary);text-decoration:none;padding:8px 16px;border-radius:8px;font-size:.9rem;font-weight:600;transition:all .2s;border:1px solid transparent}
+        .top-nav a:hover{color:var(--accent-1);background:rgba(0,245,212,0.08);border-color:rgba(0,245,212,0.2)}
+
+        .breadcrumb{padding:12px 0;font-size:.8rem;color:var(--text-secondary)}
+        .breadcrumb a{color:var(--accent-1);text-decoration:none}
+        .breadcrumb span{margin:0 8px;opacity:.5}
+
+        .ad-banner{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius);padding:12px;margin:0 0 16px;text-align:center;min-height:90px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+
+        /* Game Layout */
+        .game-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+        .game-header h1{font-size:clamp(1.2rem,3vw,1.6rem);font-weight:900}
+        .game-header h1 span{background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .balance{background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:8px 16px;font-size:.9rem;font-weight:700;display:flex;align-items:center;gap:8px}
+        .balance-amount{color:var(--accent-1);font-size:1.1rem}
+
+        .game-layout{display:grid;grid-template-columns:320px 1fr;gap:20px;margin-bottom:20px}
+
+        /* Wheel */
+        .wheel-section{display:flex;flex-direction:column;align-items:center;gap:12px}
+        .wheel-wrapper{position:relative;width:300px;height:300px}
+        .wheel-pointer{position:absolute;top:6px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:22px solid var(--accent-1);z-index:10;filter:drop-shadow(0 2px 4px rgba(0,245,212,0.5))}
+        #wheelCanvas{border-radius:50%;box-shadow:0 0 30px rgba(0,0,0,0.5),0 0 60px rgba(123,47,247,0.2)}
+        .result-display{text-align:center;min-height:48px}
+        .result-number{font-size:2.2rem;font-weight:900;padding:4px 20px;border-radius:10px;display:inline-block;opacity:0;transform:scale(0.5);transition:all .4s}
+        .result-number.visible{opacity:1;transform:scale(1)}
+        .result-number.red{background:var(--red);color:#fff}
+        .result-number.black{background:var(--black);color:#fff;border:1px solid #444}
+        .result-number.green{background:var(--green);color:#fff}
+
+        .spin-btn{width:100%;padding:14px;font-size:1rem;font-weight:700;font-family:inherit;border:none;border-radius:12px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#0a0a1a;cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(0,245,212,0.3)}
+        .spin-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,245,212,0.4)}
+        .spin-btn:active{transform:translateY(0) scale(.98)}
+        .spin-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+
+        .history{margin-top:12px;display:flex;flex-wrap:wrap;gap:4px;justify-content:center}
+        .history-dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:800;animation:fadeIn .3s}
+        .history-dot.red{background:var(--red);color:#fff}
+        .history-dot.black{background:var(--black);color:#fff;border:1px solid #555}
+        .history-dot.green{background:var(--green);color:#fff}
+        @keyframes fadeIn{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+
+        /* Betting Table */
+        .table-section{overflow-x:auto}
+        .bet-table{display:grid;grid-template-columns:repeat(13,1fr);gap:2px;margin-bottom:12px;min-width:580px}
+        .bet-cell{border:1px solid rgba(255,255,255,0.15);padding:8px 4px;text-align:center;font-size:.75rem;font-weight:700;cursor:pointer;transition:all .15s;border-radius:4px;position:relative;user-select:none;min-height:38px;display:flex;align-items:center;justify-content:center}
+        .bet-cell:hover{transform:scale(1.05);z-index:2;box-shadow:0 0 12px rgba(255,255,255,0.2)}
+        .bet-cell.red{background:var(--red);color:#fff}
+        .bet-cell.black{background:var(--black);color:#ddd}
+        .bet-cell.green{background:var(--green);color:#fff}
+        .bet-cell.outside{background:var(--bg-card);color:var(--text-secondary);font-size:.65rem;border-color:var(--border-color)}
+        .bet-cell.outside:hover{color:var(--accent-1);border-color:var(--accent-1)}
+        .bet-cell.selected{box-shadow:0 0 0 2px var(--accent-1),0 0 12px var(--accent-glow);transform:scale(1.08);z-index:3}
+        .bet-cell .chip{position:absolute;top:-4px;right:-4px;width:18px;height:18px;border-radius:50%;background:var(--accent-1);color:#0a0a1a;font-size:.55rem;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.4)}
+
+        /* Chip selector */
+        .chips-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+        .chips-label{font-size:.75rem;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:1px}
+        .chip-btn{width:40px;height:40px;border-radius:50%;border:2px solid transparent;font-size:.7rem;font-weight:800;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
+        .chip-btn:hover{transform:scale(1.15)}
+        .chip-btn.active{border-color:var(--accent-1);box-shadow:0 0 12px var(--accent-glow);transform:scale(1.1)}
+        .chip-1{background:#4895ef;color:#fff}
+        .chip-5{background:#e63946;color:#fff}
+        .chip-10{background:#2d6a4f;color:#fff}
+        .chip-25{background:#f77f00;color:#fff}
+        .chip-50{background:#7b2ff7;color:#fff}
+        .chip-100{background:#1d1d1d;color:#ffd700;border:2px solid #ffd700}
+
+        .action-row{display:flex;gap:8px;flex-wrap:wrap}
+        .action-btn{padding:8px 16px;border-radius:8px;border:1px solid var(--border-color);background:var(--bg-card);color:var(--text-secondary);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit}
+        .action-btn:hover{border-color:var(--accent-1);color:var(--accent-1)}
+        .action-btn.danger:hover{border-color:var(--accent-3);color:var(--accent-3)}
+
+        /* Win message */
+        .win-msg{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:rgba(10,10,26,0.95);border:2px solid var(--accent-1);border-radius:20px;padding:32px 48px;text-align:center;z-index:2000;transition:transform .4s cubic-bezier(0.4,0,0.2,1);backdrop-filter:blur(10px)}
+        .win-msg.show{transform:translate(-50%,-50%) scale(1)}
+        .win-msg h2{font-size:1.8rem;color:var(--accent-1);margin-bottom:8px}
+        .win-msg p{color:var(--text-secondary);font-size:1rem}
+        .win-msg .close-btn{margin-top:16px;padding:10px 24px;border:none;border-radius:8px;background:var(--accent-1);color:#0a0a1a;font-weight:700;cursor:pointer;font-family:inherit}
+
+        /* Footer */
+        footer{border-top:1px solid var(--border-color);padding:24px 0;text-align:center;color:var(--text-secondary);font-size:.8rem;margin-top:20px}
+        footer a{color:var(--accent-1);text-decoration:none}
+
+        /* Mobile nav */
+        .mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,26,0.96);border-top:1px solid var(--border-color);padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:1000;backdrop-filter:blur(12px)}
+        .mobile-nav ul{display:flex;list-style:none;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:2px;padding:0 12px}
+        .mobile-nav ul::-webkit-scrollbar{display:none}
+        .mobile-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--text-secondary);font-size:.6rem;font-weight:600;padding:6px 10px;white-space:nowrap;min-width:52px}
+        .mobile-nav a.active{color:var(--accent-1)}
+        .mobile-nav .nav-icon{font-size:1.3rem}
+
+        @media(max-width:900px){
+            .game-layout{grid-template-columns:1fr;gap:16px}
+            .wheel-wrapper{width:250px;height:250px}
+            .wheel-section{order:1}
+            .table-section{order:2}
+            .top-nav{display:none}
+            .mobile-nav{display:block}
+            footer{padding-bottom:80px}
+            .ad-banner:first-of-type{display:none}
+        }
+        @media(max-width:480px){
+            .wheel-wrapper{width:220px;height:220px}
+            .bet-cell{padding:6px 2px;font-size:.65rem;min-height:32px}
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/" class="logo"><div class="logo-icon">&#127922;</div><div><div class="logo-text">Losownik</div><div class="logo-subtitle">Internetowa maszyna losująca</div></div></a>
+            <nav class="top-nav"><a href="/kostka">Kostka</a><a href="/mecz">Mecz</a><a href="/imie">Imię</a><a href="/lotto">Lotto</a><a href="/kolo-fortuny">Koło</a><a href="/ruletka" style="color:var(--accent-1)">Ruletka</a><a href="/moneta">Moneta</a></nav>
+        </header>
+        <nav class="breadcrumb"><a href="/">Strona główna</a><span>›</span>Ruletka europejska</nav>
+
+        <div class="ad-banner"><ins class="adsbygoogle" style="display:inline-block;min-width:300px;min-height:250px" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+
+        <div class="game-header">
+            <h1><span>Ruletka</span> europejska</h1>
+            <div class="balance">Saldo: <span class="balance-amount" id="balance">1000</span> &#129689;</div>
+        </div>
+
+        <div class="game-layout">
+            <!-- Wheel -->
+            <div class="wheel-section">
+                <div class="wheel-wrapper">
+                    <div class="wheel-pointer"></div>
+                    <canvas id="wheelCanvas" width="300" height="300"></canvas>
+                </div>
+                <div class="result-display"><div class="result-number" id="resultNum"></div></div>
+                <button class="spin-btn" id="spinBtn">Zakręć ruletką!</button>
+                <div class="history" id="historyRow"></div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-section">
+                <div class="chips-row">
+                    <span class="chips-label">Żeton:</span>
+                    <button class="chip-btn chip-1 active" data-value="1">1</button>
+                    <button class="chip-btn chip-5" data-value="5">5</button>
+                    <button class="chip-btn chip-10" data-value="10">10</button>
+                    <button class="chip-btn chip-25" data-value="25">25</button>
+                    <button class="chip-btn chip-50" data-value="50">50</button>
+                    <button class="chip-btn chip-100" data-value="100">100</button>
+                </div>
+                <div class="bet-table" id="betTable"></div>
+                <div class="action-row">
+                    <button class="action-btn" id="clearBtn">Wyczyść zakłady</button>
+                    <button class="action-btn" id="repeatBtn">Powtórz zakład</button>
+                    <button class="action-btn danger" id="resetBtn">Reset (1000)</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ad-banner"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+        <footer><p>&copy; 2006–2026 Losownik.pl | <a href="/">Strona główna</a> | Gra wyłącznie rozrywkowa – bez prawdziwych pieniędzy.</p></footer>
+    </div>
+
+    <!-- Win popup -->
+    <div class="win-msg" id="winMsg"><h2 id="winTitle">Wygrana!</h2><p id="winText"></p><button class="close-btn" id="winClose">OK</button></div>
+
+    <!-- Mobile nav -->
+    <nav class="mobile-nav"><ul>
+        <li><a href="/"><span class="nav-icon">&#127968;</span>Start</a></li>
+        <li><a href="/kostka"><span class="nav-icon">&#127922;</span>Kostka</a></li>
+        <li><a href="/ruletka" class="active"><span class="nav-icon">&#127920;</span>Ruletka</a></li>
+        <li><a href="/mecz"><span class="nav-icon">&#9917;</span>Mecz</a></li>
+        <li><a href="/kolo-fortuny"><span class="nav-icon">&#127905;</span>Koło</a></li>
+        <li><a href="/lotto"><span class="nav-icon">&#127920;</span>Lotto</a></li>
+        <li><a href="/imie"><span class="nav-icon">&#128100;</span>Imię</a></li>
+        <li><a href="/moneta"><span class="nav-icon">&#129689;</span>Moneta</a></li>
+        <li><a href="/kolor"><span class="nav-icon">&#127912;</span>Kolor</a></li>
+        <li><a href="/karty"><span class="nav-icon">&#127183;</span>Karty</a></li>
+    </ul></nav>
+
+    <script>
+    (function(){
+    'use strict';
+    // === DATA ===
+    const WHEEL_NUMS=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+    const RED_NUMS=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+    const COL_MAP={};WHEEL_NUMS.forEach((n,i)=>{if(n===0)COL_MAP[n]='green';else COL_MAP[n]=RED_NUMS.includes(n)?'red':'black'});
+
+    // === STATE ===
+    let balance=1000,chipValue=1,bets={},lastBets={},spinning=false,history=[];
+
+    // === DOM ===
+    const canvas=document.getElementById('wheelCanvas'),ctx=canvas.getContext('2d');
+    const spinBtn=document.getElementById('spinBtn'),balanceEl=document.getElementById('balance');
+    const resultNum=document.getElementById('resultNum'),historyRow=document.getElementById('historyRow');
+    const betTable=document.getElementById('betTable');
+    const winMsg=document.getElementById('winMsg'),winTitle=document.getElementById('winTitle'),winText=document.getElementById('winText');
+
+    // === WHEEL DRAWING ===
+    let wheelAngle=0;
+    function drawWheel(){
+        const cx=150,cy=150,r=145,n=37,arc=2*Math.PI/n;
+        ctx.clearRect(0,0,300,300);
+        // Outer ring
+        ctx.beginPath();ctx.arc(cx,cy,r+3,0,2*Math.PI);ctx.fillStyle='#2a2a2a';ctx.fill();
+        for(let i=0;i<n;i++){
+            const angle=wheelAngle+i*arc;
+            ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,angle,angle+arc);ctx.closePath();
+            const num=WHEEL_NUMS[i];
+            ctx.fillStyle=num===0?'#2d6a4f':RED_NUMS.includes(num)?'#c0392b':'#1a1a1a';
+            ctx.fill();ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.lineWidth=1;ctx.stroke();
+            // Number text
+            ctx.save();ctx.translate(cx,cy);ctx.rotate(angle+arc/2);
+            ctx.fillStyle='#fff';ctx.font='bold 10px Inter,sans-serif';ctx.textAlign='center';
+            ctx.fillText(num.toString(),r-18,4);ctx.restore();
+        }
+        // Center
+        ctx.beginPath();ctx.arc(cx,cy,25,0,2*Math.PI);ctx.fillStyle='#1a1a3e';ctx.fill();
+        ctx.strokeStyle='rgba(123,47,247,0.4)';ctx.lineWidth=2;ctx.stroke();
+    }
+
+    // === BETTING TABLE ===
+    function buildTable(){
+        let html='';
+        // Zero spans full left column
+        html+='<div class="bet-cell green" data-bet="0" style="grid-row:1/4;grid-column:1">0</div>';
+        // Numbers 1-36 (3 rows x 12 cols)
+        for(let col=1;col<=12;col++){
+            for(let row=0;row<3;row++){
+                const num=col*3-row;
+                const color=COL_MAP[num];
+                html+='<div class="bet-cell '+color+'" data-bet="'+num+'" style="grid-row:'+(row+1)+';grid-column:'+(col+1)+'">'+num+'</div>';
+            }
+        }
+        // Row 4: Dozens
+        html+='<div class="bet-cell outside" data-bet="doz1" style="grid-row:4;grid-column:1/span 5">1-12</div>';
+        html+='<div class="bet-cell outside" data-bet="doz2" style="grid-row:4;grid-column:6/span 4">13-24</div>';
+        html+='<div class="bet-cell outside" data-bet="doz3" style="grid-row:4;grid-column:10/span 4">25-36</div>';
+        // Row 5: 1-18, Even, Red, Black, Odd, 19-36
+        html+='<div class="bet-cell outside" data-bet="low" style="grid-row:5;grid-column:1/span 3">1-18</div>';
+        html+='<div class="bet-cell outside" data-bet="even" style="grid-row:5;grid-column:4/span 2">Parzyste</div>';
+        html+='<div class="bet-cell outside" data-bet="red" style="grid-row:5;grid-column:6/span 2;background:var(--red);color:#fff">Czerwone</div>';
+        html+='<div class="bet-cell outside" data-bet="black" style="grid-row:5;grid-column:8/span 2;background:var(--black);color:#ddd">Czarne</div>';
+        html+='<div class="bet-cell outside" data-bet="odd" style="grid-row:5;grid-column:10/span 2">Nieparzyste</div>';
+        html+='<div class="bet-cell outside" data-bet="high" style="grid-row:5;grid-column:12/span 2">19-36</div>';
+        // Row 6: Columns
+        html+='<div class="bet-cell outside" data-bet="col1" style="grid-row:6;grid-column:1/span 5">Kolumna 1</div>';
+        html+='<div class="bet-cell outside" data-bet="col2" style="grid-row:6;grid-column:6/span 4">Kolumna 2</div>';
+        html+='<div class="bet-cell outside" data-bet="col3" style="grid-row:6;grid-column:10/span 4">Kolumna 3</div>';
+        betTable.innerHTML=html;
+        betTable.style.gridTemplateRows='repeat(6,auto)';
+    }
+
+    // === BET LOGIC ===
+    function placeBet(betKey){
+        if(spinning)return;
+        if(balance<chipValue){alert('Za mało żetonów!');return}
+        balance-=chipValue;
+        bets[betKey]=(bets[betKey]||0)+chipValue;
+        updateUI();
+    }
+
+    function getBetNumbers(betKey){
+        const n=parseInt(betKey);
+        if(!isNaN(n))return[n];
+        switch(betKey){
+            case'red':return RED_NUMS;
+            case'black':return WHEEL_NUMS.filter(x=>x!==0&&!RED_NUMS.includes(x));
+            case'even':return Array.from({length:18},(_,i)=>(i+1)*2);
+            case'odd':return Array.from({length:18},(_,i)=>i*2+1);
+            case'low':return Array.from({length:18},(_,i)=>i+1);
+            case'high':return Array.from({length:18},(_,i)=>i+19);
+            case'doz1':return Array.from({length:12},(_,i)=>i+1);
+            case'doz2':return Array.from({length:12},(_,i)=>i+13);
+            case'doz3':return Array.from({length:12},(_,i)=>i+25);
+            case'col1':return[3,6,9,12,15,18,21,24,27,30,33,36];
+            case'col2':return[2,5,8,11,14,17,20,23,26,29,32,35];
+            case'col3':return[1,4,7,10,13,16,19,22,25,28,31,34];
+            default:return[];
+        }
+    }
+
+    function getPayoutMultiplier(betKey){
+        const n=parseInt(betKey);
+        if(!isNaN(n))return 36; // straight up
+        if(['red','black','even','odd','low','high'].includes(betKey))return 2;
+        if(['doz1','doz2','doz3','col1','col2','col3'].includes(betKey))return 3;
+        return 0;
+    }
+
+    function calculateWinnings(result){
+        let total=0;
+        Object.keys(bets).forEach(key=>{
+            const nums=getBetNumbers(key);
+            if(nums.includes(result)){
+                total+=bets[key]*getPayoutMultiplier(key);
+            }
+        });
+        return total;
+    }
+
+    // === SPIN ===
+    function spin(){
+        if(spinning)return;
+        if(Object.keys(bets).length===0){alert('Postaw przynajmniej jeden zakład!');return}
+        spinning=true;spinBtn.disabled=true;
+        resultNum.classList.remove('visible');resultNum.className='result-number';
+
+        // Pick result
+        const arr=new Uint32Array(1);crypto.getRandomValues(arr);
+        const resultIdx=arr[0]%37;
+        const result=WHEEL_NUMS[resultIdx];
+
+        // Animate wheel
+        const targetAngle=wheelAngle+(5+Math.random()*3)*2*Math.PI+resultIdx*(2*Math.PI/37);
+        const duration=4000;const startAngle=wheelAngle;const startTime=performance.now();
+
+        function animate(now){
+            const elapsed=now-startTime;
+            const progress=Math.min(elapsed/duration,1);
+            const eased=1-Math.pow(1-progress,3);
+            wheelAngle=startAngle+(targetAngle-startAngle)*eased;
+            drawWheel();
+            if(progress<1){requestAnimationFrame(animate)}
+            else{
+                wheelAngle=targetAngle%(2*Math.PI);
+                // Show result
+                const color=COL_MAP[result];
+                resultNum.textContent=result;
+                resultNum.className='result-number visible '+color;
+
+                // Calculate winnings
+                const winnings=calculateWinnings(result);
+                balance+=winnings;
+
+                // History
+                history.unshift({num:result,color});
+                if(history.length>20)history.pop();
+                renderHistory();
+
+                // Show win/loss
+                if(winnings>0){
+                    winTitle.textContent='Wygrana!';
+                    winText.textContent='+'+winnings+' żetonów (wypadło '+result+')';
+                    winMsg.classList.add('show');
+                }
+
+                lastBets={...bets};
+                bets={};
+                updateUI();
+                spinning=false;spinBtn.disabled=false;
+            }
+        }
+        requestAnimationFrame(animate);
+    }
+
+    function renderHistory(){
+        historyRow.innerHTML=history.map(h=>'<div class="history-dot '+h.color+'">'+h.num+'</div>').join('');
+    }
+
+    function updateUI(){
+        balanceEl.textContent=balance;
+        // Show chips on table
+        betTable.querySelectorAll('.chip').forEach(c=>c.remove());
+        betTable.querySelectorAll('.selected').forEach(c=>c.classList.remove('selected'));
+        Object.keys(bets).forEach(key=>{
+            const cell=betTable.querySelector('[data-bet="'+key+'"]');
+            if(cell){
+                cell.classList.add('selected');
+                const chip=document.createElement('div');chip.className='chip';chip.textContent=bets[key];
+                cell.appendChild(chip);
+            }
+        });
+    }
+
+    // === EVENTS ===
+    buildTable();drawWheel();
+
+    betTable.addEventListener('click',e=>{
+        const cell=e.target.closest('.bet-cell');
+        if(cell)placeBet(cell.dataset.bet);
+    });
+
+    document.querySelectorAll('.chip-btn').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+            document.querySelectorAll('.chip-btn').forEach(b=>b.classList.remove('active'));
+            btn.classList.add('active');
+            chipValue=parseInt(btn.dataset.value);
+        });
+    });
+
+    spinBtn.addEventListener('click',spin);
+    document.getElementById('clearBtn').addEventListener('click',()=>{
+        Object.keys(bets).forEach(k=>{balance+=bets[k]});bets={};updateUI();
+    });
+    document.getElementById('repeatBtn').addEventListener('click',()=>{
+        const totalNeeded=Object.values(lastBets).reduce((a,b)=>a+b,0);
+        if(totalNeeded>balance){alert('Za mało żetonów!');return}
+        bets={...lastBets};balance-=totalNeeded;updateUI();
+    });
+    document.getElementById('resetBtn').addEventListener('click',()=>{
+        balance=1000;bets={};lastBets={};history=[];historyRow.innerHTML='';
+        resultNum.classList.remove('visible');updateUI();
+    });
+    document.getElementById('winClose').addEventListener('click',()=>winMsg.classList.remove('show'));
+
+    // Auto-hide ad
+    setTimeout(function(){document.querySelectorAll(".ad-banner").forEach(function(b){var ins=b.querySelector("ins.adsbygoogle");if(ins&&(ins.offsetHeight<10||ins.innerHTML.trim()===""))b.style.display="none"})},3500);
+    })();
+    </script>
+</body>
+</html>
