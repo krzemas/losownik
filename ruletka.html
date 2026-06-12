@@ -750,7 +750,7 @@ function spin(){
             setTimeout(()=>{
                 if(win>0){
                     popup.classList.remove('loss');
-                    popT.innerHTML='&#127881; Wygrana!';
+                    popT.textContent=String.fromCodePoint(0x1F389)+' Wygrana!';
                     popP.textContent='+'+win+' żetonów (wypadło '+result+')';
                 }else{
                     popup.classList.add('loss');
