@@ -488,7 +488,14 @@ function spin(){
     const arr=new Uint32Array(1);crypto.getRandomValues(arr);
     const idx=arr[0]%37,result=NUMS[idx];
     const dur=5000+Math.random()*1000;
-    const target=wheelAng+(6+Math.random()*3)*2*Math.PI+idx*(2*Math.PI/37);
+    // Pointer is at top (-PI/2). We need segment idx to be under the pointer.
+    // Segment i starts at wheelAng + i*arc. For it to be at -PI/2:
+    // targetAng + idx*arc + arc/2 = -PI/2 (mod 2PI)
+    // targetAng = -PI/2 - idx*arc - arc/2
+    const arc37=2*Math.PI/37;
+    const desiredAng=(-Math.PI/2-idx*arc37-arc37/2)%(2*Math.PI);
+    const fullSpins=(6+Math.random()*3)*2*Math.PI;
+    const target=wheelAng+fullSpins+(desiredAng-wheelAng%(2*Math.PI)+2*Math.PI)%(2*Math.PI);
     const start=wheelAng,t0=performance.now();
     playBall(dur);
     function anim(now){
