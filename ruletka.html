@@ -73,11 +73,29 @@ header{position:sticky;top:0;z-index:100;padding:16px 20px;display:flex;align-it
 .result-num.r{background:var(--red);color:#fff;box-shadow:0 0 16px rgba(204,17,17,0.5)}
 .result-num.b{background:var(--black);color:#fff;border:2px solid #444;box-shadow:0 0 16px rgba(0,0,0,0.5)}
 .result-num.g{background:var(--green-num);color:#fff;box-shadow:0 0 16px rgba(0,102,51,0.5)}
-.history{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-top:4px}
-.hdot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:800}
+/* History panel */
+.history-panel{width:100%;margin-top:8px}
+.history-dots{display:flex;flex-wrap:wrap;gap:3px;justify-content:center;margin-bottom:8px}
+.hdot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.5rem;font-weight:800;flex-shrink:0}
 .hdot.r{background:var(--red);color:#fff}
 .hdot.b{background:var(--black);color:#ddd;border:1px solid #444}
 .hdot.g{background:var(--green-num);color:#fff}
+.history-log{max-height:180px;overflow-y:auto;background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;padding:8px;scrollbar-width:thin;scrollbar-color:rgba(123,47,247,0.3) transparent}
+.history-log::-webkit-scrollbar{width:5px}
+.history-log::-webkit-scrollbar-track{background:transparent}
+.history-log::-webkit-scrollbar-thumb{background:rgba(123,47,247,0.4);border-radius:3px}
+.history-log table{width:100%;border-collapse:collapse;font-size:.68rem}
+.history-log th{color:var(--text-secondary);font-weight:600;text-align:left;padding:3px 6px;border-bottom:1px solid var(--border-color);position:sticky;top:0;background:var(--bg-card);text-transform:uppercase;letter-spacing:.5px;font-size:.6rem}
+.history-log td{padding:3px 6px;border-bottom:1px solid rgba(123,47,247,0.08);vertical-align:middle}
+.history-log tr.win td{color:var(--gold-light)}
+.history-log tr.loss td{color:var(--text-secondary)}
+.history-log .num-badge{display:inline-flex;width:20px;height:20px;border-radius:50%;align-items:center;justify-content:center;font-size:.55rem;font-weight:800}
+.history-log .num-badge.r{background:var(--red);color:#fff}
+.history-log .num-badge.b{background:var(--black);color:#ddd;border:1px solid #444}
+.history-log .num-badge.g{background:var(--green-num);color:#fff}
+.history-log .win-amount{color:var(--gold-light);font-weight:700}
+.history-log .loss-amount{color:var(--accent-3);font-weight:600}
+.hist-empty{text-align:center;color:var(--text-secondary);font-size:.7rem;padding:12px;opacity:.6}
 
 /* Chips - realistic casino */
 .chips-bar{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
@@ -173,7 +191,10 @@ footer a{color:var(--accent-1);text-decoration:none}
                 <canvas id="wheelCanvas" width="300" height="300"></canvas>
             </div>
             <div class="result-box"><div class="result-num" id="resNum"></div></div>
-            <div class="history" id="hist"></div>
+            <div class="history-panel">
+                <div class="history-dots" id="histDots"></div>
+                <div class="history-log" id="histLog"><p class="hist-empty">Historia pojawi się po pierwszym spinie</p></div>
+            </div>
         </div>
         <div class="table-col">
             <div class="chips-bar">
@@ -228,7 +249,7 @@ let audioCtx=null;
 
 const canvas=document.getElementById('wheelCanvas'),ctx=canvas.getContext('2d');
 const spinBtn=document.getElementById('spinBtn'),balEl=document.getElementById('bal');
-const resNum=document.getElementById('resNum'),histEl=document.getElementById('hist');
+const resNum=document.getElementById('resNum'),histDots=document.getElementById('histDots'),histLog=document.getElementById('histLog');
 const table=document.getElementById('rtable'),tableWrap=document.getElementById('tableWrap');
 const wheelWrap=document.getElementById('wheelWrap');
 const overlay=document.getElementById('overlay'),popup=document.getElementById('popup');
@@ -477,8 +498,8 @@ function spin(){
         else{
             wheelAng=target%(2*Math.PI);drawWheel();playDrop();
             const col=numColor(result);resNum.textContent=result;resNum.className='result-num show '+col;
-            const win=calcWin(result);balance+=win;
-            history.unshift({n:result,c:col});if(history.length>20)history.pop();renderHist();
+            const win=calcWin(result);const stake=Object.values(bets).reduce((a,b)=>a+b,0);balance+=win;
+            history.unshift({n:result,c:col,win:win,stake:stake});if(history.length>100)history.pop();renderHist();
             setTimeout(()=>{
                 if(win>0){popup.classList.remove('loss');popT.textContent=String.fromCodePoint(0x1F389)+' Wygrana!';popP.textContent='+'+win+' \u017Ceton\u00F3w (wypad\u0142o '+result+')';}
                 else{popup.classList.add('loss');popT.textContent='Przegrana';popP.textContent='Wypad\u0142o '+result+' \u2013 spr\u00F3buj ponownie!';}
@@ -489,7 +510,33 @@ function spin(){
     }
     requestAnimationFrame(anim);
 }
-function renderHist(){histEl.innerHTML=history.map(h=>'<div class="hdot '+h.c+'">'+h.n+'</div>').join('')}
+function renderHist(){
+    // Dots (last 30 only to keep compact)
+    const dotsData=history.slice(0,30);
+    histDots.innerHTML=dotsData.map(h=>'<div class="hdot '+h.c+'">'+h.n+'</div>').join('');
+    // Table (all entries, max 100)
+    if(!history.length){histLog.innerHTML='<p class="hist-empty">Historia pojawi si\u0119 po pierwszym spinie</p>';return}
+    let html='<table><thead><tr><th>#</th><th>Wynik</th><th>Stawka</th><th>Wygrana</th><th>Bilans</th></tr></thead><tbody>';
+    let runningBalance=0;
+    // Calculate running balance from oldest to newest
+    const reversed=[...history].reverse();
+    reversed.forEach((h,i)=>{runningBalance+=(h.win-h.stake);reversed[i]._bal=runningBalance});
+    // Render newest first
+    history.forEach((h,i)=>{
+        const idx=history.length-i;
+        const bal=reversed[history.length-1-i]._bal;
+        const isWin=h.win>0;
+        html+='<tr class="'+(isWin?'win':'loss')+'">';
+        html+='<td>'+idx+'</td>';
+        html+='<td><span class="num-badge '+h.c+'">'+h.n+'</span></td>';
+        html+='<td>'+h.stake+'</td>';
+        html+='<td>'+(isWin?'<span class="win-amount">+'+h.win+'</span>':'<span class="loss-amount">-'+h.stake+'</span>')+'</td>';
+        html+='<td style="color:'+(bal>=0?'var(--gold-light)':'var(--accent-3)')+'">'+((bal>=0?'+':'')+bal)+'</td>';
+        html+='</tr>';
+    });
+    html+='</tbody></table>';
+    histLog.innerHTML=html;
+}
 
 // ===== EVENTS =====
 buildTable();drawWheel();
@@ -502,7 +549,7 @@ spinBtn.addEventListener('click',spin);
 wheelWrap.addEventListener('click',()=>{if(!spinning)spin()});
 document.getElementById('clearBtn').addEventListener('click',()=>{if(spinning)return;Object.values(bets).forEach(v=>balance+=v);bets={};updateUI()});
 document.getElementById('repeatBtn').addEventListener('click',()=>{if(spinning)return;const need=Object.values(lastBets).reduce((a,b)=>a+b,0);if(need>balance||!Object.keys(lastBets).length)return;bets={...lastBets};balance-=need;updateUI()});
-document.getElementById('resetBtn').addEventListener('click',()=>{if(spinning)return;balance=1000;bets={};lastBets={};history=[];histEl.innerHTML='';resNum.className='result-num';resNum.textContent='';updateUI()});
+document.getElementById('resetBtn').addEventListener('click',()=>{if(spinning)return;balance=1000;bets={};lastBets={};history=[];renderHist();resNum.className='result-num';resNum.textContent='';updateUI()});
 document.getElementById('popBtn').addEventListener('click',()=>overlay.classList.remove('show'));
 document.addEventListener('keydown',e=>{if(e.code==='Space'&&!spinning&&!['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){e.preventDefault();spin()}});
 let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(updateUI,100)});
