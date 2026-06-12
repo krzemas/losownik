@@ -486,22 +486,10 @@ function spin(){
     if(!Object.keys(bets).length){tooltip.textContent='Postaw zak\u0142ad!';tooltip.style.display='block';tooltip.style.left='50%';tooltip.style.top='50%';tooltip.style.transform='translate(-50%,-50%)';setTimeout(()=>{tooltip.style.display='none';tooltip.style.transform=''},1500);return}
     spinning=true;spinBtn.disabled=true;resNum.classList.remove('show');
     const arr=new Uint32Array(1);crypto.getRandomValues(arr);
-    const idx=arr[0]%37,result=NUMS[idx];
     const dur=5000+Math.random()*1000;
-    // Pointer is at the top of the canvas = angle -PI/2 (or 3PI/2).
-    // Segment idx center is drawn at: wheelAng + idx*(2PI/37) + (PI/37)
-    // We want: targetWheelAng + idx*(2PI/37) + PI/37 = -PI/2 + 2PI*k
-    // So: targetWheelAng = -PI/2 - idx*(2PI/37) - PI/37
-    // Then we add full spins from current position.
-    const ARC=2*Math.PI/37;
-    const stopAngle=-Math.PI/2-idx*ARC-ARC/2;
-    // Normalize: how much to rotate forward from current position to reach stopAngle
-    const currentNorm=((wheelAng%(2*Math.PI))+(2*Math.PI))%(2*Math.PI);
-    const stopNorm=((stopAngle%(2*Math.PI))+(2*Math.PI))%(2*Math.PI);
-    const delta=((stopNorm-currentNorm)%(2*Math.PI)+(2*Math.PI))%(2*Math.PI);
-    // Add 6-9 full spins + the delta
-    const fullSpins=Math.floor(6+Math.random()*3)*2*Math.PI;
-    const target=wheelAng+fullSpins+delta;
+    // Spin a random amount (6-9 full rotations + random offset)
+    const randomOffset=(arr[0]%36000)/36000*2*Math.PI;
+    const target=wheelAng+(6+Math.random()*3)*2*Math.PI+randomOffset;
     const start=wheelAng,t0=performance.now();
     playBall(dur);
     function anim(now){
@@ -510,6 +498,16 @@ function spin(){
         if(prog<1)requestAnimationFrame(anim);
         else{
             wheelAng=target;drawWheel();playDrop();
+            // READ result from final wheel position:
+            // Pointer is at top = angle -PI/2 (3PI/2).
+            // Segment i occupies angle range [wheelAng + i*ARC, wheelAng + (i+1)*ARC]
+            // Find which segment is at the pointer angle.
+            const ARC=2*Math.PI/37;
+            const pointerAngle=-Math.PI/2;
+            // Normalize pointer relative to wheel: what local angle is under pointer
+            const localAngle=((pointerAngle-wheelAng)%(2*Math.PI)+(2*Math.PI))%(2*Math.PI);
+            const idx=Math.floor(localAngle/ARC)%37;
+            const result=NUMS[idx];
             const col=numColor(result);resNum.textContent=result;resNum.className='result-num show '+col;
             const win=calcWin(result);const stake=Object.values(bets).reduce((a,b)=>a+b,0);balance+=win;
             history.unshift({n:result,c:col,win:win,stake:stake});if(history.length>100)history.pop();renderHist();
