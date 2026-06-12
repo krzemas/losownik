@@ -488,14 +488,20 @@ function spin(){
     const arr=new Uint32Array(1);crypto.getRandomValues(arr);
     const idx=arr[0]%37,result=NUMS[idx];
     const dur=5000+Math.random()*1000;
-    // Pointer is at top (-PI/2). We need segment idx to be under the pointer.
-    // Segment i starts at wheelAng + i*arc. For it to be at -PI/2:
-    // targetAng + idx*arc + arc/2 = -PI/2 (mod 2PI)
-    // targetAng = -PI/2 - idx*arc - arc/2
-    const arc37=2*Math.PI/37;
-    const desiredAng=(-Math.PI/2-idx*arc37-arc37/2)%(2*Math.PI);
-    const fullSpins=(6+Math.random()*3)*2*Math.PI;
-    const target=wheelAng+fullSpins+(desiredAng-wheelAng%(2*Math.PI)+2*Math.PI)%(2*Math.PI);
+    // Pointer is at the top of the canvas = angle -PI/2 (or 3PI/2).
+    // Segment idx center is drawn at: wheelAng + idx*(2PI/37) + (PI/37)
+    // We want: targetWheelAng + idx*(2PI/37) + PI/37 = -PI/2 + 2PI*k
+    // So: targetWheelAng = -PI/2 - idx*(2PI/37) - PI/37
+    // Then we add full spins from current position.
+    const ARC=2*Math.PI/37;
+    const stopAngle=-Math.PI/2-idx*ARC-ARC/2;
+    // Normalize: how much to rotate forward from current position to reach stopAngle
+    const currentNorm=((wheelAng%(2*Math.PI))+(2*Math.PI))%(2*Math.PI);
+    const stopNorm=((stopAngle%(2*Math.PI))+(2*Math.PI))%(2*Math.PI);
+    const delta=((stopNorm-currentNorm)%(2*Math.PI)+(2*Math.PI))%(2*Math.PI);
+    // Add 6-9 full spins + the delta
+    const fullSpins=Math.floor(6+Math.random()*3)*2*Math.PI;
+    const target=wheelAng+fullSpins+delta;
     const start=wheelAng,t0=performance.now();
     playBall(dur);
     function anim(now){
@@ -503,7 +509,7 @@ function spin(){
         wheelAng=start+(target-start)*ease;drawWheel();
         if(prog<1)requestAnimationFrame(anim);
         else{
-            wheelAng=target%(2*Math.PI);drawWheel();playDrop();
+            wheelAng=target;drawWheel();playDrop();
             const col=numColor(result);resNum.textContent=result;resNum.className='result-num show '+col;
             const win=calcWin(result);const stake=Object.values(bets).reduce((a,b)=>a+b,0);balance+=win;
             history.unshift({n:result,c:col,win:win,stake:stake});if(history.length>100)history.pop();renderHist();
