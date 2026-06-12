@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruletka – Wariant B: Royal Gold</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg-primary:#0a0a1a;--bg-secondary:#12122a;--bg-card:#1a1a3e;--text-primary:#fff;--text-secondary:#a0a0c0;--accent-1:#00f5d4;--accent-2:#7b2ff7;--accent-3:#f72585;--accent-glow:rgba(0,245,212,0.3);--border-color:rgba(123,47,247,0.3);--radius:16px;--red:#c0392b;--black:#1a1a2a;--green:#145a32;--gold:#d4af37;--gold-dark:#8b6914;--wood:#3d2b1f;--wood-light:#6b4423;--felt:#0d4a2b}
+body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(123,47,247,0.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(0,245,212,0.1) 0%,transparent 50%);z-index:0}
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:40px 20px}
+h1{text-align:center;font-size:1.6rem;margin-bottom:8px;background:linear-gradient(135deg,var(--gold),#f0d060);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{text-align:center;color:var(--text-secondary);font-size:.85rem;margin-bottom:32px}
+.preview{display:grid;grid-template-columns:300px 1fr;gap:32px;align-items:start}
+
+/* === WHEEL: Royal Gold with wood rim === */
+.wheel-area{display:flex;flex-direction:column;align-items:center;gap:16px}
+.wheel-wrap{position:relative;width:280px;height:280px}
+.wheel-pointer{position:absolute;top:-4px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:8px solid transparent;border-right:8px solid transparent;border-top:22px solid var(--gold);z-index:10;filter:drop-shadow(0 2px 6px rgba(212,175,55,0.6))}
+#wheelCanvas{border-radius:50%;box-shadow:0 0 0 8px var(--wood),0 0 0 11px var(--wood-light),0 0 0 13px var(--gold-dark),0 0 30px rgba(0,0,0,0.5)}
+
+/* === TABLE: Casino felt green on dark === */
+.table-area{}
+.roulette-table{display:grid;grid-template-columns:40px repeat(12,1fr);grid-template-rows:repeat(3,48px) 38px 38px;gap:1px;background:var(--felt);border:3px solid var(--gold-dark);border-radius:8px;min-width:540px;overflow:hidden;box-shadow:inset 0 0 40px rgba(0,0,0,0.3),0 4px 20px rgba(0,0,0,0.4)}
+.cell{display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;cursor:pointer;position:relative;user-select:none;transition:all .15s;border:1px solid rgba(212,175,55,0.15)}
+.cell:hover{filter:brightness(1.3);z-index:2;box-shadow:inset 0 0 10px rgba(212,175,55,0.3)}
+.cell.num-r{background:var(--red);color:#fff}
+.cell.num-b{background:var(--black);color:#ccc}
+.cell.num-g{background:var(--green);color:#fff}
+.cell.outside{background:rgba(13,74,43,0.6);color:rgba(212,175,55,0.8);font-size:.65rem;font-weight:600;border-color:rgba(212,175,55,0.1)}
+.cell.outside:hover{color:var(--gold);border-color:var(--gold)}
+
+/* === CHIPS: Classic casino style with ridged edges === */
+.chips-bar{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.chips-bar span{font-size:.7rem;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.chip{width:44px;height:44px;border-radius:50%;font-size:.7rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;position:relative;border:4px solid;box-shadow:0 3px 8px rgba(0,0,0,0.5),inset 0 1px 2px rgba(255,255,255,0.2)}
+.chip::before{content:'';position:absolute;inset:4px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.25)}
+.chip::after{content:'';position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(rgba(255,255,255,0.08) 0deg 5deg,transparent 5deg 10deg)}
+.chip:hover{transform:scale(1.15) rotate(15deg)}
+.chip.active{box-shadow:0 0 0 3px var(--gold),0 0 16px rgba(212,175,55,0.4);transform:scale(1.1)}
+.chip-1{background:#e53935;border-color:#b71c1c;color:#fff}
+.chip-5{background:#8e24aa;border-color:#4a148c;color:#fff}
+.chip-10{background:#1e88e5;border-color:#0d47a1;color:#fff}
+.chip-25{background:#43a047;border-color:#1b5e20;color:#fff}
+.chip-50{background:#fb8c00;border-color:#e65100;color:#fff}
+.chip-100{background:#212121;border-color:var(--gold);color:var(--gold)}
+
+.label{margin-top:20px;padding:12px 20px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;font-size:.8rem;color:var(--text-secondary);line-height:1.6}
+.label strong{color:var(--gold)}
+
+@media(max-width:768px){.preview{grid-template-columns:1fr}.wheel-area{order:1}.table-area{order:2}}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Wariant B: Royal Gold</h1>
+    <p class="subtitle">Klasyczne koło z drewnianą obwódką, złote akcenty, filcowa plansza, kasynowe żetony</p>
+    
+    <div class="preview">
+        <div class="wheel-area">
+            <div class="wheel-wrap">
+                <div class="wheel-pointer"></div>
+                <canvas id="wheelCanvas" width="280" height="280"></canvas>
+            </div>
+        </div>
+        <div class="table-area">
+            <div class="chips-bar">
+                <span>Żeton:</span>
+                <div class="chip chip-1 active" data-v="1">1</div>
+                <div class="chip chip-5" data-v="5">5</div>
+                <div class="chip chip-10" data-v="10">10</div>
+                <div class="chip chip-25" data-v="25">25</div>
+                <div class="chip chip-50" data-v="50">50</div>
+                <div class="chip chip-100" data-v="100">100</div>
+            </div>
+            <div class="roulette-table" id="rtable"></div>
+        </div>
+    </div>
+    
+    <div class="label">
+        <strong>Koło:</strong> Klasyczne proporcje, drewniana obwódka (ciemny mahon + jaśniejszy pierścień), złoty divider. Nasycone kolory segmentów, wytłoczone numery.<br>
+        <strong>Plansza:</strong> Ciemnozielony filc kasynowy z inset shadow imitującym blat stołu. Złota obwódka i delikatne separatory między polami.<br>
+        <strong>Żetony:</strong> Klasyczne kasynowe – gruby border w ciemniejszym odcieniu, radialny wzór na krawędzi (conic-gradient), wewnętrzny okrąg, efekt obrotu przy hover.
+    </div>
+</div>
+
+<script>
+(function(){
+const NUMS=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+const REDS=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+const ROW=[[3,6,9,12,15,18,21,24,27,30,33,36],[2,5,8,11,14,17,20,23,26,29,32,35],[1,4,7,10,13,16,19,22,25,28,31,34]];
+function numColor(n){return n===0?'g':REDS.includes(n)?'r':'b'}
+
+const table=document.getElementById('rtable');
+let h='<div class="cell num-g" style="grid-column:1;grid-row:1/4">0</div>';
+ROW.forEach((row,ri)=>{row.forEach((n,ci)=>{h+='<div class="cell num-'+numColor(n)+'" style="grid-column:'+(ci+2)+';grid-row:'+(ri+1)+'">'+n+'</div>'})});
+h+='<div class="cell outside" style="grid-column:2/6;grid-row:4">1–12</div>';
+h+='<div class="cell outside" style="grid-column:6/10;grid-row:4">13–24</div>';
+h+='<div class="cell outside" style="grid-column:10/14;grid-row:4">25–36</div>';
+h+='<div class="cell outside" style="grid-column:2/4;grid-row:5">1–18</div>';
+h+='<div class="cell outside" style="grid-column:4/6;grid-row:5">Par.</div>';
+h+='<div class="cell outside" style="grid-column:6/8;grid-row:5;background:var(--red)">Czerw.</div>';
+h+='<div class="cell outside" style="grid-column:8/10;grid-row:5;background:var(--black)">Czarne</div>';
+h+='<div class="cell outside" style="grid-column:10/12;grid-row:5">Niep.</div>';
+h+='<div class="cell outside" style="grid-column:12/14;grid-row:5">19–36</div>';
+table.innerHTML=h;
+
+// Draw wheel - Royal Gold with wood
+const canvas=document.getElementById('wheelCanvas'),ctx=canvas.getContext('2d');
+const CX=140,CY=140,R=118,n=37,arc=2*Math.PI/n;
+
+// Wood outer rim
+const woodGrad=ctx.createRadialGradient(CX,CY,R+2,CX,CY,R+16);
+woodGrad.addColorStop(0,'#6b4423');woodGrad.addColorStop(0.4,'#3d2b1f');woodGrad.addColorStop(0.7,'#5c3d2e');woodGrad.addColorStop(1,'#2a1a10');
+ctx.beginPath();ctx.arc(CX,CY,R+16,0,2*Math.PI);ctx.fillStyle=woodGrad;ctx.fill();
+
+// Gold ring
+ctx.beginPath();ctx.arc(CX,CY,R+2,0,2*Math.PI);
+ctx.strokeStyle='#d4af37';ctx.lineWidth=2;ctx.stroke();
+ctx.beginPath();ctx.arc(CX,CY,R+15,0,2*Math.PI);
+ctx.strokeStyle='#8b6914';ctx.lineWidth=1.5;ctx.stroke();
+
+// Ball track
+ctx.beginPath();ctx.arc(CX,CY,R+1,0,2*Math.PI);
+ctx.strokeStyle='rgba(212,175,55,0.2)';ctx.lineWidth=3;ctx.stroke();
+
+// Segments
+for(let i=0;i<n;i++){
+    const angle=i*arc-Math.PI/2;
+    ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,angle,angle+arc);ctx.closePath();
+    const num=NUMS[i];
+    if(num===0) ctx.fillStyle='#145a32';
+    else if(REDS.includes(num)) ctx.fillStyle='#c0392b';
+    else ctx.fillStyle='#1a1a2a';
+    ctx.fill();
+    ctx.strokeStyle='rgba(212,175,55,0.25)';ctx.lineWidth=0.8;ctx.stroke();
+    // Number
+    ctx.save();ctx.translate(CX,CY);ctx.rotate(angle+arc/2);
+    ctx.fillStyle='#fff';ctx.font='bold 9px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(num.toString(),R-14,0);ctx.restore();
+}
+
+// Brass frets (small notches on outer edge)
+for(let i=0;i<n;i++){
+    const angle=i*arc-Math.PI/2;
+    ctx.beginPath();
+    ctx.moveTo(CX+R*Math.cos(angle),CY+R*Math.sin(angle));
+    ctx.lineTo(CX+(R+2)*Math.cos(angle),CY+(R+2)*Math.sin(angle));
+    ctx.strokeStyle='#d4af37';ctx.lineWidth=1.5;ctx.stroke();
+}
+
+// Inner hub - polished metal look
+const ig=ctx.createRadialGradient(CX,CY,5,CX,CY,30);
+ig.addColorStop(0,'#e0c060');ig.addColorStop(0.3,'#8b6914');ig.addColorStop(0.7,'#3d2b1f');ig.addColorStop(1,'#2a1a10');
+ctx.beginPath();ctx.arc(CX,CY,30,0,2*Math.PI);ctx.fillStyle=ig;ctx.fill();
+ctx.strokeStyle='#d4af37';ctx.lineWidth=1.5;ctx.stroke();
+
+// Center boss
+ctx.beginPath();ctx.arc(CX,CY,8,0,2*Math.PI);
+const cg=ctx.createRadialGradient(CX-2,CY-2,1,CX,CY,8);
+cg.addColorStop(0,'#f0e080');cg.addColorStop(0.5,'#d4af37');cg.addColorStop(1,'#8b6914');
+ctx.fillStyle=cg;ctx.fill();
+
+// Spokes (decorative)
+for(let i=0;i<8;i++){
+    const a=i*Math.PI/4;
+    ctx.beginPath();
+    ctx.moveTo(CX+10*Math.cos(a),CY+10*Math.sin(a));
+    ctx.lineTo(CX+28*Math.cos(a),CY+28*Math.sin(a));
+    ctx.strokeStyle='rgba(212,175,55,0.5)';ctx.lineWidth=1;ctx.stroke();
+}
+
+document.querySelectorAll('.chip').forEach(c=>{
+    c.addEventListener('click',()=>{
+        document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+        c.classList.add('active');
+    });
+});
+})();
+</script>
+</body>
+</html>
