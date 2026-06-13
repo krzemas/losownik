@@ -1,8 +1,11 @@
 RewriteEngine On
 
-# Force HTTPS
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# --- Normalize domain: HTTPS without www (single 301) ---
+# Handles: http://losownik.pl, http://www.losownik.pl, https://www.losownik.pl
+# All redirect to: https://losownik.pl/...
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteRule ^(.*)$ https://losownik.pl/$1 [R=301,L]
 
 # --- 301 Redirects for old Drupal URLs ---
 
@@ -40,6 +43,7 @@ RewriteRule ^(.*)$ $1.html [L]
 # --- Cache Control ---
 <IfModule mod_expires.c>
     ExpiresActive On
+    ExpiresByType text/html "access plus 10 minutes"
     ExpiresByType text/css "access plus 1 month"
     ExpiresByType application/javascript "access plus 1 month"
     ExpiresByType image/png "access plus 1 year"
@@ -59,4 +63,5 @@ RewriteRule ^(.*)$ $1.html [L]
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
 </IfModule>
