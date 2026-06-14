@@ -2,37 +2,38 @@ RewriteEngine On
 
 # --- Normalize domain: HTTPS without www (single 301) ---
 # Handles: http://losownik.pl, http://www.losownik.pl, https://www.losownik.pl
-# All redirect to: https://losownik.pl/...
+# All redirect in one 301 to: https://losownik.pl/...
 RewriteCond %{HTTPS} off [OR]
 RewriteCond %{HTTP_HOST} ^www\. [NC]
 RewriteRule ^(.*)$ https://losownik.pl/$1 [R=301,L]
 
 # --- 301 Redirects for old Drupal URLs ---
+# These are indexed by Google and must redirect to proper HTTPS pages
 
 # Kostka old URLs
-RewriteRule ^kostka/losuj/4$ /kostka?k=4 [R=301,L]
-RewriteRule ^kostka/losuj/6$ /kostka?k=6 [R=301,L]
-RewriteRule ^kostka/losuj/8$ /kostka?k=8 [R=301,L]
-RewriteRule ^kostka/losuj/12$ /kostka?k=12 [R=301,L]
-RewriteRule ^kostka/losuj/20$ /kostka?k=20 [R=301,L]
-RewriteRule ^kostka/losuj/100$ /kostka?k=100 [R=301,L]
+RewriteRule ^kostka/losuj/4$ https://losownik.pl/kostka?k=4 [R=301,L]
+RewriteRule ^kostka/losuj/6$ https://losownik.pl/kostka?k=6 [R=301,L]
+RewriteRule ^kostka/losuj/8$ https://losownik.pl/kostka?k=8 [R=301,L]
+RewriteRule ^kostka/losuj/12$ https://losownik.pl/kostka?k=12 [R=301,L]
+RewriteRule ^kostka/losuj/20$ https://losownik.pl/kostka?k=20 [R=301,L]
+RewriteRule ^kostka/losuj/100$ https://losownik.pl/kostka?k=100 [R=301,L]
 
 # Mecz old URLs
-RewriteRule ^mecz/losuj/futbol$ /mecz?d=futbol [R=301,L]
-RewriteRule ^mecz/losuj/siatkowka$ /mecz?d=siatkowka [R=301,L]
-RewriteRule ^mecz/losuj/reczna$ /mecz?d=reczna [R=301,L]
-RewriteRule ^mecz/losuj/koszykowka$ /mecz?d=koszykowka [R=301,L]
+RewriteRule ^mecz/losuj/futbol$ https://losownik.pl/mecz?d=futbol [R=301,L]
+RewriteRule ^mecz/losuj/siatkowka$ https://losownik.pl/mecz?d=siatkowka [R=301,L]
+RewriteRule ^mecz/losuj/reczna$ https://losownik.pl/mecz?d=reczna [R=301,L]
+RewriteRule ^mecz/losuj/koszykowka$ https://losownik.pl/mecz?d=koszykowka [R=301,L]
 
 # LOTTO old URLs
-RewriteRule ^lotto/losuj/lotto$ /lotto?g=lotto [R=301,L]
-RewriteRule ^lotto/losuj/joker$ /lotto?g=joker [R=301,L]
-RewriteRule ^lotto/losuj/multi$ /lotto?g=multi [R=301,L]
-RewriteRule ^lotto/losuj/minilotto$ /lotto?g=minilotto [R=301,L]
+RewriteRule ^lotto/losuj/lotto$ https://losownik.pl/lotto?g=lotto [R=301,L]
+RewriteRule ^lotto/losuj/joker$ https://losownik.pl/lotto?g=joker [R=301,L]
+RewriteRule ^lotto/losuj/multi$ https://losownik.pl/lotto?g=multi [R=301,L]
+RewriteRule ^lotto/losuj/minilotto$ https://losownik.pl/lotto?g=minilotto [R=301,L]
 
 # Imie old URLs
-RewriteRule ^imie/losuj/m-name$ /imie?t=meskie [R=301,L]
-RewriteRule ^imie/losuj/f-name$ /imie?t=zenskie [R=301,L]
-RewriteRule ^imie/losuj/name-surname$ /imie?t=pelne [R=301,L]
+RewriteRule ^imie/losuj/m-name$ https://losownik.pl/imie?t=meskie [R=301,L]
+RewriteRule ^imie/losuj/f-name$ https://losownik.pl/imie?t=zenskie [R=301,L]
+RewriteRule ^imie/losuj/name-surname$ https://losownik.pl/imie?t=pelne [R=301,L]
 
 # --- Clean URLs (no .html extension) ---
 RewriteCond %{REQUEST_FILENAME} !-f
