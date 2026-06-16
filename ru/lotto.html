@@ -126,14 +126,14 @@
         </div>
 
         <div class="game-selector" role="group">
-            <button class="game-btn active" data-game="lotto">Lotto<span class="game-info">6 z 49</span></button>
-            <button class="game-btn" data-game="minilotto">Mini Lotto<span class="game-info">5 z 42</span></button>
-            <button class="game-btn" data-game="multi">Multi Multi<span class="game-info">20 z 80</span></button>
-            <button class="game-btn" data-game="joker">Joker<span class="game-info">6 cyfr</span></button>
+            <button class="game-btn active" data-game="lotto">Lotto<span class="game-info">6 из 49</span></button>
+            <button class="game-btn" data-game="minilotto">Mini Lotto<span class="game-info">5 из 42</span></button>
+            <button class="game-btn" data-game="multi">Multi Multi<span class="game-info">20 из 80</span></button>
+            <button class="game-btn" data-game="joker">Joker<span class="game-info">6 цифр</span></button>
         </div>
 
         <div class="lotto-result">
-            <div class="lotto-result-label" id="resultLabel">Lotto – 6 z 49</div>
+            <div class="lotto-result-label" id="resultLabel">Lotto – 6 из 49</div>
             <div class="balls" id="ballsContainer"></div>
             <div class="lotto-info" id="lottoInfo">Нажмите кнопку чтобы сгенерировать числа</div>
         </div>
@@ -175,7 +175,7 @@
             lotto: { name: 'Lotto', count: 6, max: 49, info: 'Лото (6 из 49)' },
             minilotto: { name: 'Mini Lotto', count: 5, max: 42, info: 'Мини Лото (5 из 42)' },
             multi: { name: 'Multi Multi', count: 20, max: 80, info: 'Мульти Мульти (20 из 80)' },
-            joker: { name: 'Joker', count: 6, max: 9, info: 'Джокер (6 из 49)' }
+            joker: { name: 'Joker', count: 6, max: 9, info: 'Джокер (6 цифр)' }
         };
 
         let currentGame = 'lotto';

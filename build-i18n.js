@@ -251,9 +251,17 @@ function replaceMetaDescription(html, desc) {
 function replaceCanonical(html, lang, filename) {
   const pagePath = getCanonicalPath(filename);
   const canonical = pagePath ? `${BASE_URL}/${lang}${pagePath}` : `${BASE_URL}/${lang}/`;
+  // Replace existing canonical
+  if (html.includes('<link rel="canonical"')) {
+    return html.replace(
+      /<link rel="canonical" href="[^"]*">/,
+      `<link rel="canonical" href="${canonical}">`
+    );
+  }
+  // Add canonical if missing (e.g. index.html)
   return html.replace(
-    /<link rel="canonical" href="[^"]*">/,
-    `<link rel="canonical" href="${canonical}">`
+    '</head>',
+    `    <link rel="canonical" href="${canonical}">\n</head>`
   );
 }
 
@@ -395,11 +403,12 @@ function replaceTopNav(html, lang) {
   const labels = NAV_LABELS[lang];
   if (!labels) return html;
   
-  // Replace top-nav links text
+  // Replace top-nav links text (both short and full forms)
   html = html.replace(/>Kostka<\/a>/g, `>${labels['/kostka']}</a>`);
   html = html.replace(/>Mecz<\/a>/g, `>${labels['/mecz']}</a>`);
   html = html.replace(/>Imię<\/a>/g, `>${labels['/imie']}</a>`);
   html = html.replace(/>Lotto<\/a>/g, `>${labels['/lotto']}</a>`);
+  html = html.replace(/>Koło fortuny<\/a>/g, `>${labels['/kolo-fortuny']}</a>`);
   html = html.replace(/>Koło<\/a>/g, `>${labels['/kolo-fortuny']}</a>`);
   html = html.replace(/>Kolor<\/a>/g, `>${labels['/kolor']}</a>`);
   html = html.replace(/>Moneta<\/a>/g, `>${labels['/moneta']}</a>`);
@@ -616,12 +625,38 @@ function replaceLottoSpecific(html, lang) {
   const pageT = T['/lotto'] && T['/lotto'][lang];
   if (!pageT) return html;
   
+  // HTML game-info spans (visible in buttons)
+  const LOTTO_GAME_INFO = {
+    en: {lotto:'6 of 49', minilotto:'5 of 42', multi:'20 of 80', joker:'6 digits'},
+    de: {lotto:'6 aus 49', minilotto:'5 aus 42', multi:'20 aus 80', joker:'6 Ziffern'},
+    es: {lotto:'6 de 49', minilotto:'5 de 42', multi:'20 de 80', joker:'6 dígitos'},
+    fr: {lotto:'6 sur 49', minilotto:'5 sur 42', multi:'20 sur 80', joker:'6 chiffres'},
+    it: {lotto:'6 su 49', minilotto:'5 su 42', multi:'20 su 80', joker:'6 cifre'},
+    pt: {lotto:'6 de 49', minilotto:'5 de 42', multi:'20 de 80', joker:'6 dígitos'},
+    ru: {lotto:'6 из 49', minilotto:'5 из 42', multi:'20 из 80', joker:'6 цифр'},
+    cs: {lotto:'6 z 49', minilotto:'5 z 42', multi:'20 z 80', joker:'6 číslic'},
+    uk: {lotto:'6 з 49', minilotto:'5 з 42', multi:'20 з 80', joker:'6 цифр'}
+  };
+  const gi = LOTTO_GAME_INFO[lang];
+  if (gi) {
+    html = html.replace(/>6 z 49</g, `>${gi.lotto}<`);
+    html = html.replace(/>5 z 42</g, `>${gi.minilotto}<`);
+    html = html.replace(/>20 z 80</g, `>${gi.multi}<`);
+    html = html.replace(/>6 cyfr</g, `>${gi.joker}<`);
+    // Initial result label "Lotto – 6 z 49"
+    html = html.replace(/Lotto – 6 z 49/g, `Lotto – ${gi.lotto}`);
+  }
+  
   // Game info strings in JS
   if (pageT.games) {
     if (pageT.games.lotto) html = html.replace(/'Lotto \(6 z 49\)'/g, `'${pageT.games.lotto}'`);
+    if (pageT.games.lotto) html = html.replace(/'Lotto \(6 of 49\)'/g, `'${pageT.games.lotto}'`);
     if (pageT.games.minilotto) html = html.replace(/'Mini Lotto \(5 z 42\)'/g, `'${pageT.games.minilotto}'`);
+    if (pageT.games.minilotto) html = html.replace(/'Mini Lotto \(5 of 42\)'/g, `'${pageT.games.minilotto}'`);
     if (pageT.games.multi) html = html.replace(/'Multi Multi \(20 z 80\)'/g, `'${pageT.games.multi}'`);
+    if (pageT.games.multi) html = html.replace(/'Multi Multi \(20 of 80\)'/g, `'${pageT.games.multi}'`);
     if (pageT.games.joker) html = html.replace(/'Joker \(6 z 49\)'/g, `'${pageT.games.joker}'`);
+    if (pageT.games.joker) html = html.replace(/'Joker \(6 of 49\)'/g, `'${pageT.games.joker}'`);
   }
   
   // Remove _lottoI18n variable
