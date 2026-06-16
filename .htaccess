@@ -29,17 +29,14 @@ RewriteRule ^kostka/losuj/8$ /kostka/?k=8 [R=301,L]
 RewriteRule ^kostka/losuj/12$ /kostka/?k=12 [R=301,L]
 RewriteRule ^kostka/losuj/20$ /kostka/?k=20 [R=301,L]
 RewriteRule ^kostka/losuj/100$ /kostka/?k=100 [R=301,L]
-
 RewriteRule ^mecz/losuj/futbol$ /mecz/?d=futbol [R=301,L]
 RewriteRule ^mecz/losuj/siatkowka$ /mecz/?d=siatkowka [R=301,L]
 RewriteRule ^mecz/losuj/reczna$ /mecz/?d=reczna [R=301,L]
 RewriteRule ^mecz/losuj/koszykowka$ /mecz/?d=koszykowka [R=301,L]
-
 RewriteRule ^lotto/losuj/lotto$ /lotto/?g=lotto [R=301,L]
 RewriteRule ^lotto/losuj/joker$ /lotto/?g=joker [R=301,L]
 RewriteRule ^lotto/losuj/multi$ /lotto/?g=multi [R=301,L]
 RewriteRule ^lotto/losuj/minilotto$ /lotto/?g=minilotto [R=301,L]
-
 RewriteRule ^imie/losuj/m-name$ /imie/?t=meskie [R=301,L]
 RewriteRule ^imie/losuj/f-name$ /imie/?t=zenskie [R=301,L]
 RewriteRule ^imie/losuj/name-surname$ /imie/?t=pelne [R=301,L]
@@ -54,10 +51,10 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_URI}/index.html -f
 RewriteRule ^(.*)$ /$1/index.html [L]
 
-# --- Inject shared multilingual SEO/i18n script into HTML responses ---
+# --- Inject shared multilingual SEO/i18n scripts into HTML responses ---
 <IfModule mod_substitute.c>
     AddOutputFilterByType SUBSTITUTE text/html
-    Substitute "s|</body>|<script src=\"/js/seo-i18n.js\" defer></script></body>|ni"
+    Substitute "s|</body>|<script src='/js/seo-i18n.js' defer></script><script src='/js/seo-i18n-clean.js' defer></script></body>|ni"
 </IfModule>
 
 # --- Custom 404 ---
