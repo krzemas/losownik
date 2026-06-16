@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Flip a virtual coin online – heads or tails with realistic animation. Free coin flipper.">
+    <title>Flip a coin online – Heads or tails | Losownik.pl</title>
+    <link rel="canonical" href="https://losownik.pl/en/moneta">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0a0a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6838914398408406" crossorigin="anonymous"></script>
+    <script src="/js/sounds.js" defer></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg-primary:#0a0a1a;--bg-secondary:#12122a;--bg-card:#1a1a3e;--text-primary:#fff;--text-secondary:#a0a0c0;--accent-1:#00f5d4;--accent-2:#7b2ff7;--accent-3:#f72585;--accent-glow:rgba(0,245,212,0.3);--border-color:rgba(123,47,247,0.3);--radius:16px}
+        body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:hidden}
+        body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(123,47,247,0.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(0,245,212,0.1) 0%,transparent 50%);z-index:0}
+        .container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 20px}
+        header{padding:16px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+        .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+        .logo-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 0 20px var(--accent-glow)}
+        .logo-text{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .logo-subtitle{font-size:.75rem;color:var(--text-secondary);letter-spacing:2px;text-transform:uppercase}
+        .back-link{color:var(--text-secondary);text-decoration:none;font-size:.85rem;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid var(--border-color);transition:all .3s}
+        .back-link:hover{color:var(--accent-1);border-color:var(--accent-1)}
+        .top-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+        .top-nav a { color: var(--text-secondary); text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; border: 1px solid transparent; }
+        .top-nav a:hover { color: var(--accent-1); background: rgba(0,245,212,0.08); border-color: rgba(0,245,212,0.2); }
+        .breadcrumb{padding:4px 0 16px;font-size:.8rem;color:var(--text-secondary)}
+        .breadcrumb a{color:var(--accent-1);text-decoration:none}
+        .breadcrumb span{margin:0 8px;opacity:.5}
+        .ad-banner{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius);padding:12px;margin:0 0 20px;text-align:center;min-height:100px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+        .page-header{margin-bottom:24px}
+        .page-title{font-size:clamp(1.4rem,3.5vw,2rem);font-weight:900;margin-bottom:6px}
+        .page-title span{background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .page-desc{color:var(--text-secondary);font-size:.9rem;line-height:1.5;max-width:600px}
+
+        /* Coin */
+        .coin-area{display:flex;flex-direction:column;align-items:center;margin:40px 0}
+        .coin-wrapper{perspective:800px;margin-bottom:24px;cursor:pointer}
+        .coin-wrapper:hover .coin{box-shadow:0 0 40px var(--accent-glow)}
+        .coin{width:180px;height:180px;border-radius:50%;position:relative;transform-style:preserve-3d;transition:transform 0.1s;background:linear-gradient(135deg,#ffd700,#ffb700);box-shadow:0 8px 32px rgba(255,215,0,0.3)}
+        .coin.flipping{animation:coinFlip 1.2s ease-out}
+        @keyframes coinFlip{
+            0%{transform:rotateY(0) translateY(0)}
+            30%{transform:rotateY(720deg) translateY(-120px)}
+            60%{transform:rotateY(1440deg) translateY(-60px)}
+            100%{transform:rotateY(2160deg) translateY(0)}
+        }
+        .coin-face{position:absolute;inset:0;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2.4rem;font-weight:900;backface-visibility:hidden;border:6px solid rgba(255,255,255,0.3)}
+        .coin-heads{background:linear-gradient(135deg,#ffd700,#daa520);color:#8b4513}
+        .coin-tails{background:linear-gradient(135deg,#c0c0c0,#a0a0a0);color:#333;transform:rotateY(180deg)}
+        .coin-tap-hint{font-size:.75rem;color:var(--text-secondary);opacity:.6;margin-bottom:16px}
+
+        .result-text{font-size:clamp(2rem,6vw,3.5rem);font-weight:900;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;transform:scale(0.5);transition:all .4s cubic-bezier(0.4,0,0.2,1);min-height:60px;display:flex;align-items:center;justify-content:center}
+        .result-text.visible{opacity:1;transform:scale(1)}
+
+        .flip-btn{display:inline-flex;align-items:center;gap:10px;padding:18px 44px;font-size:1.1rem;font-weight:700;font-family:inherit;border:none;border-radius:14px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#0a0a1a;cursor:pointer;transition:all .3s;box-shadow:0 4px 24px rgba(0,245,212,0.35);margin-top:16px}
+        .flip-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,245,212,0.45)}
+        .flip-btn:active{transform:translateY(0) scale(0.97)}
+        .flip-btn.disabled{opacity:.6;pointer-events:none}
+
+        .stats{display:flex;gap:24px;justify-content:center;margin-top:32px}
+        .stat-item{text-align:center}
+        .stat-value{font-size:1.5rem;font-weight:900;color:var(--accent-1)}
+        .stat-label{font-size:.72rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+        .faq{margin-top:48px;padding-top:24px;border-top:1px solid var(--border-color);margin-bottom:32px}
+        .faq h2{font-size:1.2rem;font-weight:800;margin-bottom:16px}
+        .faq-item{margin-bottom:16px}
+        .faq-item h4{font-size:.95rem;font-weight:700;margin-bottom:4px;color:var(--accent-1)}
+        .faq-item p{font-size:.85rem;color:var(--text-secondary);line-height:1.6}
+        footer{border-top:1px solid var(--border-color);padding:24px 0;text-align:center;color:var(--text-secondary);font-size:.8rem}
+        footer a{color:var(--accent-1);text-decoration:none}
+        .mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,26,0.96);border-top:1px solid var(--border-color);padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:1000;backdrop-filter:blur(12px)}
+        .mobile-nav ul{display:flex;list-style:none;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:2px;padding:0 12px}.mobile-nav ul::-webkit-scrollbar{display:none}
+        .mobile-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--text-secondary);font-size:.6rem;font-weight:600;padding:6px 10px;white-space:nowrap;min-width:52px}
+        .mobile-nav a.active{color:var(--accent-1)}
+        .mobile-nav .nav-icon{font-size:1.3rem}
+        @media(max-width:768px){.ad-banner:first-of-type{display:none}.mobile-nav{display:block}.top-nav{display:none}.back-link{display:none}.coin{width:150px;height:150px}.coin-face{font-size:2rem}.flip-btn{width:100%;justify-content:center}footer{padding-bottom:80px}}
+    </style>
+    <link rel="alternate" hreflang="pl" href="https://losownik.pl/moneta">
+    <link rel="alternate" hreflang="en" href="https://losownik.pl/en/moneta">
+    <link rel="alternate" hreflang="de" href="https://losownik.pl/de/moneta">
+    <link rel="alternate" hreflang="es" href="https://losownik.pl/es/moneta">
+    <link rel="alternate" hreflang="fr" href="https://losownik.pl/fr/moneta">
+    <link rel="alternate" hreflang="it" href="https://losownik.pl/it/moneta">
+    <link rel="alternate" hreflang="pt" href="https://losownik.pl/pt/moneta">
+    <link rel="alternate" hreflang="ru" href="https://losownik.pl/ru/moneta">
+    <link rel="alternate" hreflang="cs" href="https://losownik.pl/cs/moneta">
+    <link rel="alternate" hreflang="uk" href="https://losownik.pl/uk/moneta">
+    <link rel="alternate" hreflang="x-default" href="https://losownik.pl/moneta">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/en/" class="logo"><div class="logo-icon">&#127922;</div><div><div class="logo-text">Losownik</div><div class="logo-subtitle">Online random generator</div></div></a>
+            <nav class="top-nav"><a href="/en/kostka">Dice</a><a href="/en/mecz">Match</a><a href="/en/imie">Name</a><a href="/en/lotto">Lotto</a><a href="/en/kolo-fortuny">Wheel</a><a href="/en/kolor">Color</a><a href="/en/moneta">Coin</a></nav>
+        <div class="lang-switcher">
+      <select class="lang-select" onchange="window.location.href=this.value" aria-label="Language">
+        <option value="/en/moneta" selected>English</option>
+        <option value="/de/moneta">Deutsch</option>
+        <option value="/es/moneta">Español</option>
+        <option value="/fr/moneta">Français</option>
+        <option value="/it/moneta">Italiano</option>
+        <option value="/pt/moneta">Português</option>
+        <option value="/ru/moneta">Русский</option>
+        <option value="/cs/moneta">Čeština</option>
+        <option value="/uk/moneta">Українська</option>
+        <option value="/moneta">Polski</option>
+      </select>
+    </div>
+        </header>
+        <nav class="breadcrumb"><a href="/en/">Home</a><span>›</span>Flip a coin online</nav>
+        <div class="ad-banner"><ins class="adsbygoogle" style="display:inline-block;min-width:300px;min-height:250px" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+
+        <div class="page-header">
+            <h1 class="page-title"><span>Flip a coin</span> online</h1>
+            <p class="page-desc">Heads or tails? Click the coin or button to flip!</p>
+        </div>
+
+        <div class="coin-area">
+            <div class="coin-wrapper" id="coinWrapper">
+                <div class="coin" id="coin">
+                    <div class="coin-face coin-heads">O</div>
+                    <div class="coin-face coin-tails">R</div>
+                </div>
+            </div>
+            <div class="coin-tap-hint">Click the coin to flip</div>
+            <div class="result-text" id="resultText"></div>
+            <button class="flip-btn" id="flipBtn">&#129689; Flip coin!</button>
+
+            <div class="stats">
+                <div class="stat-item"><div class="stat-value" id="headsCount">0</div><div class="stat-label">Heads</div></div>
+                <div class="stat-item"><div class="stat-value" id="tailsCount">0</div><div class="stat-label">Tails</div></div>
+                <div class="stat-item"><div class="stat-value" id="totalCount">0</div><div class="stat-label">Total</div></div>
+            </div>
+        </div>
+
+        <section class="faq">
+            <h2>Frequently asked questions</h2>
+            <div class="faq-item">
+                <h4>Is the coin flip fair?</h4>
+                <p>Yes – each side has an exact 50% probability using a cryptographic random generator.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Can I see the flip history?</h4>
+                <p>Yes – all flips are recorded in the history section with timestamps.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Does the animation affect the result?</h4>
+                <p>No – the result is determined instantly. The animation is purely visual.</p>
+            </div>
+        </section>
+
+        <div class="ad-banner"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+        <footer><p>&copy; 2006–2026 Losownik.pl | <a href="/en/">Home</a></p></footer>
+    </div>
+    <nav class="mobile-nav"><ul><li><a href="/en/"><span class="nav-icon">&#127968;</span>Home</a></li><li><a href="/en/kostka"><span class="nav-icon">&#127922;</span>Dice</a></li><li><a href="/en/mecz"><span class="nav-icon">&#9917;</span>Match</a></li><li><a href="/en/imie"><span class="nav-icon">&#128100;</span>Name</a></li><li><a href="/en/lotto"><span class="nav-icon">&#127920;</span>Lotto</a></li><li><a href="/en/kolo-fortuny"><span class="nav-icon">&#127905;</span>Wheel</a></li><li><a href="/en/moneta"><span class="nav-icon">&#129689;</span>Coin</a></li><li><a href="/en/kolor"><span class="nav-icon">&#127912;</span>Color</a></li><li><a href="/en/karty"><span class="nav-icon">&#127183;</span>Cards</a></li><li><a href="/en/druzyny"><span class="nav-icon">&#129351;</span>Teams</a></li><li><a href="/en/kolejnosc"><span class="nav-icon">&#128260;</span>Order</a></li><li><a href="/en/postac"><span class="nav-icon">&#9876;</span>RPG</a></li><li><a href="/en/wyliczanka"><span class="nav-icon">&#128101;</span>Picker</a></li><li><a href="/en/liczba"><span class="nav-icon">&#128290;</span>Number</a></li></ul></nav>
+    <script>
+    (function(){
+        let isFlipping=false,heads=0,tails=0;
+        const coin=document.getElementById('coin'),flipBtn=document.getElementById('flipBtn'),resultText=document.getElementById('resultText'),coinWrapper=document.getElementById('coinWrapper');
+        function flip(){
+            if(isFlipping)return;isFlipping=true;
+            flipBtn.classList.add('disabled');resultText.classList.remove('visible');resultText.textContent='';
+            coin.classList.remove('flipping');void coin.offsetWidth;coin.classList.add('flipping');if(window.losownikSounds)window.losownikSounds.coin();
+            setTimeout(()=>{
+                const arr=new Uint32Array(1);crypto.getRandomValues(arr);
+                const isHeads=arr[0]%2===0;
+                if(isHeads){heads++;resultText.textContent=(window._losownikCommon&&window._losownikCommon.heads)||'HEADS';}
+                else{tails++;resultText.textContent=(window._losownikCommon&&window._losownikCommon.tails)||'TAILS';}
+                resultText.classList.add('visible');
+                document.getElementById('headsCount').textContent=heads;
+                document.getElementById('tailsCount').textContent=tails;
+                document.getElementById('totalCount').textContent=heads+tails;
+                coin.classList.remove('flipping');isFlipping=false;flipBtn.classList.remove('disabled');
+            },1300);
+        }
+        flipBtn.addEventListener('click',flip);
+        coinWrapper.addEventListener('click',flip);
+        if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
+    })();
+    </script>
+<script>setTimeout(function(){document.querySelectorAll(".ad-banner").forEach(function(b){var ins=b.querySelector("ins.adsbygoogle");if(ins&&(ins.offsetHeight<10||ins.innerHTML.trim()===""))b.style.display="none"})},3500);</script>
+
+<script src="/js/translations.js" defer></script>
+<script src="/js/i18n.js" defer></script>
+<script src="/js/apply_translations.js" defer></script>
+</body>
+</html>

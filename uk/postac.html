@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Згенеруйте повного персонажа RPG – характеристики, расу, клас та ім'я. Для D&D!">
+    <title>Генератор персонажів RPG – Випадкові характеристики, раса, клас | Losownik.pl</title>
+    <link rel="canonical" href="https://losownik.pl/uk/postac">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0a0a1a">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6838914398408406" crossorigin="anonymous"></script>
+    <script src="/js/sounds.js" defer></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg-primary:#0a0a1a;--bg-secondary:#12122a;--bg-card:#1a1a3e;--text-primary:#fff;--text-secondary:#a0a0c0;--accent-1:#00f5d4;--accent-2:#7b2ff7;--accent-3:#f72585;--accent-glow:rgba(0,245,212,0.3);--border-color:rgba(123,47,247,0.3);--radius:16px}
+        body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:hidden}
+        body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(123,47,247,0.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(0,245,212,0.1) 0%,transparent 50%);z-index:0}
+        .container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 20px}
+        header{padding:16px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+        .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+        .logo-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 0 20px var(--accent-glow)}
+        .logo-text{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .logo-subtitle{font-size:.75rem;color:var(--text-secondary);letter-spacing:2px;text-transform:uppercase}
+        .back-link{color:var(--text-secondary);text-decoration:none;font-size:.85rem;font-weight:600;padding:8px 14px;border-radius:8px;border:1px solid var(--border-color);transition:all .3s}
+        .back-link:hover{color:var(--accent-1);border-color:var(--accent-1)}
+        .top-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+        .top-nav a { color: var(--text-secondary); text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; border: 1px solid transparent; }
+        .top-nav a:hover { color: var(--accent-1); background: rgba(0,245,212,0.08); border-color: rgba(0,245,212,0.2); }
+        .breadcrumb{padding:4px 0 16px;font-size:.8rem;color:var(--text-secondary)}
+        .breadcrumb a{color:var(--accent-1);text-decoration:none}
+        .breadcrumb span{margin:0 8px;opacity:.5}
+        .ad-banner{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius);padding:12px;margin:0 0 20px;text-align:center;min-height:100px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+        .page-header{margin-bottom:24px}
+        .page-title{font-size:clamp(1.4rem,3.5vw,2rem);font-weight:900;margin-bottom:6px}
+        .page-title span{background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .page-desc{color:var(--text-secondary);font-size:.9rem;line-height:1.5;max-width:600px}
+
+        .character-card{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:32px;margin-bottom:32px;position:relative;overflow:hidden}
+        .character-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent-1),var(--accent-2),var(--accent-3));opacity:0;transition:opacity .3s}
+        .character-card.has-char::before{opacity:1}
+        .char-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+        .char-name{font-size:1.6rem;font-weight:900;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .char-class{font-size:.85rem;color:var(--text-secondary);font-weight:600}
+        .char-race{background:rgba(123,47,247,0.15);border:1px solid rgba(123,47,247,0.3);padding:6px 14px;border-radius:8px;font-size:.8rem;font-weight:700;color:var(--accent-2)}
+
+        .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+        .stat-box{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:12px;padding:14px;text-align:center}
+        .stat-label{font-size:.7rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;font-weight:600;margin-bottom:4px}
+        .stat-value{font-size:1.6rem;font-weight:900;color:var(--accent-1)}
+        .stat-mod{font-size:.8rem;color:var(--text-secondary);font-weight:600}
+
+        .char-traits{margin-top:16px;padding-top:16px;border-top:1px solid var(--border-color)}
+        .char-traits h4{font-size:.85rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+        .trait-item{display:inline-block;background:rgba(0,245,212,0.08);border:1px solid rgba(0,245,212,0.2);padding:5px 12px;border-radius:8px;font-size:.8rem;font-weight:600;color:var(--accent-1);margin:3px 4px 3px 0}
+
+        .char-placeholder{text-align:center;color:var(--text-secondary);font-size:.9rem;padding:32px 0}
+
+        .generate-btn{display:inline-flex;align-items:center;gap:10px;padding:18px 44px;font-size:1.1rem;font-weight:700;font-family:inherit;border:none;border-radius:14px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#0a0a1a;cursor:pointer;transition:all .3s;box-shadow:0 4px 24px rgba(0,245,212,0.35)}
+        .generate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,245,212,0.45)}
+        .generate-btn:active{transform:translateY(0) scale(0.97)}
+
+        .faq{margin-top:48px;padding-top:24px;border-top:1px solid var(--border-color);margin-bottom:32px}
+        .faq h2{font-size:1.2rem;font-weight:800;margin-bottom:16px}
+        .faq-item{margin-bottom:16px}
+        .faq-item h4{font-size:.95rem;font-weight:700;margin-bottom:4px;color:var(--accent-1)}
+        .faq-item p{font-size:.85rem;color:var(--text-secondary);line-height:1.6}
+        footer{border-top:1px solid var(--border-color);padding:24px 0;text-align:center;color:var(--text-secondary);font-size:.8rem}
+        footer a{color:var(--accent-1);text-decoration:none}
+        .mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,26,0.96);border-top:1px solid var(--border-color);padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:1000;backdrop-filter:blur(12px)}
+        .mobile-nav ul{display:flex;list-style:none;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:2px;padding:0 12px}.mobile-nav ul::-webkit-scrollbar{display:none}
+        .mobile-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--text-secondary);font-size:.6rem;font-weight:600;padding:6px 10px;white-space:nowrap;min-width:52px}
+        .mobile-nav a.active{color:var(--accent-1)}
+        .mobile-nav .nav-icon{font-size:1.3rem}
+        @media(max-width:768px){.ad-banner:first-of-type{display:none}.mobile-nav{display:block}.top-nav{display:none}.back-link{display:none}.stats-grid{grid-template-columns:repeat(2,1fr)}.generate-btn{width:100%;justify-content:center}footer{padding-bottom:80px}}
+        @media(max-width:400px){.stats-grid{grid-template-columns:1fr 1fr}}
+    </style>
+    <link rel="alternate" hreflang="pl" href="https://losownik.pl/postac">
+    <link rel="alternate" hreflang="en" href="https://losownik.pl/en/postac">
+    <link rel="alternate" hreflang="de" href="https://losownik.pl/de/postac">
+    <link rel="alternate" hreflang="es" href="https://losownik.pl/es/postac">
+    <link rel="alternate" hreflang="fr" href="https://losownik.pl/fr/postac">
+    <link rel="alternate" hreflang="it" href="https://losownik.pl/it/postac">
+    <link rel="alternate" hreflang="pt" href="https://losownik.pl/pt/postac">
+    <link rel="alternate" hreflang="ru" href="https://losownik.pl/ru/postac">
+    <link rel="alternate" hreflang="cs" href="https://losownik.pl/cs/postac">
+    <link rel="alternate" hreflang="uk" href="https://losownik.pl/uk/postac">
+    <link rel="alternate" hreflang="x-default" href="https://losownik.pl/postac">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/uk/" class="logo"><div class="logo-icon">&#127922;</div><div><div class="logo-text">Losownik</div><div class="logo-subtitle">Онлайн генератор випадковостей</div></div></a>
+            <nav class="top-nav"><a href="/uk/kostka">Кубик</a><a href="/uk/mecz">Матч</a><a href="/uk/imie">Ім'я</a><a href="/uk/lotto">Лото</a><a href="/uk/kolo-fortuny">Колесо</a><a href="/uk/kolor">Колір</a><a href="/uk/moneta">Монета</a></nav>
+        <div class="lang-switcher">
+      <select class="lang-select" onchange="window.location.href=this.value" aria-label="Language">
+        <option value="/en/postac">English</option>
+        <option value="/de/postac">Deutsch</option>
+        <option value="/es/postac">Español</option>
+        <option value="/fr/postac">Français</option>
+        <option value="/it/postac">Italiano</option>
+        <option value="/pt/postac">Português</option>
+        <option value="/ru/postac">Русский</option>
+        <option value="/cs/postac">Čeština</option>
+        <option value="/uk/postac" selected>Українська</option>
+        <option value="/postac">Polski</option>
+      </select>
+    </div>
+        </header>
+        <nav class="breadcrumb"><a href="/uk/">Головна</a><span>›</span>Генератор персонажів RPG</nav>
+        <div class="ad-banner"><ins class="adsbygoogle" style="display:inline-block;min-width:300px;min-height:250px" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+
+        <div class="page-header">
+            <h1 class="page-title">Генератор персонажів <span>RPG</span></h1>
+            <p class="page-desc">Згенеруйте повного персонажа – характеристики, расу, клас та ім'я.</p>
+        </div>
+
+        <div class="character-card" id="charCard">
+            <div class="char-placeholder" id="charPlaceholder">Натисніть щоб згенерувати персонажа</div>
+            <div id="charContent" style="display:none"></div>
+        </div>
+
+        <div style="text-align:center;margin-bottom:40px">
+            <button class="generate-btn" id="generateBtn">&#9876; Генерувати!</button>
+        </div>
+
+        <section class="faq">
+            <h2>Najczęściej zadawane pytania</h2>
+            <div class="faq-item"><h4>Jak generowane są statystyki?</h4><p>Metodą 4d6 drop lowest – rzucamy 4 kośćmi k6, odrzucamy najniższy wynik i sumujemy 3 pozostałe. To standardowa metoda z D&D 5e.</p></div>
+            <div class="faq-item"><h4>Do jakich systemów pasuje generator?</h4><p>Głównie do D&D i Pathfinder, ale statystyki i koncepcje postaci można zaadaptować do dowolnego systemu fabularnego.</p></div>
+            <div class="faq-item"><h4>Czy mogę używać wygenerowanej postaci w grze?</h4><p>Oczywiście! Generator tworzy inspirację – możesz dostosować wyniki do swoich potrzeb i zasad kampanii.</p></div>
+        </section>
+
+        <div class="ad-banner"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({});</script></div>
+        <footer><p>&copy; 2006–2026 Losownik.pl | <a href="/uk/">Головна</a></p></footer>
+    </div>
+    <nav class="mobile-nav"><ul><li><a href="/uk/"><span class="nav-icon">&#127968;</span>Головна</a></li><li><a href="/uk/kostka"><span class="nav-icon">&#127922;</span>Кубик</a></li><li><a href="/uk/mecz"><span class="nav-icon">&#9917;</span>Матч</a></li><li><a href="/uk/imie"><span class="nav-icon">&#128100;</span>Ім'я</a></li><li><a href="/uk/lotto"><span class="nav-icon">&#127920;</span>Лото</a></li><li><a href="/uk/kolo-fortuny"><span class="nav-icon">&#127905;</span>Колесо</a></li><li><a href="/uk/moneta"><span class="nav-icon">&#129689;</span>Монета</a></li><li><a href="/uk/kolor"><span class="nav-icon">&#127912;</span>Колір</a></li><li><a href="/uk/karty"><span class="nav-icon">&#127183;</span>Карти</a></li><li><a href="/uk/druzyny"><span class="nav-icon">&#129351;</span>Команди</a></li><li><a href="/uk/kolejnosc"><span class="nav-icon">&#128260;</span>Порядок</a></li><li><a href="/uk/postac"><span class="nav-icon">&#9876;</span>RPG</a></li><li><a href="/uk/wyliczanka"><span class="nav-icon">&#128101;</span>Вибір</a></li><li><a href="/uk/liczba"><span class="nav-icon">&#128290;</span>Число</a></li></ul></nav>
+    <script>
+    (function(){
+        const races=['Człowiek','Elf','Krasnolud','Niziołek','Półelf','Półork','Gnom','Drakorod','Tiefling','Aasimar'];
+        const classes=['Wojownik','Mag','Łotr','Kleryk','Barbarzyńca','Bard','Druid','Mnich','Paladyn','Strażnik','Czarownik','Zaklinacz'];
+        const mNames=['Alaric','Borin','Caelum','Darius','Eldric','Faelan','Gideon','Hadrian','Ivar','Jasper','Kael','Leoric','Magnus','Nyx','Orin','Percival','Quillan','Rowan','Silas','Theron','Ulric','Vex','Wulfric','Xander','Yorick','Zephyr'];
+        const fNames=['Aria','Brenna','Celeste','Dalia','Elara','Freya','Gwendolyn','Helena','Iris','Jade','Kira','Lyra','Morgana','Nadia','Ophelia','Petra','Quinn','Rowena','Selene','Thalia','Una','Viola','Wren','Xara','Yara','Zara'];
+        const traits=['Odważny','Lojalny','Tajemniczy','Chciwy','Mądry','Porywczy','Spokojny','Samotnik','Honorowy','Sprytny','Cyniczny','Idealista','Żądny przygód','Mroczny','Wesoły','Uparty','Ostrożny','Charyzmatyczny'];
+        const backgrounds=['Żołnierz','Uczony','Kryminalnista','Szlachcic','Pielgrzym','Wędrowiec','Artysta','Kupiec','Sierota','Pustelnik'];
+
+        function rand(min,max){const a=new Uint32Array(1);crypto.getRandomValues(a);return min+(a[0]%(max-min+1))}
+        function pick(arr){return arr[rand(0,arr.length-1)]}
+
+        // 4d6 drop lowest
+        function rollStat(){
+            let rolls=[];
+            for(let i=0;i<4;i++)rolls.push(rand(1,6));
+            rolls.sort((a,b)=>a-b);
+            return rolls[1]+rolls[2]+rolls[3];
+        }
+
+        function getMod(stat){
+            const m=Math.floor((stat-10)/2);
+            return m>=0?'+'+m:''+m;
+        }
+
+        function generate(){
+            const isMale=Math.random()>0.5;
+            const name=isMale?pick(mNames):pick(fNames);
+            const race=pick(races);
+            const charClass=pick(classes);
+            const bg=pick(backgrounds);
+            const charTraits=[pick(traits)];
+            while(charTraits.length<3){const t=pick(traits);if(!charTraits.includes(t))charTraits.push(t)}
+
+            const stats={str:rollStat(),dex:rollStat(),con:rollStat(),int:rollStat(),wis:rollStat(),cha:rollStat()};
+
+            const charCard=document.getElementById('charCard');
+            const charContent=document.getElementById('charContent');
+            document.getElementById('charPlaceholder').style.display='none';
+            charContent.style.display='block';
+            charCard.classList.add('has-char');
+
+            charContent.innerHTML=`
+                <div class="char-header">
+                    <div><div class="char-name">${name}</div><div class="char-class">${charClass} | ${bg}</div></div>
+                    <div class="char-race">${race}</div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-box"><div class="stat-label">Siła</div><div class="stat-value">${stats.str}</div><div class="stat-mod">${getMod(stats.str)}</div></div>
+                    <div class="stat-box"><div class="stat-label">Zręczność</div><div class="stat-value">${stats.dex}</div><div class="stat-mod">${getMod(stats.dex)}</div></div>
+                    <div class="stat-box"><div class="stat-label">Kondycja</div><div class="stat-value">${stats.con}</div><div class="stat-mod">${getMod(stats.con)}</div></div>
+                    <div class="stat-box"><div class="stat-label">Inteligencja</div><div class="stat-value">${stats.int}</div><div class="stat-mod">${getMod(stats.int)}</div></div>
+                    <div class="stat-box"><div class="stat-label">Mądrość</div><div class="stat-value">${stats.wis}</div><div class="stat-mod">${getMod(stats.wis)}</div></div>
+                    <div class="stat-box"><div class="stat-label">Charyzma</div><div class="stat-value">${stats.cha}</div><div class="stat-mod">${getMod(stats.cha)}</div></div>
+                </div>
+                <div class="char-traits"><h4>Cechy postaci</h4>${charTraits.map(t=>'<span class="trait-item">'+t+'</span>').join('')}</div>
+            `;
+        }
+
+        document.getElementById('generateBtn').addEventListener('click',generate);
+        if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});
+    })();
+    </script>
+<script>setTimeout(function(){document.querySelectorAll(".ad-banner").forEach(function(b){var ins=b.querySelector("ins.adsbygoogle");if(ins&&(ins.offsetHeight<10||ins.innerHTML.trim()===""))b.style.display="none"})},3500);</script>
+
+<script src="/js/translations.js" defer></script>
+<script src="/js/i18n.js" defer></script>
+<script src="/js/apply_translations.js" defer></script>
+</body>
+</html>

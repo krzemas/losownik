@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Безкоштовний онлайн генератор – кубики, монети, імена, числа, лото, команди та інше.">
+    <title>Losownik.pl – Онлайн генератор випадковостей</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6838914398408406" crossorigin="anonymous"></script>
+    <script src="/js/sounds.js" defer></script>
+    
+    <!-- GA4: wstaw swój ID poniżej -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-XXXXXXXXXX');</script> -->
+    
+    <meta name="theme-color" content="#0a0a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #12122a;
+            --bg-card: #1a1a3e;
+            --bg-card-hover: #222255;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0c0;
+            --accent-1: #00f5d4;
+            --accent-2: #7b2ff7;
+            --accent-3: #f72585;
+            --accent-glow: rgba(0, 245, 212, 0.3);
+            --border-color: rgba(123, 47, 247, 0.3);
+            --radius: 16px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(123, 47, 247, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 245, 212, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(247, 37, 133, 0.08) 0%, transparent 50%);
+            z-index: 0;
+            animation: bgPulse 8s ease-in-out infinite alternate;
+        }
+        
+        @keyframes bgPulse {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            margin: 0 -20px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        nav {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        
+        nav a:hover {
+            color: var(--accent-1);
+            background: rgba(0, 245, 212, 0.1);
+            border-color: rgba(0, 245, 212, 0.3);
+        }
+        
+        /* Language switcher */
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-family: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+        
+        .hero h2 {
+            font-size: clamp(1.8rem, 5vw, 3rem);
+            font-weight: 900;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        
+        .hero h2 span {
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2), var(--accent-3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin: 24px 0;
+            text-align: center;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px 0 60px;
+        }
+        
+        .tool-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .tool-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow), 0 0 30px var(--accent-glow);
+            border-color: var(--accent-1);
+        }
+        
+        .tool-card:hover::before { opacity: 1; }
+        
+        .tool-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 16px;
+            background: rgba(123, 47, 247, 0.15);
+            border: 1px solid rgba(123, 47, 247, 0.3);
+        }
+        
+        .tool-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; }
+        .tool-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+        
+        .tool-card .arrow {
+            position: absolute;
+            top: 24px; right: 24px;
+            font-size: 1.2rem;
+            color: var(--accent-1);
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: all 0.3s;
+        }
+        
+        .tool-card:hover .arrow { opacity: 1; transform: translateX(0); }
+        
+        .tool-card:nth-child(1) .tool-icon { background: rgba(0, 245, 212, 0.15); border-color: rgba(0, 245, 212, 0.3); }
+        .tool-card:nth-child(2) .tool-icon { background: rgba(247, 37, 133, 0.15); border-color: rgba(247, 37, 133, 0.3); }
+        .tool-card:nth-child(3) .tool-icon { background: rgba(255, 190, 11, 0.15); border-color: rgba(255, 190, 11, 0.3); }
+        .tool-card:nth-child(4) .tool-icon { background: rgba(72, 149, 239, 0.15); border-color: rgba(72, 149, 239, 0.3); }
+        .tool-card:nth-child(5) .tool-icon { background: rgba(123, 47, 247, 0.15); border-color: rgba(123, 47, 247, 0.3); }
+        .tool-card:nth-child(6) .tool-icon { background: rgba(6, 214, 160, 0.15); border-color: rgba(6, 214, 160, 0.3); }
+        .tool-card:nth-child(7) .tool-icon { background: rgba(255, 107, 107, 0.15); border-color: rgba(255, 107, 107, 0.3); }
+        .tool-card:nth-child(8) .tool-icon { background: rgba(78, 205, 196, 0.15); border-color: rgba(78, 205, 196, 0.3); }
+        .tool-card:nth-child(9) .tool-icon { background: rgba(255, 159, 28, 0.15); border-color: rgba(255, 159, 28, 0.3); }
+        .tool-card:nth-child(10) .tool-icon { background: rgba(162, 155, 254, 0.15); border-color: rgba(162, 155, 254, 0.3); }
+        .tool-card:nth-child(11) .tool-icon { background: rgba(0, 206, 209, 0.15); border-color: rgba(0, 206, 209, 0.3); }
+        .tool-card:nth-child(12) .tool-icon { background: rgba(255, 99, 71, 0.15); border-color: rgba(255, 99, 71, 0.3); }
+        
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        
+        footer a { color: var(--accent-1); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            bottom: 0; left: 0; right: 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .mobile-nav ul { display: flex; list-style: none; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 2px; padding: 0 12px; }
+        .mobile-nav ul::-webkit-scrollbar { display: none; }
+        
+        .mobile-nav a {
+            display: flex; flex-direction: column; align-items: center; gap: 2px;
+            text-decoration: none; color: var(--text-secondary);
+            font-size: 0.6rem; font-weight: 600; padding: 6px 10px;
+            white-space: nowrap; min-width: 52px;
+            border-radius: 8px; transition: color 0.3s;
+        }
+        
+        .mobile-nav a:hover, .mobile-nav a.active { color: var(--accent-1); }
+        .mobile-nav .nav-icon { font-size: 1.4rem; }
+        
+        @media (max-width: 768px) {
+            .ad-banner:first-of-type { display: none; }
+            header { padding: 16px 0; }
+            nav { display: none; }
+            .mobile-nav { display: block; }
+            .hero { padding: 30px 0 20px; }
+            .tools-grid { grid-template-columns: 1fr 1fr; gap: 12px; padding-bottom: 100px; }
+            .tool-card { padding: 20px 16px; }
+            .tool-card p { display: none; }
+            .tool-icon { width: 44px; height: 44px; font-size: 22px; margin-bottom: 12px; }
+        }
+        
+        @media (max-width: 480px) {
+            .tools-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+            .tool-card { padding: 16px 12px; }
+            .tool-card h3 { font-size: 0.95rem; }
+        }
+    </style>
+    <link rel="alternate" hreflang="pl" href="https://losownik.pl/">
+    <link rel="alternate" hreflang="en" href="https://losownik.pl/en/">
+    <link rel="alternate" hreflang="de" href="https://losownik.pl/de/">
+    <link rel="alternate" hreflang="es" href="https://losownik.pl/es/">
+    <link rel="alternate" hreflang="fr" href="https://losownik.pl/fr/">
+    <link rel="alternate" hreflang="it" href="https://losownik.pl/it/">
+    <link rel="alternate" hreflang="pt" href="https://losownik.pl/pt/">
+    <link rel="alternate" hreflang="ru" href="https://losownik.pl/ru/">
+    <link rel="alternate" hreflang="cs" href="https://losownik.pl/cs/">
+    <link rel="alternate" hreflang="uk" href="https://losownik.pl/uk/">
+    <link rel="alternate" hreflang="x-default" href="https://losownik.pl/">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/uk/" class="logo">
+                <div class="logo-icon">&#127922;</div>
+                <div>
+                    <div class="logo-text">Losownik</div>
+                    <div class="logo-subtitle">Онлайн генератор випадковостей</div>
+                </div>
+            </a>
+            <nav>
+                <a href="/uk/kostka">Кубик</a>
+                <a href="/uk/mecz">Матч</a>
+                <a href="/uk/imie">Ім'я</a>
+                <a href="/uk/lotto">Лото</a>
+                <a href="/uk/kolo-fortuny">Koło fortuny</a>
+                <a href="/uk/kolor">Колір</a>
+            </nav>
+        <div class="lang-switcher">
+      <select class="lang-select" onchange="window.location.href=this.value" aria-label="Language">
+        <option value="/en/">English</option>
+        <option value="/de/">Deutsch</option>
+        <option value="/es/">Español</option>
+        <option value="/fr/">Français</option>
+        <option value="/it/">Italiano</option>
+        <option value="/pt/">Português</option>
+        <option value="/ru/">Русский</option>
+        <option value="/cs/">Čeština</option>
+        <option value="/uk/" selected>Українська</option>
+        <option value="/">Polski</option>
+      </select>
+    </div>
+        </header>
+        
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:inline-block;min-width:300px;min-height:250px" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+        
+        <section class="hero">
+            <h2>Ваш <span>генератор випадковостей</span> онлайн</h2>
+            <p>Кидайте кубики, генеруйте імена, передбачайте рахунок або випробуйте удачу в Лото. Безкоштовно, без реєстрації!</p>
+        </section>
+        
+        <section class="tools-grid">
+            <a href="/uk/kostka" class="tool-card">
+                <span class="arrow">&#8594;</span>
+                <div class="tool-icon">&#127922;</div>
+                <h3>Кинути кубик</h3>
+                <p>Кубики k4, k6, k8, k12, k20, k100 з 3D-анімацією.</p>
+            </a>
+            <a href="/uk/mecz" class="tool-card">
+                <span class="arrow">&#8594;</span>
+                <div class="tool-icon">&#9917;</div>
+                <h3>Рахунок матчу</h3>
+                <p>Випадковий рахунок для футболу, волейболу, баскетболу або гандболу.</p>
+            </a>
+            <a href="/uk/imie" class="tool-card">
+                <span class="arrow">&#8594;</span>
+                <div class="tool-icon">&#128100;</div>
+                <h3>Випадкове ім'я</h3>
+                <p>Згенеруйте чоловіче, жіноче ім'я або повну особистість.</p>
+            </a>
+            <a href="/uk/lotto" class="tool-card">
+                <span class="arrow">&#8594;</span>
+                <div class="tool-icon">&#127920;</div>
+                <h3>ЛОТО</h3>
+                <p>Згенеруйте числа для Лото, Міні Лото, Мульті Мульті та Джокер.</p>
+            </a>
+            <a href="/uk/wyliczanka" class="tool-card">
+                <span class="arrow">&#8594;</span>
+                <div class="tool-icon">&#128101;</div>
+                <h3>Вибір людини</h3>
+                <p>Введіть імена – інструмент випадково обере одну людину.</p>
+            </a>
+            <a href="/uk/liczba" class="tool-card">
+                <span class="arrow">&#8594;</span>
+                <div class="tool-icon">&#128290;</div>
+                <h3>Випадкове число</h3>
+                <p>Генератор чисел з будь-якого діапазону.</p>
+            </a>
+            <a href="/uk/kolo-fortuny" class="tool-card">
+                <span class="arrow">&#8594;</span>
+                <div class="tool-icon">&#127905;</div>
+                <h3>Колесо фортуни</h3>
+                <p>Введіть варіанти, крутіть колесо і нехай доля вирішить!</p>
+            </a>
+            <a href="/uk/kolor" class="tool-card">
+                <span class="arrow">&#8594;</span>
+                <div class="tool-icon">&#127912;</div>
+                <h3>Випадковий колір</h3>
+                <p>Згенеруйте колір у HEX, RGB або з палітри.</p>
+            </a>
+            <a href="/uk/druzyny" class="tool-card">
+                <span class="arrow">&#8594;</span>
+                <div class="tool-icon">&#129351;</div>
+                <h3>Генератор команд</h3>
+                <p>Поділіть гравців на рівні команди.</p>
+            </a>
+            <a href="/uk/kolejnosc" class="tool-card">
+                <span class="arrow">&#8594;</span>
+                <div class="tool-icon">&#128260;</div>
+                <h3>Випадковий порядок</h3>
+                <p>Перемішайте список – хто перший?</p>
+            </a>
+            <a href="/uk/postac" class="tool-card">
+                <span class="arrow">&#8594;</span>
+                <div class="tool-icon">&#9876;</div>
+                <h3>Персонаж RPG</h3>
+                <p>Випадкові характеристики, раса, клас та ім'я.</p>
+            </a>
+            <a href="/uk/moneta" class="tool-card">
+                <span class="arrow">&#8594;</span>
+                <div class="tool-icon">&#129689;</div>
+                <h3>Підкинути монету</h3>
+                <p>Орел чи решка? Класичний кидок з анімацією.</p>
+            </a>
+            
+            <a href="/uk/karty" class="tool-card">
+                <span class="arrow">&#8594;</span>
+                <div class="tool-icon">&#127183;</div>
+                <h3>Витягнути карту</h3>
+                <p>Витягніть випадкову карту з колоди у 52 карти.</p>
+            </a>
+        </section>
+        
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+        
+        <footer>
+            <p>&copy; 2006–2026 Losownik.pl – Онлайн генератор випадковостей | <a href="/uk/polityka-prywatnosci">Політика конфіденційності</a></p>
+        </footer>
+    </div>
+    
+    <nav class="mobile-nav"><ul><li><a href="/uk/" class="active"><span class="nav-icon">&#127968;</span>Головна</a></li><li><a href="/uk/kostka"><span class="nav-icon">&#127922;</span>Кубик</a></li><li><a href="/uk/mecz"><span class="nav-icon">&#9917;</span>Матч</a></li><li><a href="/uk/imie"><span class="nav-icon">&#128100;</span>Ім'я</a></li><li><a href="/uk/lotto"><span class="nav-icon">&#127920;</span>Лото</a></li><li><a href="/uk/kolo-fortuny"><span class="nav-icon">&#127905;</span>Колесо</a></li><li><a href="/uk/moneta"><span class="nav-icon">&#129689;</span>Монета</a></li><li><a href="/uk/kolor"><span class="nav-icon">&#127912;</span>Колір</a></li><li><a href="/uk/karty"><span class="nav-icon">&#127183;</span>Карти</a></li><li><a href="/uk/druzyny"><span class="nav-icon">&#129351;</span>Команди</a></li><li><a href="/uk/kolejnosc"><span class="nav-icon">&#128260;</span>Порядок</a></li><li><a href="/uk/postac"><span class="nav-icon">&#9876;</span>RPG</a></li><li><a href="/uk/wyliczanka"><span class="nav-icon">&#128101;</span>Вибір</a></li><li><a href="/uk/liczba"><span class="nav-icon">&#128290;</span>Число</a></li></ul></nav>
+
+    
+    <!-- PWA Service Worker -->
+    <script>if('serviceWorker' in navigator)navigator.serviceWorker.register('/sw.js').catch(()=>{});</script>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Losownik.pl",
+        "description": "Безкоштовний онлайн генератор – кубики, монети, імена, числа, лото, команди та інше.",
+        "url": "https://losownik.pl",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "All",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "PLN" }
+    }
+    </script>
+<script>setTimeout(function(){document.querySelectorAll(".ad-banner").forEach(function(b){var ins=b.querySelector("ins.adsbygoogle");if(ins&&(ins.offsetHeight<10||ins.innerHTML.trim()===""))b.style.display="none"})},3500);</script>
+
+<script src="/js/translations.js" defer></script>
+<script src="/js/i18n.js" defer></script>
+<script src="/js/apply_translations.js" defer></script>
+</body>
+</html>

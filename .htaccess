@@ -31,7 +31,21 @@ RewriteRule ^imie/losuj/m-name$ /imie?t=meskie [R=301,L]
 RewriteRule ^imie/losuj/f-name$ /imie?t=zenskie [R=301,L]
 RewriteRule ^imie/losuj/name-surname$ /imie?t=pelne [R=301,L]
 
-# --- Clean URLs (no .html extension) ---
+# --- Redirect old ?lang= URLs to new directory structure ---
+RewriteCond %{QUERY_STRING} ^lang=(en|de|es|fr|it|pt|ru|cs|uk)$
+RewriteRule ^(.*)$ /%1/$1? [R=301,L]
+
+# --- Language directory clean URLs ---
+# Handle /xx/ -> /xx/index.html
+RewriteRule ^(en|de|es|fr|it|pt|ru|cs|uk)/?$ $1/index.html [L]
+
+# Handle /xx/page -> /xx/page.html (clean URLs for language dirs)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(en|de|es|fr|it|pt|ru|cs|uk)/(.+)$ $1/$2.html [L]
+
+# --- Clean URLs for Polish (root) pages ---
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.html -f

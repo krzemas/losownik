@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Кидайте віртуальні кубики онлайн – d4, d6, d8, d10, d12, d20, d100 з 3D-анімацією.">
+    <title>Кинути кубик онлайн – d4, d6, d8, d10, d12, d20, d100 | Losownik.pl</title>
+    <link rel="canonical" href="https://losownik.pl/uk/kostka">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0a0a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6838914398408406" crossorigin="anonymous"></script>
+    <script src="/js/sounds.js" defer></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-primary: #0a0a1a;
+            --bg-secondary: #12122a;
+            --bg-card: #1a1a3e;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0c0;
+            --accent-1: #00f5d4;
+            --accent-2: #7b2ff7;
+            --accent-glow: rgba(0, 245, 212, 0.3);
+            --border-color: rgba(123, 47, 247, 0.3);
+            --radius: 16px;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(123, 47, 247, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 245, 212, 0.1) 0%, transparent 50%);
+            z-index: 0;
+        }
+        .container { position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* Header */
+        header{position:sticky;top:0;z-index:100;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;background:rgba(10,10,26,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-color);margin:0 -20px}
+        .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-icon { width: 48px; height: 48px; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .logo-text { font-size: 1.8rem; font-weight: 900; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .logo-subtitle { font-size: 0.7rem; color: var(--text-secondary); letter-spacing: 1.5px; text-transform: uppercase; }
+        .back-link { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--border-color); transition: all 0.3s; }
+        .back-link:hover { color: var(--accent-1); border-color: var(--accent-1); }
+        .top-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+        .top-nav a { color: var(--text-secondary); text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; border: 1px solid transparent; }
+        .top-nav a:hover { color: var(--accent-1); background: rgba(0,245,212,0.08); border-color: rgba(0,245,212,0.2); }
+        
+        /* Breadcrumb */
+        .breadcrumb { padding: 4px 0 16px; font-size: 0.8rem; color: var(--text-secondary); }
+        .breadcrumb a { color: var(--accent-1); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+        .breadcrumb span { margin: 0 8px; opacity: 0.5; }
+        
+        /* Ad Banner - hidden when empty to avoid visual glitch */
+        .ad-banner {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 12px;
+            margin: 0 0 20px;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .ad-banner:empty { display: none; }
+        .ad-banner .adsbygoogle:empty::after { content: none; }
+        
+        /* Page Header */
+        .page-header { margin-bottom: 24px; }
+        .page-title { font-size: clamp(1.4rem, 3.5vw, 2rem); font-weight: 900; margin-bottom: 6px; }
+        .page-title span { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .page-desc { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; max-width: 600px; }
+        
+        /* ===== MAIN DICE AREA - Key viewport optimization ===== */
+        .dice-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: center;
+            margin-bottom: 32px;
+            min-height: 300px;
+        }
+        
+        /* Left: Dice */
+        .dice-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dice-scene {
+            width: 220px;
+            height: 220px;
+            perspective: 650px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .dice-scene:hover { transform: scale(1.03); }
+        .dice-scene:active { transform: scale(0.97); }
+        
+        .dice-cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-25deg) rotateY(25deg);
+            transition: transform 0.1s;
+        }
+        .dice-cube.rolling {
+            animation: roll 1s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
+        @keyframes roll {
+            0% { transform: rotateX(0) rotateY(0) rotateZ(0); }
+            25% { transform: rotateX(400deg) rotateY(250deg) rotateZ(120deg); }
+            50% { transform: rotateX(700deg) rotateY(450deg) rotateZ(250deg); }
+            75% { transform: rotateX(1000deg) rotateY(600deg) rotateZ(340deg); }
+            100% { transform: rotateX(1260deg) rotateY(720deg) rotateZ(360deg); }
+        }
+        
+        .dice-face {
+            position: absolute; width: 220px; height: 220px; border-radius: 22px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 4rem; font-weight: 900;
+            background: linear-gradient(135deg, #1a1a4a, #2a2a60);
+            border: 2px solid var(--border-color);
+            color: var(--accent-1); text-shadow: 0 0 20px var(--accent-glow);
+            backface-visibility: visible;
+            user-select: none;
+        }
+        .dice-face:nth-child(1) { transform: rotateY(0deg) translateZ(110px); }
+        .dice-face:nth-child(2) { transform: rotateY(180deg) translateZ(110px); }
+        .dice-face:nth-child(3) { transform: rotateY(90deg) translateZ(110px); }
+        .dice-face:nth-child(4) { transform: rotateY(-90deg) translateZ(110px); }
+        .dice-face:nth-child(5) { transform: rotateX(90deg) translateZ(110px); }
+        .dice-face:nth-child(6) { transform: rotateX(-90deg) translateZ(110px); }
+        
+        .dice-tap-hint {
+            margin-top: 12px;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            opacity: 0.6;
+            text-align: center;
+        }
+        
+        /* Right: Result + Button */
+        .dice-controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .current-dice-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+        
+        .result-number {
+            font-size: clamp(4rem, 10vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .result-number.visible { opacity: 1; transform: scale(1); }
+        
+        .result-number.placeholder {
+            opacity: 0.2;
+            transform: scale(1);
+            font-size: clamp(3rem, 8vw, 4.5rem);
+        }
+        
+        .result-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        
+        .roll-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 44px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            font-family: inherit;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+            color: #0a0a1a;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 24px rgba(0, 245, 212, 0.35);
+        }
+        .roll-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0, 245, 212, 0.45); }
+        .roll-btn:active { transform: translateY(0) scale(0.97); }
+        .roll-btn.disabled { opacity: 0.6; pointer-events: none; }
+        
+        /* ===== DICE TYPE SELECTOR - Below main area ===== */
+        .dice-options {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 32px;
+        }
+        
+        .dice-options-label {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 14px;
+        }
+        
+        .dice-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .dice-btn {
+            padding: 12px 18px;
+            border: 1.5px solid var(--border-color);
+            border-radius: 12px;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.25s;
+            text-align: center;
+        }
+        .dice-btn:hover { border-color: var(--accent-1); color: var(--accent-1); background: rgba(0, 245, 212, 0.05); }
+        .dice-btn.active { border-color: var(--accent-1); background: rgba(0, 245, 212, 0.12); color: var(--accent-1); box-shadow: 0 0 16px rgba(0, 245, 212, 0.15); }
+        .dice-btn .dice-label { display: block; font-size: 0.65rem; opacity: 0.7; margin-top: 3px; font-weight: 500; }
+        
+        /* History */
+        .history { margin-bottom: 32px; padding: 20px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius); }
+        .history h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 12px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+        .history-list { display: flex; flex-wrap: wrap; gap: 6px; }
+        .history-item { background: var(--bg-secondary); border: 1px solid var(--border-color); padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; color: var(--accent-1); animation: fadeIn 0.3s ease; }
+        .history-empty { color: var(--text-secondary); font-size: 0.82rem; font-style: italic; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+        
+        /* FAQ */
+        .faq { margin-bottom: 32px; padding-top: 24px; border-top: 1px solid var(--border-color); }
+        .faq h2 { font-size: 1.2rem; font-weight: 800; margin-bottom: 16px; }
+        .faq-item { margin-bottom: 16px; }
+        .faq-item h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; color: var(--accent-1); }
+        .faq-item p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+        
+        /* Footer */
+        footer { border-top: 1px solid var(--border-color); padding: 24px 0; text-align: center; color: var(--text-secondary); font-size: 0.8rem; }
+        footer a { color: var(--accent-1); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        
+        /* Mobile Bottom Nav */
+        .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: rgba(10, 10, 26, 0.96); border-top: 1px solid var(--border-color); padding: 8px 0 calc(8px + env(safe-area-inset-bottom)); z-index: 1000; backdrop-filter: blur(12px); }
+        .mobile-nav ul { display: flex; list-style: none; overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 2px; padding: 0 12px; }
+        .mobile-nav ul::-webkit-scrollbar { display: none; }
+        .mobile-nav a { display: flex; flex-direction: column; align-items: center; gap: 2px; text-decoration: none; color: var(--text-secondary); font-size: 0.6rem; font-weight: 600; padding: 6px 10px; white-space: nowrap; min-width: 52px; }
+        .mobile-nav a.active { color: var(--accent-1); }
+        .mobile-nav .nav-icon { font-size: 1.3rem; }
+        
+        /* Confetti */
+        .confetti-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; overflow: hidden; }
+        .confetti { position: absolute; width: 10px; height: 10px; opacity: 0; }
+        @keyframes confettiFall { 0% { opacity: 1; transform: translateY(-20px) rotate(0deg); } 100% { opacity: 0; transform: translateY(100vh) rotate(720deg); } }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .ad-banner:first-of-type { display: none; }
+            .mobile-nav { display: block; }
+            .top-nav { display: none; }
+            .back-link { display: none; }
+            
+            .dice-main {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                min-height: auto;
+            }
+            
+            .dice-visual { order: 1; }
+            .dice-controls { order: 2; }
+            
+            .dice-scene { width: 180px; height: 180px; }
+            .dice-face { width: 180px; height: 180px; font-size: 3.2rem; border-radius: 18px; }
+            .dice-face:nth-child(1) { transform: rotateY(0deg) translateZ(90px); }
+            .dice-face:nth-child(2) { transform: rotateY(180deg) translateZ(90px); }
+            .dice-face:nth-child(3) { transform: rotateY(90deg) translateZ(90px); }
+            .dice-face:nth-child(4) { transform: rotateY(-90deg) translateZ(90px); }
+            .dice-face:nth-child(5) { transform: rotateX(90deg) translateZ(90px); }
+            .dice-face:nth-child(6) { transform: rotateX(-90deg) translateZ(90px); }
+            
+            .result-number { font-size: 3.5rem; min-height: 60px; }
+            .roll-btn { padding: 16px 36px; font-size: 1.05rem; width: 100%; justify-content: center; }
+            .dice-selector { justify-content: center; }
+            
+            footer { padding-bottom: 80px; }
+            .page-desc { font-size: 0.82rem; }
+            .ad-banner { min-height: 60px; margin-bottom: 12px; }
+        }
+        
+        @media (max-width: 400px) {
+            .dice-scene { width: 150px; height: 150px; }
+            .dice-face { width: 150px; height: 150px; font-size: 2.6rem; border-radius: 14px; }
+            .dice-face:nth-child(1) { transform: rotateY(0deg) translateZ(75px); }
+            .dice-face:nth-child(2) { transform: rotateY(180deg) translateZ(75px); }
+            .dice-face:nth-child(3) { transform: rotateY(90deg) translateZ(75px); }
+            .dice-face:nth-child(4) { transform: rotateY(-90deg) translateZ(75px); }
+            .dice-face:nth-child(5) { transform: rotateX(90deg) translateZ(75px); }
+            .dice-face:nth-child(6) { transform: rotateX(-90deg) translateZ(75px); }
+        }
+    </style>
+    <link rel="alternate" hreflang="pl" href="https://losownik.pl/kostka">
+    <link rel="alternate" hreflang="en" href="https://losownik.pl/en/kostka">
+    <link rel="alternate" hreflang="de" href="https://losownik.pl/de/kostka">
+    <link rel="alternate" hreflang="es" href="https://losownik.pl/es/kostka">
+    <link rel="alternate" hreflang="fr" href="https://losownik.pl/fr/kostka">
+    <link rel="alternate" hreflang="it" href="https://losownik.pl/it/kostka">
+    <link rel="alternate" hreflang="pt" href="https://losownik.pl/pt/kostka">
+    <link rel="alternate" hreflang="ru" href="https://losownik.pl/ru/kostka">
+    <link rel="alternate" hreflang="cs" href="https://losownik.pl/cs/kostka">
+    <link rel="alternate" hreflang="uk" href="https://losownik.pl/uk/kostka">
+    <link rel="alternate" hreflang="x-default" href="https://losownik.pl/kostka">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <a href="/uk/" class="logo">
+                <div class="logo-icon">&#127922;</div>
+                <div><div class="logo-text">Losownik</div><div class="logo-subtitle">Онлайн генератор випадковостей</div></div>
+            </a>
+            <nav class="top-nav"><a href="/uk/kostka">Кубик</a><a href="/uk/mecz">Матч</a><a href="/uk/imie">Ім'я</a><a href="/uk/lotto">Лото</a><a href="/uk/kolo-fortuny">Колесо</a><a href="/uk/kolor">Колір</a><a href="/uk/moneta">Монета</a></nav>
+        <div class="lang-switcher">
+      <select class="lang-select" onchange="window.location.href=this.value" aria-label="Language">
+        <option value="/en/kostka">English</option>
+        <option value="/de/kostka">Deutsch</option>
+        <option value="/es/kostka">Español</option>
+        <option value="/fr/kostka">Français</option>
+        <option value="/it/kostka">Italiano</option>
+        <option value="/pt/kostka">Português</option>
+        <option value="/ru/kostka">Русский</option>
+        <option value="/cs/kostka">Čeština</option>
+        <option value="/uk/kostka" selected>Українська</option>
+        <option value="/kostka">Polski</option>
+      </select>
+    </div>
+        </header>
+        
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="/uk/">Головна</a><span>›</span>Кинути кубик</nav>
+        
+        <!-- Ad Banner -->
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:inline-block;min-width:300px;min-height:250px" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+        
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1 class="page-title">Кинути <span>кубик</span></h1>
+            <p class="page-desc">Натисніть на кубик або кнопку. Оберіть тип нижче.</p>
+        </div>
+        
+        <!-- ===== MAIN DICE AREA: Dice left, Result+Button right ===== -->
+        <div class="dice-main">
+            <!-- Left: 3D Dice (clickable!) -->
+            <div class="dice-visual">
+                <div class="dice-scene" id="diceScene" role="button" aria-label="Натисніть щоб кинути" tabindex="0">
+                    <div class="dice-cube" id="diceCube">
+                        <div class="dice-face">1</div>
+                        <div class="dice-face">6</div>
+                        <div class="dice-face">3</div>
+                        <div class="dice-face">4</div>
+                        <div class="dice-face">2</div>
+                        <div class="dice-face">5</div>
+                    </div>
+                </div>
+                <div class="dice-tap-hint">Kliknij kostkę aby rzucić</div>
+            </div>
+            
+            <!-- Right: Result + Roll button -->
+            <div class="dice-controls">
+                <div class="current-dice-label" id="currentDiceLabel">Standardowa kostka (k6)</div>
+                <div class="result-number placeholder" id="resultNumber">?</div>
+                <div class="result-label" id="resultLabel">Натисніть щоб кинути</div>
+                <button class="roll-btn" id="rollBtn">&#127922; Кинути!</button>
+            </div>
+        </div>
+        
+        <!-- ===== DICE TYPE SELECTOR - Below main area ===== -->
+        <div class="dice-options">
+            <div class="dice-options-label">Wybierz rodzaj kostki</div>
+            <div class="dice-selector" role="group" aria-label="Wybór kostki">
+                <button class="dice-btn active" data-sides="6">k6<span class="dice-label">Куб</span></button>
+                <button class="dice-btn" data-sides="4">k4<span class="dice-label">Тетраедр</span></button>
+                <button class="dice-btn" data-sides="8">k8<span class="dice-label">Октаедр</span></button>
+                <button class="dice-btn" data-sides="10">k10<span class="dice-label">Декаедр</span></button>
+                <button class="dice-btn" data-sides="12">k12<span class="dice-label">Додекаедр</span></button>
+                <button class="dice-btn" data-sides="20">k20<span class="dice-label">Ікосаедр</span></button>
+                <button class="dice-btn" data-sides="100">k100<span class="dice-label">Відсотковий</span></button>
+            </div>
+        </div>
+        
+        <!-- History -->
+        <div class="history">
+            <h3>Історія кидків</h3>
+            <div class="history-list" id="historyList">
+                <span class="history-empty">Немає кидків – натисніть на кубик або кнопку</span>
+            </div>
+        </div>
+        
+        <!-- FAQ for SEO -->
+        <section class="faq">
+            <h2>Поширені запитання</h2>
+            <div class="faq-item">
+                <h4>Кидок справді випадковий?</h4>
+                <p>Так – ми використовуємо криптографічний генератор (crypto.getRandomValues) для справжньої випадковості.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Чи можна використовувати для RPG?</h4>
+                <p>Звичайно! Ми підтримуємо всі кубики RPG: d4, d6, d8, d10, d12, d20 та d100.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Чи впливає 3D-анімація на результат?</h4>
+                <p>Ні – результат визначається миттєво. Анімація чисто візуальна.</p>
+            </div>
+        </section>
+        
+        <!-- Ad Banner Bottom -->
+        <div class="ad-banner">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-6838914398408406"
+                 data-ad-slot="1732651309"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+        
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2006–2026 Losownik.pl | <a href="/uk/">Головна</a> | <a href="/uk/polityka-prywatnosci">Політика конфіденційності</a></p>
+        </footer>
+    </div>
+    
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-nav"><ul><li><a href="/uk/"><span class="nav-icon">&#127968;</span>Головна</a></li><li><a href="/uk/kostka" class="active"><span class="nav-icon">&#127922;</span>Кубик</a></li><li><a href="/uk/mecz"><span class="nav-icon">&#9917;</span>Матч</a></li><li><a href="/uk/imie"><span class="nav-icon">&#128100;</span>Ім'я</a></li><li><a href="/uk/lotto"><span class="nav-icon">&#127920;</span>Лото</a></li><li><a href="/uk/kolo-fortuny"><span class="nav-icon">&#127905;</span>Колесо</a></li><li><a href="/uk/moneta"><span class="nav-icon">&#129689;</span>Монета</a></li><li><a href="/uk/kolor"><span class="nav-icon">&#127912;</span>Колір</a></li><li><a href="/uk/karty"><span class="nav-icon">&#127183;</span>Карти</a></li><li><a href="/uk/druzyny"><span class="nav-icon">&#129351;</span>Команди</a></li><li><a href="/uk/kolejnosc"><span class="nav-icon">&#128260;</span>Порядок</a></li><li><a href="/uk/postac"><span class="nav-icon">&#9876;</span>RPG</a></li><li><a href="/uk/wyliczanka"><span class="nav-icon">&#128101;</span>Вибір</a></li><li><a href="/uk/liczba"><span class="nav-icon">&#128290;</span>Число</a></li></ul></nav>
+    
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+                {
+                        "@type": "Question",
+                        "name": "Кидок справді випадковий?",
+                        "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "Так – ми використовуємо криптографічний генератор (crypto.getRandomValues) для справжньої випадковості."
+                        }
+                },
+                {
+                        "@type": "Question",
+                        "name": "Чи можна використовувати для RPG?",
+                        "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "Звичайно! Ми підтримуємо всі кубики RPG: d4, d6, d8, d10, d12, d20 та d100."
+                        }
+                },
+                {
+                        "@type": "Question",
+                        "name": "Чи впливає 3D-анімація на результат?",
+                        "acceptedAnswer": {
+                                "@type": "Answer",
+                                "text": "Ні – результат визначається миттєво. Анімація чисто візуальна."
+                        }
+                }
+        ]
+}
+    </script>
+    
+    <script>
+    (function() {
+        'use strict';
+        let currentSides = 6;
+        let isRolling = false;
+        let history = [];
+        
+        const diceCube = document.getElementById('diceCube');
+        const diceScene = document.getElementById('diceScene');
+        const rollBtn = document.getElementById('rollBtn');
+        const resultNumber = document.getElementById('resultNumber');
+        const resultLabel = document.getElementById('resultLabel');
+        const currentDiceLabel = document.getElementById('currentDiceLabel');
+        const historyList = document.getElementById('historyList');
+        const diceButtons = document.querySelectorAll('.dice-btn');
+        const confettiContainer = document.getElementById('confettiContainer');
+        
+        // Dice names for display (i18n-aware)
+        const diceNamesPL = {'4':'Тетраедр (d4)','6':'Куб (d6)','8':'Октаедр (d8)','10':'Декаедр (d10)','12':'Додекаедр (d12)','20':'Ікосаедр (d20)','100':'Відсотковий (d100)'};
+        const diceNames = (window._losownikPage && window._losownikPage.diceNames) ? window._losownikPage.diceNames : diceNamesPL;
+        
+        // URL parameter handling (for redirects from old URLs)
+        const urlParams = new URLSearchParams(window.location.search);
+        const kParam = urlParams.get('k');
+        if (kParam && [4, 6, 8, 10, 12, 20, 100].includes(parseInt(kParam))) {
+            currentSides = parseInt(kParam);
+            diceButtons.forEach(btn => btn.classList.toggle('active', parseInt(btn.dataset.sides) === currentSides));
+            currentDiceLabel.textContent = diceNames[currentSides];
+        }
+        
+        // Dice type selection (NO auto-roll)
+        diceButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                diceButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentSides = parseInt(btn.dataset.sides);
+                currentDiceLabel.textContent = diceNames[currentSides];
+                updateDiceFaces();
+            });
+        });
+        
+        // Roll triggers
+        rollBtn.addEventListener('click', rollDice);
+        diceScene.addEventListener('click', rollDice);  // Click dice = roll!
+        diceScene.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); rollDice(); }
+        });
+        
+        // Keyboard shortcut
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' && document.activeElement === document.body) {
+                e.preventDefault(); rollDice();
+            }
+        });
+        
+        function updateDiceFaces() {
+            const faces = diceCube.querySelectorAll('.dice-face');
+            for (let i = 0; i < 6; i++) faces[i].textContent = getRandomInt(1, currentSides);
+        }
+        
+        function getRandomInt(min, max) {
+            const array = new Uint32Array(1);
+            crypto.getRandomValues(array);
+            return min + (array[0] % (max - min + 1));
+        }
+        
+        function rollDice() {
+            if (isRolling) return;
+            isRolling = true;
+            rollBtn.classList.add('disabled');
+            resultNumber.classList.remove('visible', 'placeholder');
+            resultNumber.textContent = '';
+            
+            updateDiceFaces();
+            diceCube.classList.remove('rolling');
+            void diceCube.offsetWidth;
+            diceCube.classList.add('rolling');if(window.losownikSounds)window.losownikSounds.dice();
+            
+            
+            setTimeout(() => {
+                const result = getRandomInt(1, currentSides);
+                diceCube.querySelectorAll('.dice-face')[0].textContent = result;
+                resultNumber.textContent = result;
+                resultNumber.classList.add('visible');
+                resultLabel.textContent = ((window._losownikCommon&&window._losownikCommon.rollResult)||'Результат кидка') + ' k' + currentSides;
+                addToHistory(result);
+                if (result === currentSides && (currentSides === 20 || currentSides === 6)) spawnConfetti();
+                isRolling = false;
+                rollBtn.classList.remove('disabled');
+                diceCube.classList.remove('rolling');
+            }, 1100);
+        }
+        
+        function addToHistory(result) {
+            history.unshift({ value: result, sides: currentSides });
+            if (history.length > 20) history.pop();
+            historyList.innerHTML = history.map(h => '<span class="history-item">k' + h.sides + ': ' + h.value + '</span>').join('');
+        }
+        
+        function spawnConfetti() {
+            const colors = ['#00f5d4', '#7b2ff7', '#f72585', '#ffd700', '#ff6b6b', '#4cc9f0'];
+            for (let i = 0; i < 25; i++) {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                c.style.left = Math.random() * 100 + '%';
+                c.style.top = '-10px';
+                c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                c.style.width = (Math.random() * 8 + 4) + 'px';
+                c.style.height = (Math.random() * 8 + 4) + 'px';
+                c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                c.style.animation = 'confettiFall ' + (1.5 + Math.random() * 2) + 's linear ' + (Math.random() * 0.5) + 's forwards';
+                confettiContainer.appendChild(c);
+                setTimeout(() => c.remove(), 4000);
+            }
+        }
+        
+        updateDiceFaces();
+        
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
+        }
+    })();
+    </script>
+<script>setTimeout(function(){document.querySelectorAll(".ad-banner").forEach(function(b){var ins=b.querySelector("ins.adsbygoogle");if(ins&&(ins.offsetHeight<10||ins.innerHTML.trim()===""))b.style.display="none"})},3500);</script>
+
+<script src="/js/translations.js" defer></script>
+<script src="/js/i18n.js" defer></script>
+<script src="/js/apply_translations.js" defer></script>
+</body>
+</html>

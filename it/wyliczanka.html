@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Inserisci nomi e scegli una persona a caso. Perfetto per decisioni e giochi.">
+    <title>Selettore casuale di persone – Scegli una persona a caso | Losownik.pl</title>
+    <link rel="canonical" href="https://losownik.pl/it/wyliczanka">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0a0a1a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6838914398408406" crossorigin="anonymous"></script>
+    <script src="/js/sounds.js" defer></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg-primary:#0a0a1a;--bg-secondary:#12122a;--bg-card:#1a1a3e;--text-primary:#fff;--text-secondary:#a0a0c0;--accent-1:#00f5d4;--accent-2:#7b2ff7;--accent-3:#f72585;--accent-glow:rgba(0,245,212,0.3);--border-color:rgba(123,47,247,0.3);--radius:16px}
+        body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:hidden}
+        body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(123,47,247,0.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(0,245,212,0.1) 0%,transparent 50%);z-index:0}
+        .container{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 20px}
+        header{padding:16px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+        .logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+        .logo-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 0 20px var(--accent-glow)}
+        .logo-text{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .logo-subtitle{font-size:.75rem;color:var(--text-secondary);letter-spacing:2px;text-transform:uppercase}
+        .back-link{color:var(--text-secondary);text-decoration:none;font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;border:1px solid var(--border-color);transition:all .3s}
+        .back-link:hover{color:var(--accent-1);border-color:var(--accent-1)}
+        .top-nav { display: flex; gap: 4px; flex-wrap: wrap; }
+        .top-nav a { color: var(--text-secondary); text-decoration: none; padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; border: 1px solid transparent; }
+        .top-nav a:hover { color: var(--accent-1); background: rgba(0,245,212,0.08); border-color: rgba(0,245,212,0.2); }
+        .breadcrumb{padding:4px 0 16px;font-size:.8rem;color:var(--text-secondary)}
+        .breadcrumb a{color:var(--accent-1);text-decoration:none}
+        .breadcrumb span{margin:0 8px;opacity:.5}
+        .ad-banner{background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:var(--radius);padding:12px;margin:0 0 20px;text-align:center;min-height:100px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+        .page-header{margin-bottom:24px}
+        .page-title{font-size:clamp(1.4rem,3.5vw,2rem);font-weight:900;margin-bottom:6px}
+        .page-title span{background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .page-desc{color:var(--text-secondary);font-size:.9rem;line-height:1.5;max-width:600px}
+
+        .input-section{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:24px;margin-bottom:24px}
+        .input-label{font-size:.85rem;color:var(--text-secondary);font-weight:600;margin-bottom:10px;display:block}
+        .names-textarea{width:100%;min-height:160px;padding:14px;border-radius:12px;border:1.5px solid var(--border-color);background:var(--bg-secondary);color:var(--text-primary);font-family:inherit;font-size:.95rem;line-height:1.6;resize:vertical;transition:border-color .3s}
+        .names-textarea:focus{outline:none;border-color:var(--accent-1);box-shadow:0 0 16px rgba(0,245,212,0.1)}
+        .names-textarea::placeholder{color:var(--text-secondary);opacity:.6}
+        .input-hint{font-size:.75rem;color:var(--text-secondary);margin-top:8px;opacity:.7}
+
+        .result-section{background:var(--bg-card);border:1px solid var(--border-color);border-radius:var(--radius);padding:40px 24px;text-align:center;margin-bottom:24px;position:relative;overflow:hidden;min-height:120px}
+        .result-section::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent-1),var(--accent-2),var(--accent-3));opacity:0;transition:opacity .3s}
+        .result-section.has-result::before{opacity:1}
+        .winner-name{font-size:clamp(1.8rem,5vw,3rem);font-weight:900;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;transform:scale(0.5);transition:all .5s cubic-bezier(0.4,0,0.2,1)}
+        .winner-name.visible{opacity:1;transform:scale(1)}
+        .winner-label{font-size:.85rem;color:var(--text-secondary);margin-top:8px}
+
+        /* Spinning animation for names */
+        .spin-display{font-size:1.2rem;font-weight:700;color:var(--accent-1);min-height:36px;display:none}
+        .spin-display.spinning{display:block;animation:spinText .1s steps(1) infinite}
+
+        .generate-btn{display:inline-flex;align-items:center;gap:10px;padding:18px 44px;font-size:1.1rem;font-weight:700;font-family:inherit;border:none;border-radius:14px;background:linear-gradient(135deg,var(--accent-1),var(--accent-2));color:#0a0a1a;cursor:pointer;transition:all .3s;box-shadow:0 4px 24px rgba(0,245,212,0.35)}
+        .generate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,245,212,0.45)}
+        .generate-btn:active{transform:translateY(0) scale(0.97)}
+        .generate-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+
+        .faq{margin-top:40px;padding-top:24px;border-top:1px solid var(--border-color);margin-bottom:32px}
+        .faq h2{font-size:1.2rem;font-weight:800;margin-bottom:16px}
+        .faq-item{margin-bottom:16px}
+        .faq-item h4{font-size:.95rem;font-weight:700;margin-bottom:4px;color:var(--accent-1)}
+        .faq-item p{font-size:.85rem;color:var(--text-secondary);line-height:1.6}
+
+        footer{border-top:1px solid var(--border-color);padding:24px 0;text-align:center;color:var(--text-secondary);font-size:.8rem}
+        footer a{color:var(--accent-1);text-decoration:none}
+        .mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,26,0.96);border-top:1px solid var(--border-color);padding:8px 0 calc(8px + env(safe-area-inset-bottom));z-index:1000;backdrop-filter:blur(12px)}
+        .mobile-nav ul{display:flex;list-style:none;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:2px;padding:0 12px}.mobile-nav ul::-webkit-scrollbar{display:none}
+        .mobile-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--text-secondary);font-size:.6rem;font-weight:600;padding:6px 10px;white-space:nowrap;min-width:52px}
+        .mobile-nav a.active{color:var(--accent-1)}
+        .mobile-nav .nav-icon{font-size:1.3rem}
+        @media(max-width:768px){.ad-banner:first-of-type{display:none}.mobile-nav{display:block}.top-nav{display:none}.back-link{display:none}.generate-btn{width:100%;justify-content:center}footer{padding-bottom:80px}}
+    </style>
+    <link rel="alternate" hreflang="pl" href="https://losownik.pl/wyliczanka">
+    <link rel="alternate" hreflang="en" href="https://losownik.pl/en/wyliczanka">
+    <link rel="alternate" hreflang="de" href="https://losownik.pl/de/wyliczanka">
+    <link rel="alternate" hreflang="es" href="https://losownik.pl/es/wyliczanka">
+    <link rel="alternate" hreflang="fr" href="https://losownik.pl/fr/wyliczanka">
+    <link rel="alternate" hreflang="it" href="https://losownik.pl/it/wyliczanka">
+    <link rel="alternate" hreflang="pt" href="https://losownik.pl/pt/wyliczanka">
+    <link rel="alternate" hreflang="ru" href="https://losownik.pl/ru/wyliczanka">
+    <link rel="alternate" hreflang="cs" href="https://losownik.pl/cs/wyliczanka">
+    <link rel="alternate" hreflang="uk" href="https://losownik.pl/uk/wyliczanka">
+    <link rel="alternate" hreflang="x-default" href="https://losownik.pl/wyliczanka">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="/it/" class="logo"><div class="logo-icon">&#127922;</div><div><div class="logo-text">Losownik</div><div class="logo-subtitle">Generatore casuale online</div></div></a>
+            <nav class="top-nav"><a href="/it/kostka">Dadi</a><a href="/it/mecz">Partita</a><a href="/it/imie">Nome</a><a href="/it/lotto">Lotto</a><a href="/it/kolo-fortuny">Ruota</a><a href="/it/kolor">Colore</a><a href="/it/moneta">Moneta</a></nav>
+        <div class="lang-switcher">
+      <select class="lang-select" onchange="window.location.href=this.value" aria-label="Language">
+        <option value="/en/wyliczanka">English</option>
+        <option value="/de/wyliczanka">Deutsch</option>
+        <option value="/es/wyliczanka">Español</option>
+        <option value="/fr/wyliczanka">Français</option>
+        <option value="/it/wyliczanka" selected>Italiano</option>
+        <option value="/pt/wyliczanka">Português</option>
+        <option value="/ru/wyliczanka">Русский</option>
+        <option value="/cs/wyliczanka">Čeština</option>
+        <option value="/uk/wyliczanka">Українська</option>
+        <option value="/wyliczanka">Polski</option>
+      </select>
+    </div>
+        </header>
+        <nav class="breadcrumb"><a href="/it/">Home</a><span>›</span>Selettore casuale</nav>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:inline-block;min-width:300px;min-height:250px" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309"></ins>
+            <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+        </div>
+
+        <div class="page-header">
+            <h1 class="page-title"><span>Selettore</span> casuale</h1>
+            <p class="page-desc">Inserisci nomi (uno per riga).</p>
+        </div>
+
+        <div class="input-section">
+            <label class="input-label" for="namesInput">Wpisz imiona (po jednym w każdej linii):</label>
+            <textarea class="names-textarea" id="namesInput" placeholder="Anna&#10;Bartek&#10;Celina&#10;Dawid&#10;Ewa"></textarea>
+            <div class="input-hint">Minimum 2 imiona. Każde imię w osobnej linii.</div>
+        </div>
+
+        <div class="result-section" id="resultSection">
+            <div class="spin-display" id="spinDisplay"></div>
+            <div class="winner-name" id="winnerName"></div>
+            <div class="winner-label" id="winnerLabel">Clicca per generare</div>
+        </div>
+
+        <div style="text-align:center;margin-bottom:40px">
+            <button class="generate-btn" id="generateBtn">&#128101; Scegli!</button>
+        </div>
+
+        <section class="faq">
+            <h2>Najczęściej zadawane pytania</h2>
+            <div class="faq-item">
+                <h4>Jak działa wyliczanka?</h4>
+                <p>Wpisujesz imiona osób (po jednym w linii), klikasz przycisk i losownik wybiera jedną osobę za pomocą kryptograficznie bezpiecznego generatora losowego. Każda osoba ma równe szanse.</p>
+            </div>
+            <div class="faq-item">
+                <h4>Do czego mogę użyć wyliczanki?</h4>
+                <p>Do wyboru osoby, która zaczyna grę, robi coś jako pierwsza, typowania „ochotnika" do zadania lub rozstrzygania sporów – szybciej niż papier-nożyczki-kamień!</p>
+            </div>
+        </section>
+
+        <div class="ad-banner">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309" data-ad-format="auto" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+        </div>
+
+        <footer><p>&copy; 2006–2026 Losownik.pl | <a href="/it/">Home</a> | <a href="/it/polityka-prywatnosci">Privacy policy</a></p></footer>
+    </div>
+
+    <nav class="mobile-nav"><ul><li><a href="/it/"><span class="nav-icon">&#127968;</span>Home</a></li><li><a href="/it/kostka"><span class="nav-icon">&#127922;</span>Dadi</a></li><li><a href="/it/mecz"><span class="nav-icon">&#9917;</span>Partita</a></li><li><a href="/it/imie"><span class="nav-icon">&#128100;</span>Nome</a></li><li><a href="/it/lotto"><span class="nav-icon">&#127920;</span>Lotto</a></li><li><a href="/it/kolo-fortuny"><span class="nav-icon">&#127905;</span>Ruota</a></li><li><a href="/it/moneta"><span class="nav-icon">&#129689;</span>Moneta</a></li><li><a href="/it/kolor"><span class="nav-icon">&#127912;</span>Colore</a></li><li><a href="/it/karty"><span class="nav-icon">&#127183;</span>Carte</a></li><li><a href="/it/druzyny"><span class="nav-icon">&#129351;</span>Squadre</a></li><li><a href="/it/kolejnosc"><span class="nav-icon">&#128260;</span>Ordine</a></li><li><a href="/it/postac"><span class="nav-icon">&#9876;</span>RPG</a></li><li><a href="/it/wyliczanka"><span class="nav-icon">&#128101;</span>Sorteggio</a></li><li><a href="/it/liczba"><span class="nav-icon">&#128290;</span>Numero</a></li></ul></nav>
+
+    <script>
+    (function(){
+        'use strict';
+        const namesInput = document.getElementById('namesInput');
+        const winnerName = document.getElementById('winnerName');
+        const winnerLabel = document.getElementById('winnerLabel');
+        const spinDisplay = document.getElementById('spinDisplay');
+        const resultSection = document.getElementById('resultSection');
+        const generateBtn = document.getElementById('generateBtn');
+
+        function rand(min, max) {
+            const arr = new Uint32Array(1);
+            crypto.getRandomValues(arr);
+            return min + (arr[0] % (max - min + 1));
+        }
+
+        function getNames() {
+            return namesInput.value.split('\n').map(n => n.trim()).filter(n => n.length > 0);
+        }
+
+        function generate() {
+            const names = getNames();
+            if (names.length < 2) {
+                winnerLabel.textContent = 'Inserisci almeno 2 nomi!';
+                winnerLabel.style.color = 'var(--accent-3)';
+                setTimeout(() => { winnerLabel.style.color = ''; }, 2000);
+                return;
+            }
+
+            // Spinning animation
+            winnerName.classList.remove('visible');
+            winnerName.textContent = '';
+            resultSection.classList.remove('has-result');
+            spinDisplay.classList.add('spinning');
+            generateBtn.disabled = true;
+
+            let spinCount = 0;
+            const spinInterval = setInterval(() => {
+                spinDisplay.textContent = names[rand(0, names.length - 1)];
+                spinCount++;
+                if (spinCount > 20) {
+                    clearInterval(spinInterval);
+                    spinDisplay.classList.remove('spinning');
+                    spinDisplay.style.display = 'none';
+
+                    // Final result
+                    const winner = names[rand(0, names.length - 1)];
+                    winnerName.textContent = winner;
+                    winnerName.classList.add('visible');
+                    winnerLabel.textContent = 'Wylosowana osoba (' + names.length + ' kandydatów)';
+                    resultSection.classList.add('has-result');
+                    generateBtn.disabled = false;
+                }
+            }, 80);
+        }
+
+        generateBtn.addEventListener('click', generate);
+        if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(()=>{});
+    })();
+    </script>
+<script>setTimeout(function(){document.querySelectorAll(".ad-banner").forEach(function(b){var ins=b.querySelector("ins.adsbygoogle");if(ins&&(ins.offsetHeight<10||ins.innerHTML.trim()===""))b.style.display="none"})},3500);</script>
+
+<script src="/js/translations.js" defer></script>
+<script src="/js/i18n.js" defer></script>
+<script src="/js/apply_translations.js" defer></script>
+</body>
+</html>
