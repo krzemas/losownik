@@ -1,20 +1,26 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
     <meta name="description" content="Losownik.pl – internetowa maszyna losująca. Rzuć kostką, wylosuj imię, wytypuj wynik meczu, kręć kołem fortuny i więcej!">
     <meta name="keywords" content="losowanie, kostka online, rzut kostką, losowe imię, wynik meczu, lotto, koło fortuny, generator liczb">
     <title>Losownik.pl – internetowa maszyna losująca</title>
     <link rel="canonical" href="https://losownik.pl/">
+    <meta property="og:title" content="Losownik.pl – internetowa maszyna losująca">
+    <meta property="og:description" content="Losownik.pl – internetowa maszyna losująca. Rzuć kostką, wylosuj imię, wytypuj wynik meczu, kręć kołem fortuny i więcej!">
+    <meta property="og:url" content="https://losownik.pl/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Losownik.pl">
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6838914398408406" crossorigin="anonymous"></script>
+    <!-- Google AdSense - disabled on homepage to prevent in-feed ads -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6838914398408406" crossorigin="anonymous"></script> -->
     <script src="/js/sounds.js" defer></script>
     
     <!-- GA4: wstaw swój ID poniżej -->
@@ -77,23 +83,10 @@
             padding: 0 20px;
         }
         
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
-            background: rgba(10, 10, 26, 0.95);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-color);
-            margin: 0 -20px;
-        }
         
-        .logo {
+        
+        header{position:sticky;top:0;z-index:100;padding:12px 20px;display:flex;align-items:center;gap:12px;background:rgba(10,10,26,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-color);margin:0 -20px;flex-wrap:nowrap}
+.logo {
             display: flex;
             align-items: center;
             gap: 12px;
@@ -128,28 +121,15 @@
             text-transform: uppercase;
         }
         
-        nav {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        
-        nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            transition: all 0.3s;
-            border: 1px solid transparent;
-        }
-        
-        nav a:hover {
-            color: var(--accent-1);
-            background: rgba(0, 245, 212, 0.1);
-            border-color: rgba(0, 245, 212, 0.3);
-        }
+        .top-nav{display:none}
+.icon-nav{display:flex;gap:2px;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;cursor:grab;user-select:none;flex-wrap:nowrap;flex:1;min-width:0}
+.icon-nav::-webkit-scrollbar{display:none}
+.icon-nav.dragging{cursor:grabbing}
+.icon-nav a{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--text-secondary);font-size:.58rem;font-weight:600;padding:6px 10px;white-space:nowrap;min-width:48px;border-radius:8px;transition:color .2s,background .2s;flex-shrink:0}
+.icon-nav a:hover{color:var(--accent-1);background:rgba(0,245,212,0.06)}
+.icon-nav a.active{color:var(--accent-1);background:rgba(0,245,212,0.1);border:1px solid rgba(0,245,212,0.25)}
+.icon-nav .nav-icon{font-size:1.2rem}
+.icon-nav .nav-label{font-size:.55rem}
         
         /* Language switcher */
             background: var(--bg-card);
@@ -201,6 +181,22 @@
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        
+        /* Block Google auto-ads inside tool cards grid */
+        .tools-grid ins.adsbygoogle,
+        .tools-grid .adsbygoogle,
+        .tools-grid > div:not(.tool-card),
+        .tools-grid > ins,
+        .tools-grid > iframe,
+        .tool-card ins.adsbygoogle,
+        .tool-card .adsbygoogle,
+        .tool-card iframe {
+            display: none !important;
+            height: 0 !important;
+            max-height: 0 !important;
+            overflow: hidden !important;
+            visibility: hidden !important;
         }
         
         .tools-grid {
@@ -322,8 +318,9 @@
         
         @media (max-width: 768px) {
             .ad-banner:first-of-type { display: none; }
-            header { padding: 16px 0; }
+            
             nav { display: none; }
+            .icon-nav { display: none; }
             .mobile-nav { display: block; }
             .hero { padding: 30px 0 20px; }
             .tools-grid { grid-template-columns: 1fr 1fr; gap: 12px; padding-bottom: 100px; }
@@ -349,20 +346,24 @@
                     <div class="logo-subtitle">Internetowa maszyna losująca</div>
                 </div>
             </a>
-            <nav>
-                <a href="/kostka">Kostka</a>
-                <a href="/mecz">Mecz</a>
-                <a href="/imie">Imię</a>
-                <a href="/lotto">Lotto</a>
-                <a href="/kolo-fortuny">Koło fortuny</a>
-                <a href="/ruletka">Ruletka</a>
-            </nav>
+            <nav class="icon-nav" id="iconNav">
+            <a href="/"><span class="nav-icon">&#127968;</span><span class="nav-label">Start</span></a>
+            <a href="/kostka"><span class="nav-icon">&#127922;</span><span class="nav-label">Kostka</span></a>
+            <a href="/mecz"><span class="nav-icon">&#9917;</span><span class="nav-label">Mecz</span></a>
+            <a href="/imie"><span class="nav-icon">&#128100;</span><span class="nav-label">Imię</span></a>
+            <a href="/lotto"><span class="nav-icon">&#127920;</span><span class="nav-label">Lotto</span></a>
+            <a href="/kolo-fortuny"><span class="nav-icon">&#127905;</span><span class="nav-label">Koło</span></a>
+            <a href="/ruletka"><span class="nav-icon">&#127920;</span><span class="nav-label">Ruletka</span></a>
+            <a href="/moneta"><span class="nav-icon">&#129689;</span><span class="nav-label">Moneta</span></a>
+            <a href="/kolor"><span class="nav-icon">&#127912;</span><span class="nav-label">Kolor</span></a>
+            <a href="/karty"><span class="nav-icon">&#127183;</span><span class="nav-label">Karty</span></a>
+            <a href="/druzyny"><span class="nav-icon">&#129351;</span><span class="nav-label">Drużyny</span></a>
+            <a href="/kolejnosc"><span class="nav-icon">&#128260;</span><span class="nav-label">Kolejność</span></a>
+            <a href="/postac"><span class="nav-icon">&#9876;</span><span class="nav-label">RPG</span></a>
+            <a href="/wyliczanka"><span class="nav-icon">&#128101;</span><span class="nav-label">Wylicz.</span></a>
+            <a href="/liczba"><span class="nav-icon">&#128290;</span><span class="nav-label">Liczba</span></a>
+        </nav>
         </header>
-        
-        <div class="ad-banner">
-            <ins class="adsbygoogle" style="display:inline-block;min-width:300px;min-height:250px" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
         
         <section class="hero">
             <h2>Twoja <span>maszyna losująca</span> online</h2>
@@ -457,11 +458,6 @@
                 <p>Postaw na numer, kolor lub zakres – zakręć kołem i sprawdź szczęście!</p>
             </a>
         </section>
-        
-        <div class="ad-banner">
-            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6838914398408406" data-ad-slot="1732651309" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        </div>
         
         <footer>
             <p>&copy; 2006–2026 Losownik.pl – Internetowa maszyna losująca | <a href="/polityka-prywatnosci">Polityka prywatności</a></p>
@@ -615,6 +611,19 @@ fr:{hero:"Votre <span>générateur aléatoire</span> en ligne",heroDesc:"Lancez 
     }
 
     document.documentElement.lang=lang;
+})();
+</script>
+<script>
+(function(){
+    var nav=document.getElementById('iconNav');if(!nav)return;
+    var isDown=false,startX,scrollLeft;
+    nav.addEventListener('mousedown',function(e){isDown=true;nav.classList.add('dragging');startX=e.pageX-nav.offsetLeft;scrollLeft=nav.scrollLeft;e.preventDefault()});
+    nav.addEventListener('mouseleave',function(){isDown=false;nav.classList.remove('dragging')});
+    nav.addEventListener('mouseup',function(){isDown=false;nav.classList.remove('dragging')});
+    nav.addEventListener('mousemove',function(e){if(!isDown)return;e.preventDefault();var x=e.pageX-nav.offsetLeft;nav.scrollLeft=scrollLeft-(x-startX)*1.5});
+    var p=window.location.pathname.replace(/\/$/,'');
+    nav.querySelectorAll('a').forEach(function(a){var h=a.getAttribute('href').replace(/\/$/,'');if((p===''&&h==='/')||(p&&h===p))a.classList.add('active')});
+    var act=nav.querySelector('.active');if(act)setTimeout(function(){act.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'})},100);
 })();
 </script>
 </body>
