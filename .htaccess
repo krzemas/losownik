@@ -1,66 +1,94 @@
 RewriteEngine On
 
-# Force HTTPS
-RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# --- Normalize domain: HTTPS without www (single 301) ---
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteRule ^(.*)$ https://losownik.pl/$1 [R=301,L]
 
-# --- 301 Redirects for old Drupal URLs ---
-
-# Kostka old URLs
-RewriteRule ^kostka/losuj/4$ /kostka?k=4 [R=301,L]
-RewriteRule ^kostka/losuj/6$ /kostka?k=6 [R=301,L]
-RewriteRule ^kostka/losuj/8$ /kostka?k=8 [R=301,L]
-RewriteRule ^kostka/losuj/12$ /kostka?k=12 [R=301,L]
-RewriteRule ^kostka/losuj/20$ /kostka?k=20 [R=301,L]
-RewriteRule ^kostka/losuj/100$ /kostka?k=100 [R=301,L]
-
-# Mecz old URLs
-RewriteRule ^mecz/losuj/futbol$ /mecz?d=futbol [R=301,L]
-RewriteRule ^mecz/losuj/siatkowka$ /mecz?d=siatkowka [R=301,L]
-RewriteRule ^mecz/losuj/reczna$ /mecz?d=reczna [R=301,L]
-RewriteRule ^mecz/losuj/koszykowka$ /mecz?d=koszykowka [R=301,L]
-
-# LOTTO old URLs
-RewriteRule ^lotto/losuj/lotto$ /lotto?g=lotto [R=301,L]
-RewriteRule ^lotto/losuj/joker$ /lotto?g=joker [R=301,L]
-RewriteRule ^lotto/losuj/multi$ /lotto?g=multi [R=301,L]
-RewriteRule ^lotto/losuj/minilotto$ /lotto?g=minilotto [R=301,L]
-
-# Imie old URLs
-RewriteRule ^imie/losuj/m-name$ /imie?t=meskie [R=301,L]
-RewriteRule ^imie/losuj/f-name$ /imie?t=zenskie [R=301,L]
-RewriteRule ^imie/losuj/name-surname$ /imie?t=pelne [R=301,L]
-
-# --- Redirect old ?lang= URLs to new directory structure ---
-RewriteCond %{QUERY_STRING} ^lang=(en|de|es|fr|it|pt|ru|cs|uk)$
+# --- Redirect old ?lang=xx URLs to new language directory structure ---
+# e.g. /kostka?lang=en -> /en/kostka , /?lang=de -> /de/
+RewriteCond %{QUERY_STRING} (?:^|&)lang=(en|de|es|fr|it|pt|ru|cs|uk)(?:&|$)
 RewriteRule ^(.*)$ /%1/$1? [R=301,L]
 
-# --- Language directory clean URLs ---
-# Handle /xx/ -> /xx/index.html
-RewriteRule ^(en|de|es|fr|it|pt|ru|cs|uk)/?$ $1/index.html [L]
+# --- 301 Redirects: old .html URLs to new clean URLs ---
+RewriteRule ^kostka\.html$ /kostka/ [R=301,L]
+RewriteRule ^moneta\.html$ /moneta/ [R=301,L]
+RewriteRule ^lotto\.html$ /lotto/ [R=301,L]
+RewriteRule ^imie\.html$ /imie/ [R=301,L]
+RewriteRule ^mecz\.html$ /mecz/ [R=301,L]
+RewriteRule ^kolo-fortuny\.html$ /kolo-fortuny/ [R=301,L]
+RewriteRule ^liczba\.html$ /liczba/ [R=301,L]
+RewriteRule ^kolor\.html$ /kolor/ [R=301,L]
+RewriteRule ^druzyny\.html$ /druzyny/ [R=301,L]
+RewriteRule ^kolejnosc\.html$ /kolejnosc/ [R=301,L]
+RewriteRule ^postac\.html$ /postac/ [R=301,L]
+RewriteRule ^karty\.html$ /karty/ [R=301,L]
+RewriteRule ^wyliczanka\.html$ /wyliczanka/ [R=301,L]
+RewriteRule ^ruletka\.html$ /ruletka/ [R=301,L]
+RewriteRule ^polityka-prywatnosci\.html$ /polityka-prywatnosci/ [R=301,L]
 
-# Handle /xx/page -> /xx/page.html (clean URLs for language dirs)
+# --- 301 Redirects for old Drupal URLs ---
+# Kostka old URLs
+RewriteRule ^kostka/losuj/4$ /kostka/?k=4 [R=301,L]
+RewriteRule ^kostka/losuj/6$ /kostka/?k=6 [R=301,L]
+RewriteRule ^kostka/losuj/8$ /kostka/?k=8 [R=301,L]
+RewriteRule ^kostka/losuj/12$ /kostka/?k=12 [R=301,L]
+RewriteRule ^kostka/losuj/20$ /kostka/?k=20 [R=301,L]
+RewriteRule ^kostka/losuj/100$ /kostka/?k=100 [R=301,L]
+
+# Mecz old URLs
+RewriteRule ^mecz/losuj/futbol$ /mecz/?d=futbol [R=301,L]
+RewriteRule ^mecz/losuj/siatkowka$ /mecz/?d=siatkowka [R=301,L]
+RewriteRule ^mecz/losuj/reczna$ /mecz/?d=reczna [R=301,L]
+RewriteRule ^mecz/losuj/koszykowka$ /mecz/?d=koszykowka [R=301,L]
+
+# LOTTO old URLs
+RewriteRule ^lotto/losuj/lotto$ /lotto/?g=lotto [R=301,L]
+RewriteRule ^lotto/losuj/joker$ /lotto/?g=joker [R=301,L]
+RewriteRule ^lotto/losuj/multi$ /lotto/?g=multi [R=301,L]
+RewriteRule ^lotto/losuj/minilotto$ /lotto/?g=minilotto [R=301,L]
+
+# Imie old URLs
+RewriteRule ^imie/losuj/m-name$ /imie/?t=meskie [R=301,L]
+RewriteRule ^imie/losuj/f-name$ /imie/?t=zenskie [R=301,L]
+RewriteRule ^imie/losuj/name-surname$ /imie/?t=pelne [R=301,L]
+
+# --- Language versions: serve directory index for /xx/ ---
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(en|de|es|fr|it|pt|ru|cs|uk)/?$ /$1/index.html [L]
+
+# --- Language versions: clean URLs /xx/page -> /xx/page.html ---
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^(en|de|es|fr|it|pt|ru|cs|uk)/(.+)$ $1/$2.html [L]
+RewriteCond %{DOCUMENT_ROOT}/$1/$2.html -f
+RewriteRule ^(en|de|es|fr|it|pt|ru|cs|uk)/(.+?)/?$ /$1/$2.html [L]
 
-# --- Clean URLs for Polish (root) pages ---
+# --- Remove trailing slash (except root and actual directories) ---
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+# --- Pretty URLs - serve directory index.html ---
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^(.*)$ $1.html [L]
+RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_URI}/index.html -f
+RewriteRule ^(.*)$ /$1/index.html [L]
 
-# --- Cache Control ---
-<IfModule mod_expires.c>
-    ExpiresActive On
-    ExpiresByType text/css "access plus 1 month"
-    ExpiresByType application/javascript "access plus 1 month"
-    ExpiresByType image/png "access plus 1 year"
-    ExpiresByType image/jpeg "access plus 1 year"
-    ExpiresByType image/svg+xml "access plus 1 year"
-    ExpiresByType image/webp "access plus 1 year"
-    ExpiresByType application/json "access plus 1 week"
+# --- Clean URLs - serve .html for extensionless Polish pages ---
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^(.*)$ /$1.html [L]
+
+# --- Custom 404 ---
+ErrorDocument 404 /404.html
+
+# --- Security Headers ---
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
 </IfModule>
 
 # --- Compression ---
@@ -68,9 +96,16 @@ RewriteRule ^(.*)$ $1.html [L]
     AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json image/svg+xml
 </IfModule>
 
-# --- Security Headers ---
-<IfModule mod_headers.c>
-    Header set X-Content-Type-Options "nosniff"
-    Header set X-Frame-Options "SAMEORIGIN"
-    Header set Referrer-Policy "strict-origin-when-cross-origin"
+# --- Cache static assets ---
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/html "access plus 10 minutes"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType application/json "access plus 1 week"
 </IfModule>
