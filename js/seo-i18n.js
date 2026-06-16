@@ -1,0 +1,58 @@
+(function(){
+'use strict';
+var BASE='https://losownik.pl';
+var LANGS=['pl','en','de','es','fr','it','pt','ru','cs','uk'];
+var NAMES={pl:'Polski',en:'English',de:'Deutsch',es:'Español',fr:'Français',it:'Italiano',pt:'Português',ru:'Русский',cs:'Čeština',uk:'Українська'};
+var HOME={
+pl:['Losownik.pl - internetowa maszyna losująca','Losownik.pl - internetowa maszyna losująca. Rzuć kostką, wylosuj imię, wytypuj wynik meczu, kręć kołem fortuny i więcej!'],
+en:['Random generator online | Losownik.pl','Free online random tools: dice roller, random name generator, match score picker, lottery numbers, wheel spinner, coin flip and more.'],
+de:['Zufallsgenerator online | Losownik.pl','Kostenlose Zufalls-Tools: Würfel, Namensgenerator, Spielergebnis, Lottozahlen, Glücksrad, Münzwurf und mehr.'],
+es:['Generador aleatorio online | Losownik.pl','Herramientas aleatorias gratis: dados, nombres, resultados, números de lotería, ruleta, moneda y más.'],
+fr:['Générateur aléatoire en ligne | Losownik.pl','Outils aléatoires gratuits : dés, prénoms, scores, numéros de loto, roue, pile ou face et plus.'],
+it:['Generatore casuale online | Losownik.pl','Strumenti casuali gratis: dadi, nomi, risultati, numeri lotto, ruota, moneta e altro.'],
+pt:['Gerador aleatório online | Losownik.pl','Ferramentas aleatórias grátis: dados, nomes, resultados, números de loteria, roleta, moeda e mais.'],
+ru:['Онлайн генератор случайных результатов | Losownik.pl','Бесплатные случайные инструменты: кубики, имена, счет матча, лотерейные числа, колесо, монета и другое.'],
+cs:['Náhodný generátor online | Losownik.pl','Bezplatné náhodné nástroje: kostky, jména, skóre, loto čísla, kolo, mince a další.'],
+uk:['Онлайн генератор випадкових результатів | Losownik.pl','Безкоштовні випадкові інструменти: кубики, імена, рахунок матчу, лотерейні числа, колесо, монета та інше.']
+};
+var FALLBACK={
+'/kostka':['Dice roller online','Roll dice online with animation. Perfect for RPG and board games.'],
+'/mecz':['Random match score generator','Generate a random realistic match score for football, volleyball, basketball or handball.'],
+'/imie':['Random name generator','Generate a random first name, female name or full identity.'],
+'/lotto':['Lottery number generator','Generate lucky numbers for Lotto, Mini Lotto, Multi Multi and Joker.'],
+'/ruletka':['European roulette online','Spin European roulette online and check a random number, color or range.'],
+'/wyliczanka':['Random person picker','Enter names and let the random picker choose one person for you.'],
+'/liczba':['Random number generator','Generate one or many random numbers from any range.'],
+'/kolo-fortuny':['Spin the wheel online','Enter options, spin the wheel and let the random picker decide.'],
+'/moneta':['Flip a coin online','Heads or tails? Flip a coin online with a quick animation.'],
+'/kolor':['Random color generator','Generate a random color in HEX or RGB and copy it for your project.'],
+'/druzyny':['Random team generator','Divide players into equal random teams for games, sports and classroom activities.'],
+'/kolejnosc':['Random order generator','Shuffle a list and create a random order for turns, tasks or players.'],
+'/postac':['RPG character generator','Generate a random RPG character with stats, race, class and name.'],
+'/karty':['Random card draw','Draw a random card from a 52-card deck online.']
+};
+var NAV={
+en:{Start:'Home',Kostka:'Dice',Mecz:'Match','Imię':'Name',Lotto:'Lotto','Koło':'Wheel',Ruletka:'Roulette',Moneta:'Coin',Kolor:'Color',Karty:'Cards','Drużyny':'Teams','Kolejność':'Order',RPG:'RPG','Wylicz.':'Picker',Liczba:'Number'},
+de:{Start:'Start',Kostka:'Würfel',Mecz:'Spiel','Imię':'Name',Lotto:'Lotto','Koło':'Rad',Ruletka:'Roulette',Moneta:'Münze',Kolor:'Farbe',Karty:'Karten','Drużyny':'Teams','Kolejność':'Reihenf.',RPG:'RPG','Wylicz.':'Auswahl',Liczba:'Zahl'},
+es:{Start:'Inicio',Kostka:'Dado',Mecz:'Partido','Imię':'Nombre',Lotto:'Loto','Koło':'Ruleta',Ruletka:'Ruleta',Moneta:'Moneda',Kolor:'Color',Karty:'Cartas','Drużyny':'Equipos','Kolejność':'Orden',RPG:'RPG','Wylicz.':'Elegir',Liczba:'Número'},
+fr:{Start:'Accueil',Kostka:'Dé',Mecz:'Match','Imię':'Prénom',Lotto:'Loto','Koło':'Roue',Ruletka:'Roulette',Moneta:'Pièce',Kolor:'Couleur',Karty:'Cartes','Drużyny':'Équipes','Kolejność':'Ordre',RPG:'RPG','Wylicz.':'Tirage',Liczba:'Nombre'},
+it:{Start:'Home',Kostka:'Dado',Mecz:'Partita','Imię':'Nome',Lotto:'Lotto','Koło':'Ruota',Ruletka:'Roulette',Moneta:'Moneta',Kolor:'Colore',Karty:'Carte','Drużyny':'Squadre','Kolejność':'Ordine',RPG:'RPG','Wylicz.':'Scelta',Liczba:'Numero'},
+pt:{Start:'Início',Kostka:'Dado',Mecz:'Jogo','Imię':'Nome',Lotto:'Loto','Koło':'Roleta',Ruletka:'Roleta',Moneta:'Moeda',Kolor:'Cor',Karty:'Cartas','Drużyny':'Equipes','Kolejność':'Ordem',RPG:'RPG','Wylicz.':'Sortear',Liczba:'Número'},
+ru:{Start:'Главная',Kostka:'Кубик',Mecz:'Матч','Imię':'Имя',Lotto:'Лото','Koło':'Колесо',Ruletka:'Рулетка',Moneta:'Монета',Kolor:'Цвет',Karty:'Карты','Drużyny':'Команды','Kolejność':'Порядок',RPG:'RPG','Wylicz.':'Выбор',Liczba:'Число'},
+cs:{Start:'Domů',Kostka:'Kostka',Mecz:'Zápas','Imię':'Jméno',Lotto:'Loto','Koło':'Kolo',Ruletka:'Ruleta',Moneta:'Mince',Kolor:'Barva',Karty:'Karty','Drużyny':'Týmy','Kolejność':'Pořadí',RPG:'RPG','Wylicz.':'Výběr',Liczba:'Číslo'},
+uk:{Start:'Головна',Kostka:'Кубик',Mecz:'Матч','Imię':'Імʼя',Lotto:'Лото','Koło':'Колесо',Ruletka:'Рулетка',Moneta:'Монета',Kolor:'Колір',Karty:'Карти','Drużyny':'Команди','Kolejność':'Порядок',RPG:'RPG','Wylicz.':'Вибір',Liczba:'Число'}
+};
+function pth(){var p=location.pathname.replace(/\.html$/,'').replace(/\/$/,'')||'/';return p==='/index'?'/':p;}
+function lang(){var q=new URLSearchParams(location.search).get('lang');if(q&&LANGS.indexOf(q)>-1){localStorage.setItem('losownik_lang',q);return q;}return localStorage.getItem('losownik_lang')||'pl';}
+function u(p,l){return BASE+p+(l==='pl'?'':'?lang='+encodeURIComponent(l));}
+function plain(s){var d=document.createElement('div');d.innerHTML=s||'';return (d.textContent||d.innerText||'').replace(/\s+/g,' ').trim();}
+function meta(sel,kind,val){var e=document.querySelector(sel);if(!e){e=document.createElement('meta');if(kind.indexOf('og:')===0)e.setAttribute('property',kind);else e.setAttribute('name',kind);document.head.appendChild(e);}e.setAttribute('content',val);}
+function link(rel,href,hl){var s='link[rel="'+rel+'"]'+(hl?'[hreflang="'+hl+'"]':'');var e=document.querySelector(s);if(!e){e=document.createElement('link');e.rel=rel;if(hl)e.hreflang=hl;document.head.appendChild(e);}e.href=href;}
+function seo(p,l){if(p==='/'&&HOME[l])return HOME[l];if(l==='pl')return [document.title,(document.querySelector('meta[name="description"]')||{}).content||''];var t=window.LOSOWNIK_T&&window.LOSOWNIK_T[p]&&window.LOSOWNIK_T[p][l];if(t){var title=plain(t.h1||t.hero||FALLBACK[p]&&FALLBACK[p][0]||HOME[l][0]);var desc=plain(t.desc||t.heroDesc||FALLBACK[p]&&FALLBACK[p][1]||HOME[l][1]);return [title+' | Losownik.pl',desc];}var f=FALLBACK[p]||HOME.en;return [f[0]+' | Losownik.pl',f[1]];}
+function texts(l){if(l==='pl')return;var d=window.LOSOWNIK_T&&window.LOSOWNIK_T[pth()]&&window.LOSOWNIK_T[pth()][l];if(d){var h=document.querySelector('.page-title,.hero h2');if(h&&(d.h1||d.hero))h.innerHTML=d.h1||d.hero;var desc=document.querySelector('.page-desc,.hero p');if(desc&&(d.desc||d.heroDesc))desc.textContent=d.desc||d.heroDesc;if(d.btn)document.querySelectorAll('.generate-btn,.roll-btn,.flip-btn,.spin-btn').forEach(function(b){b.textContent=d.btn;});}
+var n=NAV[l]||{};document.querySelectorAll('a,.nav-label').forEach(function(e){var t=(e.textContent||'').trim();if(n[t])e.textContent=n[t];});}
+function switcher(l){document.querySelectorAll('.lang-switcher').forEach(function(e){e.remove();});var h=document.querySelector('header');if(!h)return;var w=document.createElement('div'),s=document.createElement('select');w.className='lang-switcher';s.className='lang-select';s.setAttribute('aria-label','Language');LANGS.forEach(function(c){var o=document.createElement('option');o.value=c;o.textContent=NAMES[c];o.selected=c===l;s.appendChild(o);});s.onchange=function(){localStorage.setItem('losownik_lang',s.value);location.href=u(pth(),s.value);};w.appendChild(s);h.appendChild(w);}
+function keepLang(l){if(l==='pl')return;document.querySelectorAll('a[href^="/"]').forEach(function(a){var href=a.getAttribute('href');if(!href||href.indexOf('/js/')===0||href.indexOf('/css/')===0)return;var x=new URL(href,BASE);x.searchParams.set('lang',l);a.setAttribute('href',x.pathname+x.search);});}
+function run(){var l=lang(),p=pth(),s=seo(p,l),url=u(p,l);document.documentElement.lang=l;document.title=s[0];meta('meta[name="description"]','description',s[1]);meta('meta[property="og:title"]','og:title',s[0]);meta('meta[property="og:description"]','og:description',s[1]);meta('meta[property="og:url"]','og:url',url);link('canonical',url);LANGS.forEach(function(c){link('alternate',u(p,c),c);});link('alternate',u(p,'pl'),'x-default');texts(l);switcher(l);keepLang(l);}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',run);else run();
+})();

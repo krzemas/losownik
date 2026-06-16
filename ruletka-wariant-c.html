@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruletka – Wariant C: Cyberpunk</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg-primary:#0a0a1a;--bg-secondary:#12122a;--bg-card:#1a1a3e;--text-primary:#fff;--text-secondary:#a0a0c0;--accent-1:#00f5d4;--accent-2:#7b2ff7;--accent-3:#f72585;--accent-glow:rgba(0,245,212,0.3);--border-color:rgba(123,47,247,0.3);--radius:16px;--red:#ff2d55;--black:#0d0d1a;--green:#00e676;--neon-pink:#ff00ff;--neon-blue:#00d4ff;--neon-yellow:#ffea00}
+body{font-family:'Inter',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(123,47,247,0.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(0,245,212,0.1) 0%,transparent 50%),radial-gradient(ellipse at 60% 80%,rgba(255,0,255,0.05) 0%,transparent 40%);z-index:0}
+.container{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:40px 20px}
+h1{text-align:center;font-size:1.6rem;margin-bottom:8px;background:linear-gradient(135deg,var(--neon-pink),var(--accent-1),var(--neon-blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:hueShift 4s ease infinite}
+@keyframes hueShift{0%,100%{filter:hue-rotate(0deg)}50%{filter:hue-rotate(20deg)}}
+.subtitle{text-align:center;color:var(--text-secondary);font-size:.85rem;margin-bottom:32px}
+.preview{display:grid;grid-template-columns:300px 1fr;gap:32px;align-items:start}
+
+/* === WHEEL: Cyberpunk with gradient segments === */
+.wheel-area{display:flex;flex-direction:column;align-items:center;gap:16px}
+.wheel-wrap{position:relative;width:280px;height:280px}
+.wheel-pointer{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:20px;height:20px;background:var(--neon-pink);clip-path:polygon(50% 100%,0 0,100% 0);z-index:10;filter:drop-shadow(0 0 10px var(--neon-pink));animation:pointerPulse 1.5s ease infinite}
+@keyframes pointerPulse{0%,100%{filter:drop-shadow(0 0 10px var(--neon-pink))}50%{filter:drop-shadow(0 0 20px var(--neon-pink)) drop-shadow(0 0 4px #fff)}}
+#wheelCanvas{border-radius:50%;box-shadow:0 0 0 2px var(--neon-pink),0 0 20px rgba(255,0,255,0.3),0 0 60px rgba(0,212,255,0.1),inset 0 0 20px rgba(0,0,0,0.5)}
+
+/* === TABLE: Holographic / circuit board === */
+.table-area{}
+.roulette-table{display:grid;grid-template-columns:40px repeat(12,1fr);grid-template-rows:repeat(3,48px) 38px 38px;gap:2px;background:linear-gradient(135deg,rgba(13,13,26,0.95),rgba(26,26,62,0.9));border:1.5px solid;border-image:linear-gradient(135deg,var(--neon-pink),var(--accent-1),var(--neon-blue)) 1;border-radius:0;min-width:540px;position:relative;overflow:hidden}
+.roulette-table::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 47px,rgba(0,245,212,0.03) 47px,rgba(0,245,212,0.03) 48px),repeating-linear-gradient(90deg,transparent,transparent 43px,rgba(123,47,247,0.03) 43px,rgba(123,47,247,0.03) 44px);pointer-events:none}
+.cell{display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;cursor:pointer;position:relative;user-select:none;transition:all .15s;border:1px solid rgba(0,212,255,0.1);clip-path:none}
+.cell:hover{z-index:2;box-shadow:0 0 15px rgba(255,0,255,0.4),inset 0 0 10px rgba(0,245,212,0.2);border-color:var(--neon-pink)}
+.cell.num-r{background:linear-gradient(135deg,rgba(255,45,85,0.8),rgba(200,20,60,0.9));color:#fff;text-shadow:0 0 4px rgba(255,45,85,0.5)}
+.cell.num-b{background:linear-gradient(135deg,rgba(13,13,26,0.95),rgba(20,20,40,0.9));color:#aaa;text-shadow:0 0 4px rgba(0,212,255,0.3)}
+.cell.num-g{background:linear-gradient(135deg,rgba(0,230,118,0.7),rgba(0,180,90,0.8));color:#fff;text-shadow:0 0 6px rgba(0,230,118,0.6)}
+.cell.outside{background:rgba(13,13,26,0.8);color:rgba(0,212,255,0.7);font-size:.65rem;font-weight:600;border-color:rgba(0,212,255,0.08)}
+.cell.outside:hover{color:var(--neon-yellow);text-shadow:0 0 8px var(--neon-yellow)}
+
+/* === CHIPS: Holographic / neon glow === */
+.chips-bar{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.chips-bar span{font-size:.7rem;color:var(--text-secondary);font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.chip{width:42px;height:42px;border-radius:50%;font-size:.7rem;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;position:relative;border:2px solid;box-shadow:0 0 10px rgba(0,0,0,0.5)}
+.chip::before{content:'';position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,rgba(255,255,255,0.1) 0deg,transparent 60deg,rgba(255,255,255,0.05) 120deg,transparent 180deg,rgba(255,255,255,0.1) 240deg,transparent 300deg);animation:chipRotate 3s linear infinite}
+@keyframes chipRotate{to{transform:rotate(360deg)}}
+.chip::after{content:'';position:absolute;top:3px;left:50%;transform:translateX(-50%);width:50%;height:25%;border-radius:50%;background:linear-gradient(to bottom,rgba(255,255,255,0.3),transparent)}
+.chip:hover{transform:scale(1.2);filter:brightness(1.3)}
+.chip.active{box-shadow:0 0 0 2px #fff,0 0 20px currentColor,0 0 40px currentColor;transform:scale(1.1)}
+.chip-1{background:radial-gradient(circle at 30% 30%,#ff6090,#ff2d55);border-color:#ff2d55;color:#fff}
+.chip-5{background:radial-gradient(circle at 30% 30%,#ce93d8,#9c27b0);border-color:#e040fb;color:#fff}
+.chip-10{background:radial-gradient(circle at 30% 30%,#4fc3f7,#0288d1);border-color:#00d4ff;color:#fff}
+.chip-25{background:radial-gradient(circle at 30% 30%,#81c784,#2e7d32);border-color:#00e676;color:#fff}
+.chip-50{background:radial-gradient(circle at 30% 30%,#ffcc02,#f57c00);border-color:#ffea00;color:#000}
+.chip-100{background:radial-gradient(circle at 30% 30%,#1a1a3e,#000);border-color:var(--neon-pink);color:var(--neon-pink)}
+
+.label{margin-top:20px;padding:12px 20px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:10px;font-size:.8rem;color:var(--text-secondary);line-height:1.6}
+.label strong{color:var(--neon-pink)}
+
+@media(max-width:768px){.preview{grid-template-columns:1fr}.wheel-area{order:1}.table-area{order:2}}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Wariant C: Cyberpunk</h1>
+    <p class="subtitle">Gradientowe segmenty, pulsujący pointer, holograficzna plansza, żetony z animowanym glow</p>
+    
+    <div class="preview">
+        <div class="wheel-area">
+            <div class="wheel-wrap">
+                <div class="wheel-pointer"></div>
+                <canvas id="wheelCanvas" width="280" height="280"></canvas>
+            </div>
+        </div>
+        <div class="table-area">
+            <div class="chips-bar">
+                <span>Żeton:</span>
+                <div class="chip chip-1 active" data-v="1">1</div>
+                <div class="chip chip-5" data-v="5">5</div>
+                <div class="chip chip-10" data-v="10">10</div>
+                <div class="chip chip-25" data-v="25">25</div>
+                <div class="chip chip-50" data-v="50">50</div>
+                <div class="chip chip-100" data-v="100">100</div>
+            </div>
+            <div class="roulette-table" id="rtable"></div>
+        </div>
+    </div>
+    
+    <div class="label">
+        <strong>Koło:</strong> Segmenty z gradientami (ciemniejsze u krawędzi, jaśniejsze w środku), separatory z neonowym glow, obwódka pulsująca pink/cyan, pointer animowany.<br>
+        <strong>Plansza:</strong> Efekt circuit board (siatka linii), gradient border (pink→cyan→blue), pola z text-shadow, hover z neonowym rozbłyskiem.<br>
+        <strong>Żetony:</strong> Radial gradient (3D efekt), animowany conic-gradient overlay (hologram), pulsujący box-shadow w kolorze żetonu, highlight refleks na górze.
+    </div>
+</div>
+
+<script>
+(function(){
+const NUMS=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+const REDS=[1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36];
+const ROW=[[3,6,9,12,15,18,21,24,27,30,33,36],[2,5,8,11,14,17,20,23,26,29,32,35],[1,4,7,10,13,16,19,22,25,28,31,34]];
+function numColor(n){return n===0?'g':REDS.includes(n)?'r':'b'}
+
+const table=document.getElementById('rtable');
+let h='<div class="cell num-g" style="grid-column:1;grid-row:1/4">0</div>';
+ROW.forEach((row,ri)=>{row.forEach((n,ci)=>{h+='<div class="cell num-'+numColor(n)+'" style="grid-column:'+(ci+2)+';grid-row:'+(ri+1)+'">'+n+'</div>'})});
+h+='<div class="cell outside" style="grid-column:2/6;grid-row:4">1–12</div>';
+h+='<div class="cell outside" style="grid-column:6/10;grid-row:4">13–24</div>';
+h+='<div class="cell outside" style="grid-column:10/14;grid-row:4">25–36</div>';
+h+='<div class="cell outside" style="grid-column:2/4;grid-row:5">1–18</div>';
+h+='<div class="cell outside" style="grid-column:4/6;grid-row:5">Par.</div>';
+h+='<div class="cell outside" style="grid-column:6/8;grid-row:5;background:linear-gradient(135deg,rgba(255,45,85,0.7),rgba(200,20,60,0.8))">Czerw.</div>';
+h+='<div class="cell outside" style="grid-column:8/10;grid-row:5;background:rgba(13,13,26,0.95)">Czarne</div>';
+h+='<div class="cell outside" style="grid-column:10/12;grid-row:5">Niep.</div>';
+h+='<div class="cell outside" style="grid-column:12/14;grid-row:5">19–36</div>';
+table.innerHTML=h;
+
+// Draw wheel - Cyberpunk
+const canvas=document.getElementById('wheelCanvas'),ctx=canvas.getContext('2d');
+const CX=140,CY=140,R=125,n=37,arc=2*Math.PI/n;
+
+// Outer glowing ring
+ctx.beginPath();ctx.arc(CX,CY,R+8,0,2*Math.PI);
+ctx.strokeStyle='rgba(255,0,255,0.5)';ctx.lineWidth=3;ctx.stroke();
+ctx.beginPath();ctx.arc(CX,CY,R+4,0,2*Math.PI);
+ctx.strokeStyle='rgba(0,212,255,0.4)';ctx.lineWidth=1.5;ctx.stroke();
+
+// Segments with inner gradients
+for(let i=0;i<n;i++){
+    const angle=i*arc-Math.PI/2;
+    ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,angle,angle+arc);ctx.closePath();
+    const num=NUMS[i];
+    
+    // Create radial gradient for each segment
+    const midAngle=angle+arc/2;
+    const gx=CX+R*0.6*Math.cos(midAngle);
+    const gy=CY+R*0.6*Math.sin(midAngle);
+    const sg=ctx.createRadialGradient(gx,gy,2,gx,gy,R*0.5);
+    
+    if(num===0){
+        sg.addColorStop(0,'#00ff88');sg.addColorStop(1,'#004d29');
+    }else if(REDS.includes(num)){
+        sg.addColorStop(0,'#ff4070');sg.addColorStop(1,'#4d0015');
+    }else{
+        sg.addColorStop(0,'#2a2a4e');sg.addColorStop(1,'#0a0a15');
+    }
+    ctx.fillStyle=sg;ctx.fill();
+    
+    // Neon separator
+    ctx.beginPath();
+    ctx.moveTo(CX,CY);
+    ctx.lineTo(CX+R*Math.cos(angle),CY+R*Math.sin(angle));
+    ctx.strokeStyle='rgba(0,212,255,0.3)';ctx.lineWidth=0.8;ctx.stroke();
+    
+    // Number with glow
+    ctx.save();ctx.translate(CX,CY);ctx.rotate(midAngle);
+    ctx.shadowColor=num===0?'#00ff88':REDS.includes(num)?'#ff4070':'#00d4ff';
+    ctx.shadowBlur=6;
+    ctx.fillStyle='#fff';ctx.font='bold 9px Inter,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(num.toString(),R-16,0);
+    ctx.shadowBlur=0;ctx.restore();
+}
+
+// Inner hub - dark with circuit lines
+ctx.beginPath();ctx.arc(CX,CY,32,0,2*Math.PI);
+const ig=ctx.createRadialGradient(CX,CY,5,CX,CY,32);
+ig.addColorStop(0,'#1a0a30');ig.addColorStop(0.5,'#0a0a1a');ig.addColorStop(1,'#0d0d1a');
+ctx.fillStyle=ig;ctx.fill();
+ctx.strokeStyle='rgba(255,0,255,0.5)';ctx.lineWidth=1.5;ctx.stroke();
+
+// Circuit pattern on hub
+for(let i=0;i<6;i++){
+    const a=i*Math.PI/3;
+    ctx.beginPath();
+    ctx.moveTo(CX+8*Math.cos(a),CY+8*Math.sin(a));
+    ctx.lineTo(CX+28*Math.cos(a),CY+28*Math.sin(a));
+    ctx.strokeStyle='rgba(0,245,212,0.3)';ctx.lineWidth=0.5;ctx.stroke();
+    // Node dots
+    ctx.beginPath();ctx.arc(CX+28*Math.cos(a),CY+28*Math.sin(a),2,0,2*Math.PI);
+    ctx.fillStyle='rgba(0,245,212,0.6)';ctx.fill();
+}
+
+// Center - pulsing core
+ctx.beginPath();ctx.arc(CX,CY,6,0,2*Math.PI);
+const ccg=ctx.createRadialGradient(CX,CY,0,CX,CY,6);
+ccg.addColorStop(0,'#fff');ccg.addColorStop(0.4,'#ff00ff');ccg.addColorStop(1,'rgba(255,0,255,0.3)');
+ctx.fillStyle=ccg;ctx.fill();
+
+document.querySelectorAll('.chip').forEach(c=>{
+    c.addEventListener('click',()=>{
+        document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
+        c.classList.add('active');
+    });
+});
+})();
+</script>
+</body>
+</html>
