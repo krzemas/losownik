@@ -1,31 +1,33 @@
 RewriteEngine On
 
 # --- Normalize domain: HTTPS without www (single 301) ---
+# Handles http://losownik.pl, http://www.losownik.pl, https://www.losownik.pl
 RewriteCond %{HTTPS} off [OR]
 RewriteCond %{HTTP_HOST} ^www\. [NC]
 RewriteRule ^(.*)$ https://losownik.pl/$1 [R=301,L]
 
-# --- Redirect old ?lang=xx URLs to new language directory structure ---
-# e.g. /kostka?lang=en -> /en/kostka , /?lang=de -> /de/
+# --- Redirect old ?lang=xx URLs to language directory structure ---
+# /kostka.html?lang=en -> /en/kostka   (strip .html first)
+RewriteCond %{QUERY_STRING} (?:^|&)lang=(en|de|es|fr|it|pt|ru|cs|uk)(?:&|$)
+RewriteRule ^(.+?)\.html$ /%1/$1? [R=301,L]
+# /kostka?lang=en -> /en/kostka   and   /?lang=en -> /en/
 RewriteCond %{QUERY_STRING} (?:^|&)lang=(en|de|es|fr|it|pt|ru|cs|uk)(?:&|$)
 RewriteRule ^(.*)$ /%1/$1? [R=301,L]
 
-# --- 301 Redirects: old .html URLs to new clean URLs ---
-RewriteRule ^kostka\.html$ /kostka/ [R=301,L]
-RewriteRule ^moneta\.html$ /moneta/ [R=301,L]
-RewriteRule ^lotto\.html$ /lotto/ [R=301,L]
-RewriteRule ^imie\.html$ /imie/ [R=301,L]
-RewriteRule ^mecz\.html$ /mecz/ [R=301,L]
-RewriteRule ^kolo-fortuny\.html$ /kolo-fortuny/ [R=301,L]
-RewriteRule ^liczba\.html$ /liczba/ [R=301,L]
-RewriteRule ^kolor\.html$ /kolor/ [R=301,L]
-RewriteRule ^druzyny\.html$ /druzyny/ [R=301,L]
-RewriteRule ^kolejnosc\.html$ /kolejnosc/ [R=301,L]
-RewriteRule ^postac\.html$ /postac/ [R=301,L]
-RewriteRule ^karty\.html$ /karty/ [R=301,L]
-RewriteRule ^wyliczanka\.html$ /wyliczanka/ [R=301,L]
-RewriteRule ^ruletka\.html$ /ruletka/ [R=301,L]
-RewriteRule ^polityka-prywatnosci\.html$ /polityka-prywatnosci/ [R=301,L]
+# --- Language versions: redirect /xx/index.html -> /xx/ (direct requests only) ---
+RewriteCond %{THE_REQUEST} \s/+(en|de|es|fr|it|pt|ru|cs|uk)/index\.html[\s?] [NC]
+RewriteRule ^(en|de|es|fr|it|pt|ru|cs|uk)/index\.html$ /$1/ [R=301,L]
+
+# --- Language versions: redirect /xx/page.html -> /xx/page (direct requests only) ---
+RewriteCond %{THE_REQUEST} \s/+(en|de|es|fr|it|pt|ru|cs|uk)/[^\s?]+\.html[\s?] [NC]
+RewriteRule ^(en|de|es|fr|it|pt|ru|cs|uk)/(.+)\.html$ /$1/$2 [R=301,L]
+
+# --- Language versions: redirect /xx/page/ -> /xx/page (trailing slash, not index) ---
+RewriteRule ^(en|de|es|fr|it|pt|ru|cs|uk)/(.+)/$ /$1/$2 [R=301,L]
+
+# --- 301 Redirects: old .html URLs to clean URLs (direct requests only) ---
+RewriteCond %{THE_REQUEST} \s/+[^\s?]+\.html[\s?] [NC]
+RewriteRule ^(kostka|moneta|lotto|imie|mecz|kolo-fortuny|liczba|kolor|druzyny|kolejnosc|postac|karty|wyliczanka|ruletka|polityka-prywatnosci)\.html$ /$1/ [R=301,L]
 
 # --- 301 Redirects for old Drupal URLs ---
 # Kostka old URLs
@@ -61,7 +63,7 @@ RewriteRule ^(en|de|es|fr|it|pt|ru|cs|uk)/?$ /$1/index.html [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{DOCUMENT_ROOT}/$1/$2.html -f
-RewriteRule ^(en|de|es|fr|it|pt|ru|cs|uk)/(.+?)/?$ /$1/$2.html [L]
+RewriteRule ^(en|de|es|fr|it|pt|ru|cs|uk)/(.+)$ /$1/$2.html [L]
 
 # --- Remove trailing slash (except root and actual directories) ---
 RewriteCond %{REQUEST_FILENAME} !-d
