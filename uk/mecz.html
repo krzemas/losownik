@@ -137,7 +137,7 @@
         </div>
 
         <!-- Sport selector -->
-        <div class="sport-selector" role="group" aria-label="Wybór dyscypliny">
+        <div class="sport-selector" role="group" aria-label="Вибір спорту">
             <button class="sport-btn active" data-sport="futbol"><span class="sport-icon">&#9917;</span>Футбол</button>
             <button class="sport-btn" data-sport="siatkowka"><span class="sport-icon">&#127952;</span>Волейбол</button>
             <button class="sport-btn" data-sport="reczna"><span class="sport-icon">&#129358;</span>Гандбол</button>
@@ -258,9 +258,7 @@
             crypto.getRandomValues(arr);
             return min + (arr[0] % (max - min + 1));
         }
-
-        var _C=window._losownikCommon||{};
-        var _draw=_C.draw||'Нічия',_homeW=_C.homeWin||'Перемога господарів',_awayW=_C.awayWin||'Перемога гостей',_sets=_C.sets||'Сети',_set=_C.set||'Set';
+        var _draw='Нічия',_homeW='Перемога господарів',_awayW='Перемога гостей',_sets='Сети',_set='Сет';
 
         function generateScore() {
             let home, away, detail = '', sets = '';
@@ -345,9 +343,5 @@
     })();
     </script>
 <script>setTimeout(function(){document.querySelectorAll(".ad-banner").forEach(function(b){var ins=b.querySelector("ins.adsbygoogle");if(ins&&(ins.offsetHeight<10||ins.innerHTML.trim()===""))b.style.display="none"})},3500);</script>
-
-<script src="/js/translations.js" defer></script>
-<script src="/js/i18n.js" defer></script>
-<script src="/js/apply_translations.js" defer></script>
 </body>
 </html>

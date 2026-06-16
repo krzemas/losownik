@@ -202,16 +202,15 @@
         }
 
         function generate() {
-            var _C=window._losownikCommon||{};
             let name, info;
             switch(currentType) {
                 case 'meskie':
                     name = pick(maleNames);
-                    info = _C.maleInfo||'Nome maschile';
+                    info = 'Nome maschile';
                     break;
                 case 'zenskie':
                     name = pick(femaleNames);
-                    info = _C.femaleInfo||'Nome femminile';
+                    info = 'Nome femminile';
                     break;
                 case 'pelne':
                     const isMale = Math.random() > 0.5;
@@ -219,7 +218,7 @@
                     const surname = pick(surnames);
                     const finalSurname = isMale ? surname : feminizeSurname(surname);
                     name = firstName + ' ' + finalSurname;
-                    info = isMale ? (_C.fullMale||'Nome completo (uomo)') : (_C.fullFemale||'Nome completo (donna)');
+                    info = isMale ? ('Nome completo (uomo)') : ('Nome completo (donna)');
                     break;
             }
 
@@ -240,9 +239,5 @@
     })();
     </script>
 <script>setTimeout(function(){document.querySelectorAll(".ad-banner").forEach(function(b){var ins=b.querySelector("ins.adsbygoogle");if(ins&&(ins.offsetHeight<10||ins.innerHTML.trim()===""))b.style.display="none"})},3500);</script>
-
-<script src="/js/translations.js" defer></script>
-<script src="/js/i18n.js" defer></script>
-<script src="/js/apply_translations.js" defer></script>
 </body>
 </html>

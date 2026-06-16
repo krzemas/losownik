@@ -172,8 +172,8 @@
             setTimeout(()=>{
                 const arr=new Uint32Array(1);crypto.getRandomValues(arr);
                 const isHeads=arr[0]%2===0;
-                if(isHeads){heads++;resultText.textContent=(window._losownikCommon&&window._losownikCommon.heads)||'CARA';}
-                else{tails++;resultText.textContent=(window._losownikCommon&&window._losownikCommon.tails)||'COROA';}
+                if(isHeads){heads++;resultText.textContent='CARA';}
+                else{tails++;resultText.textContent='COROA';}
                 resultText.classList.add('visible');
                 document.getElementById('headsCount').textContent=heads;
                 document.getElementById('tailsCount').textContent=tails;
@@ -187,9 +187,5 @@
     })();
     </script>
 <script>setTimeout(function(){document.querySelectorAll(".ad-banner").forEach(function(b){var ins=b.querySelector("ins.adsbygoogle");if(ins&&(ins.offsetHeight<10||ins.innerHTML.trim()===""))b.style.display="none"})},3500);</script>
-
-<script src="/js/translations.js" defer></script>
-<script src="/js/i18n.js" defer></script>
-<script src="/js/apply_translations.js" defer></script>
 </body>
 </html>

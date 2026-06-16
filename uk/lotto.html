@@ -171,12 +171,11 @@
     <script>
     (function(){
         'use strict';
-        var _lottoI18n=(window._losownikPage&&window._losownikPage.games)||{};
         const games = {
-            lotto: { name: 'Lotto', count: 6, max: 49, info: _lottoI18n.lotto||'6 z 49 – posortowane rosnąco' },
-            minilotto: { name: 'Mini Lotto', count: 5, max: 42, info: _lottoI18n.minilotto||'5 z 42 – posortowane rosnąco' },
-            multi: { name: 'Multi Multi', count: 20, max: 80, info: _lottoI18n.multi||'20 z 80 – posortowane rosnąco' },
-            joker: { name: 'Joker', count: 6, max: 9, info: _lottoI18n.joker||'6 cyfr od 0 do 9 (mogą się powtarzać)' }
+            lotto: { name: 'Lotto', count: 6, max: 49, info: 'Лото (6 з 49)' },
+            minilotto: { name: 'Mini Lotto', count: 5, max: 42, info: 'Міні Лото (5 з 42)' },
+            multi: { name: 'Multi Multi', count: 20, max: 80, info: 'Мульті Мульті (20 з 80)' },
+            joker: { name: 'Joker', count: 6, max: 9, info: 'Джокер (6 з 49)' }
         };
 
         let currentGame = 'lotto';
@@ -232,7 +231,7 @@
                 '<div class="ball" style="transition-delay:' + (i * 80) + 'ms">' + n + '</div>'
             ).join('');
 
-            lottoInfo.textContent = ((window._losownikCommon&&window._losownikCommon.drawn)||'Wylosowane') + ' ' + new Date().toLocaleTimeString(document.documentElement.lang||'pl');
+            lottoInfo.textContent = 'Згенеровано о' + ' ' + new Date().toLocaleTimeString(document.documentElement.lang||'pl');
 
             // Trigger animation
             if(window.losownikSounds)window.losownikSounds.lottoBalls();
@@ -250,9 +249,5 @@
     })();
     </script>
 <script>setTimeout(function(){document.querySelectorAll(".ad-banner").forEach(function(b){var ins=b.querySelector("ins.adsbygoogle");if(ins&&(ins.offsetHeight<10||ins.innerHTML.trim()===""))b.style.display="none"})},3500);</script>
-
-<script src="/js/translations.js" defer></script>
-<script src="/js/i18n.js" defer></script>
-<script src="/js/apply_translations.js" defer></script>
 </body>
 </html>

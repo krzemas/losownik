@@ -462,7 +462,18 @@ function replaceKostkaSpecific(html, lang) {
       /\|\|'Wynik rzutu'\)/g,
       `||'${KOSTKA_ROLL_RESULT[lang]}')`
     );
+    // Replace the full window._losownikCommon pattern entirely
+    html = html.replace(
+      /\(\(window\._losownikCommon&&window\._losownikCommon\.rollResult\)\|\|'[^']*'\)/g,
+      `'${KOSTKA_ROLL_RESULT[lang]}'`
+    );
   }
+  
+  // Remove the window._losownikPage check - just use diceNamesPL directly
+  html = html.replace(
+    /const diceNames = \(window\._losownikPage && window\._losownikPage\.diceNames\) \? window\._losownikPage\.diceNames : diceNamesPL;/g,
+    'const diceNames = diceNamesPL;'
+  );
   
   // Replace dice type labels
   if (pageT.diceNames) {
@@ -556,6 +567,17 @@ function replaceMeczSpecific(html, lang) {
   if (awayWin) html = html.replace(/'Wygrana gości'/g, `'${awayWin}'`);
   if (sets) html = html.replace(/'Sety'/g, `'${sets}'`);
   
+  // Remove _C references - replace _C.xxx||'...' with direct translated strings
+  if (draw) html = html.replace(/_C\.draw\|\|'[^']*'/g, `'${draw}'`);
+  if (homeWin) html = html.replace(/_C\.homeWin\|\|'[^']*'/g, `'${homeWin}'`);
+  if (awayWin) html = html.replace(/_C\.awayWin\|\|'[^']*'/g, `'${awayWin}'`);
+  if (sets) {
+    html = html.replace(/_C\.sets\|\|'[^']*'/g, `'${sets}'`);
+    html = html.replace(/_C\.set\|\|'[^']*'/g, `'${COMMON[lang].set || "Set"}'`);
+  }
+  // Remove the _C declaration line entirely
+  html = html.replace(/\s*var _C=window\._losownikCommon\|\|\{\};/g, '');
+  
   return html;
 }
 
@@ -576,6 +598,16 @@ function replaceMonetaSpecific(html, lang) {
   if (heads) html = html.replace(/'ORZEŁ'/g, `'${heads}'`);
   if (tails) html = html.replace(/'RESZKA'/g, `'${tails}'`);
   
+  // Replace the window._losownikCommon pattern entirely
+  if (heads) html = html.replace(
+    /\(window\._losownikCommon&&window\._losownikCommon\.heads\)\|\|'[^']*'/g,
+    `'${heads}'`
+  );
+  if (tails) html = html.replace(
+    /\(window\._losownikCommon&&window\._losownikCommon\.tails\)\|\|'[^']*'/g,
+    `'${tails}'`
+  );
+  
   return html;
 }
 
@@ -591,6 +623,22 @@ function replaceLottoSpecific(html, lang) {
     if (pageT.games.multi) html = html.replace(/'Multi Multi \(20 z 80\)'/g, `'${pageT.games.multi}'`);
     if (pageT.games.joker) html = html.replace(/'Joker \(6 z 49\)'/g, `'${pageT.games.joker}'`);
   }
+  
+  // Remove _lottoI18n variable
+  html = html.replace(/\s*var _lottoI18n=\(window\._losownikPage&&window\._losownikPage\.games\)\|\|\{\};/g, '');
+  // Replace _lottoI18n.xxx||'Polish' with just the translated string
+  if (pageT.games) {
+    if (pageT.games.lotto) html = html.replace(/_lottoI18n\.lotto\|\|'[^']*'/g, `'${pageT.games.lotto}'`);
+    if (pageT.games.minilotto) html = html.replace(/_lottoI18n\.minilotto\|\|'[^']*'/g, `'${pageT.games.minilotto}'`);
+    if (pageT.games.multi) html = html.replace(/_lottoI18n\.multi\|\|'[^']*'/g, `'${pageT.games.multi}'`);
+    if (pageT.games.joker) html = html.replace(/_lottoI18n\.joker\|\|'[^']*'/g, `'${pageT.games.joker}'`);
+  }
+  // Replace the drawn/Wylosowane pattern
+  const drawn = COMMON[lang] && COMMON[lang].drawn;
+  if (drawn) html = html.replace(
+    /\(\(window\._losownikCommon&&window\._losownikCommon\.drawn\)\|\|'[^']*'\)/g,
+    `'${drawn}'`
+  );
   
   // clickNumbers
   const clickNumbers = COMMON[lang] && COMMON[lang].clickNumbers;
@@ -624,6 +672,14 @@ function replaceImieSpecific(html, lang) {
   if (fullMale) html = html.replace(/'Imię i nazwisko \(mężczyzna\)'/g, `'${fullMale}'`);
   if (fullFemale) html = html.replace(/'Imię i nazwisko \(kobieta\)'/g, `'${fullFemale}'`);
   if (clickName) html = html.replace(/Kliknij przycisk aby wylosować/g, clickName);
+  
+  // Remove the _C variable approach
+  html = html.replace(/\s*var _C=window\._losownikCommon\|\|\{\};/g, '');
+  // Replace _C.xxx||'Polish' patterns
+  if (maleInfo) html = html.replace(/_C\.maleInfo\|\|'[^']*'/g, `'${maleInfo}'`);
+  if (femaleInfo) html = html.replace(/_C\.femaleInfo\|\|'[^']*'/g, `'${femaleInfo}'`);
+  if (fullMale) html = html.replace(/_C\.fullMale\|\|'[^']*'/g, `'${fullMale}'`);
+  if (fullFemale) html = html.replace(/_C\.fullFemale\|\|'[^']*'/g, `'${fullFemale}'`);
   
   return html;
 }
@@ -942,6 +998,11 @@ function processFile(filename, lang) {
   // 17. Add language switcher
   html = addLangSwitcher(html, lang, filename);
   
+  // 18. Remove legacy i18n scripts (not needed for static language versions)
+  html = html.replace(/\s*<script src="\/js\/translations\.js"[^>]*><\/script>\s*/g, '\n');
+  html = html.replace(/\s*<script src="\/js\/i18n\.js"[^>]*><\/script>\s*/g, '\n');
+  html = html.replace(/\s*<script src="\/js\/apply_translations\.js"[^>]*><\/script>\s*/g, '\n');
+  
   return html;
 }
 
@@ -993,6 +1054,8 @@ build();
 
 const EXTRA_PATCHES = {
   en: {
+    'Wybór kostki': 'Dice selection',
+    'Wybór dyscypliny': 'Sport selection',
     'Kliknij przycisk aby wylosować kolor': 'Click the button to generate a color',
     'Kliknij aby skopiować': 'Click to copy',
     'Kliknij przycisk aby wylosować liczby': 'Click the button to generate numbers',
@@ -1002,6 +1065,8 @@ const EXTRA_PATCHES = {
     'Kliknij na pole z kodem HEX, RGB lub HSL – zostanie automatycznie skopiowany do schowka.': 'Click on the HEX, RGB or HSL code field – it will be automatically copied to clipboard.',
   },
   de: {
+    'Wybór kostki': 'Würfelauswahl',
+    'Wybór dyscypliny': 'Sportauswahl',
     'Kliknij przycisk aby wylosować kolor': 'Klicke den Button um eine Farbe zu generieren',
     'Kliknij aby skopiować': 'Klicken zum Kopieren',
     'Kliknij przycisk aby wylosować liczby': 'Klicke den Button um Zahlen zu generieren',
@@ -1011,6 +1076,8 @@ const EXTRA_PATCHES = {
     'Kliknij na pole z kodem HEX, RGB lub HSL – zostanie automatycznie skopiowany do schowka.': 'Klicke auf das HEX-, RGB- oder HSL-Feld – es wird automatisch in die Zwischenablage kopiert.',
   },
   es: {
+    'Wybór kostki': 'Selección de dados',
+    'Wybór dyscypliny': 'Selección de deporte',
     'Kliknij przycisk aby wylosować kolor': 'Haz clic en el botón para generar un color',
     'Kliknij aby skopiować': 'Clic para copiar',
     'Kliknij przycisk aby wylosować liczby': 'Haz clic para generar números',
@@ -1020,6 +1087,8 @@ const EXTRA_PATCHES = {
     'Kliknij na pole z kodem HEX, RGB lub HSL – zostanie automatycznie skopiowany do schowka.': 'Haz clic en el campo HEX, RGB o HSL – se copiará automáticamente al portapapeles.',
   },
   fr: {
+    'Wybór kostki': 'Sélection des dés',
+    'Wybór dyscypliny': 'Choix du sport',
     'Kliknij przycisk aby wylosować kolor': 'Cliquez sur le bouton pour générer une couleur',
     'Kliknij aby skopiować': 'Cliquez pour copier',
     'Kliknij przycisk aby wylosować liczby': 'Cliquez pour générer des nombres',
@@ -1029,6 +1098,8 @@ const EXTRA_PATCHES = {
     'Kliknij na pole z kodem HEX, RGB lub HSL – zostanie automatycznie skopiowany do schowka.': 'Cliquez sur le champ HEX, RGB ou HSL – il sera automatiquement copié dans le presse-papiers.',
   },
   it: {
+    'Wybór kostki': 'Selezione dadi',
+    'Wybór dyscypliny': 'Scelta dello sport',
     'Kliknij przycisk aby wylosować kolor': 'Clicca il pulsante per generare un colore',
     'Kliknij aby skopiować': 'Clicca per copiare',
     'Kliknij przycisk aby wylosować liczby': 'Clicca per generare numeri',
@@ -1038,6 +1109,8 @@ const EXTRA_PATCHES = {
     'Kliknij na pole z kodem HEX, RGB lub HSL – zostanie automatycznie skopiowany do schowka.': 'Clicca sul campo HEX, RGB o HSL – verrà copiato automaticamente negli appunti.',
   },
   pt: {
+    'Wybór kostki': 'Seleção de dados',
+    'Wybór dyscypliny': 'Seleção de esporte',
     'Kliknij przycisk aby wylosować kolor': 'Clique no botão para gerar uma cor',
     'Kliknij aby skopiować': 'Clique para copiar',
     'Kliknij przycisk aby wylosować liczby': 'Clique para gerar números',
@@ -1047,6 +1120,8 @@ const EXTRA_PATCHES = {
     'Kliknij na pole z kodem HEX, RGB lub HSL – zostanie automatycznie skopiowany do schowka.': 'Clique no campo HEX, RGB ou HSL – será copiado automaticamente para a área de transferência.',
   },
   ru: {
+    'Wybór kostki': 'Выбор кубика',
+    'Wybór dyscypliny': 'Выбор спорта',
     'Kliknij przycisk aby wylosować kolor': 'Нажмите кнопку чтобы сгенерировать цвет',
     'Kliknij aby skopiować': 'Нажмите для копирования',
     'Kliknij przycisk aby wylosować liczby': 'Нажмите чтобы сгенерировать числа',
@@ -1056,6 +1131,8 @@ const EXTRA_PATCHES = {
     'Kliknij na pole z kodem HEX, RGB lub HSL – zostanie automatycznie skopiowany do schowka.': 'Нажмите на поле с кодом HEX, RGB или HSL – он будет автоматически скопирован в буфер обмена.',
   },
   cs: {
+    'Wybór kostki': 'Výběr kostky',
+    'Wybór dyscypliny': 'Výběr sportu',
     'Kliknij przycisk aby wylosować kolor': 'Klikněte na tlačítko pro vygenerování barvy',
     'Kliknij aby skopiować': 'Klikněte pro zkopírování',
     'Kliknij przycisk aby wylosować liczby': 'Klikněte pro vygenerování čísel',
@@ -1065,6 +1142,8 @@ const EXTRA_PATCHES = {
     'Kliknij na pole z kodem HEX, RGB lub HSL – zostanie automatycznie skopiowany do schowka.': 'Klikněte na pole s kódem HEX, RGB nebo HSL – bude automaticky zkopírován do schránky.',
   },
   uk: {
+    'Wybór kostki': 'Вибір кубика',
+    'Wybór dyscypliny': 'Вибір спорту',
     'Kliknij przycisk aby wylosować kolor': 'Натисніть кнопку щоб згенерувати колір',
     'Kliknij aby skopiować': 'Натисніть для копіювання',
     'Kliknij przycisk aby wylosować liczby': 'Натисніть щоб згенерувати числа',

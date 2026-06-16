@@ -432,7 +432,7 @@
         <!-- ===== DICE TYPE SELECTOR - Below main area ===== -->
         <div class="dice-options">
             <div class="dice-options-label">Wybierz rodzaj kostki</div>
-            <div class="dice-selector" role="group" aria-label="Wybór kostki">
+            <div class="dice-selector" role="group" aria-label="Выбор кубика">
                 <button class="dice-btn active" data-sides="6">k6<span class="dice-label">Куб</span></button>
                 <button class="dice-btn" data-sides="4">k4<span class="dice-label">Тетраэдр</span></button>
                 <button class="dice-btn" data-sides="8">k8<span class="dice-label">Октаэдр</span></button>
@@ -543,7 +543,7 @@
         
         // Dice names for display (i18n-aware)
         const diceNamesPL = {'4':'Тетраэдр (d4)','6':'Куб (d6)','8':'Октаэдр (d8)','10':'Декаэдр (d10)','12':'Додекаэдр (d12)','20':'Икосаэдр (d20)','100':'Процентный (d100)'};
-        const diceNames = (window._losownikPage && window._losownikPage.diceNames) ? window._losownikPage.diceNames : diceNamesPL;
+        const diceNames = diceNamesPL;
         
         // URL parameter handling (for redirects from old URLs)
         const urlParams = new URLSearchParams(window.location.search);
@@ -608,7 +608,7 @@
                 diceCube.querySelectorAll('.dice-face')[0].textContent = result;
                 resultNumber.textContent = result;
                 resultNumber.classList.add('visible');
-                resultLabel.textContent = ((window._losownikCommon&&window._losownikCommon.rollResult)||'Результат броска') + ' k' + currentSides;
+                resultLabel.textContent = 'Результат броска' + ' k' + currentSides;
                 addToHistory(result);
                 if (result === currentSides && (currentSides === 20 || currentSides === 6)) spawnConfetti();
                 isRolling = false;
@@ -649,9 +649,5 @@
     })();
     </script>
 <script>setTimeout(function(){document.querySelectorAll(".ad-banner").forEach(function(b){var ins=b.querySelector("ins.adsbygoogle");if(ins&&(ins.offsetHeight<10||ins.innerHTML.trim()===""))b.style.display="none"})},3500);</script>
-
-<script src="/js/translations.js" defer></script>
-<script src="/js/i18n.js" defer></script>
-<script src="/js/apply_translations.js" defer></script>
 </body>
 </html>
